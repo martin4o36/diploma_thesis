@@ -14,12 +14,12 @@ function ProtectedRoute({ children }) {
     const refreshToken = async () => {
         const refreshToken = localStorage.getItem(REFRESH_TOKEN);
         try {
-            const res = api.post("api/token/refresh", {
+            const result = await api.post("/api/token/refresh", {
                 refresh: refreshToken,
             });
 
-            if(res.status === 200) {
-                localStorage.setItem(ACCESS_TOKEN, (await res).data.access);
+            if(result.status === 200) {
+                localStorage.setItem(ACCESS_TOKEN, result.data.access);
                 setIsAuthorized(true);
             }
         } catch (error) {
