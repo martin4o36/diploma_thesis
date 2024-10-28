@@ -22,7 +22,7 @@ class NonWorkingDays(models.Model):
         db_table = 'non_working_days'
 
 
-class Departments(models.Model):
+class Department(models.Model):
     department_id = models.AutoField(primary_key=True)
     dep_name = models.CharField(max_length=200)
     parent_dept_id = models.IntegerField(default=0)
@@ -32,7 +32,7 @@ class Departments(models.Model):
 
 
 
-class Employees(models.Model):
+class Employee(models.Model):
     employee_id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=200, null=False)
@@ -54,5 +54,5 @@ class Employees(models.Model):
         db_table = 'employees'
 
 
-admin.site.register(Employees)
-admin.site.register(Departments)
+admin.site.register(Employee)
+admin.site.register(Department)
