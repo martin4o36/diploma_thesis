@@ -1,0 +1,82 @@
+.nav-area{
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    padding: 0;
+    height: 70px;
+    margin-right: 20px;
+    padding: 10px;
+}
+
+.main-nav .menus{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-items{
+    position: relative;
+    font-size: 20px;
+}
+
+.menu-items a, .menu-items button{
+    display: block;
+    color: #333;
+    text-decoration: none;
+    padding: 0.5rem 0.8rem;
+    font-size: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.menu-items button{
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    color: inherit;
+}
+
+.dropdown{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: max-content;
+}
+
+.dropdown.show{
+    display: flex;
+}
+
+.dropdown .menu-items{
+    width: 100%;
+}
+
+.dropdown .menu-items a{
+    padding: 0.5rem 1rem;
+    color: #333;
+}
+
+.dropdown .menu-items a:hover{
+    background-color: #e9ecef;
+}

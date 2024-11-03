@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api";
-import "../styles/HomeStyles.css";
+import Menu from "../components/menu/Menu";
 
 function Home() {
     const [employee, setEmployee] = useState(null);
@@ -27,7 +27,12 @@ function Home() {
     }, []);
 
     return <div>
-        <div className="top-div">
+        <div>
+            <Menu />
+        </div>
+
+
+        {/* <div className="top-div">
             <h1>Welcome to the Employee Management System!</h1>
             {employee ? (
                     <div>
@@ -39,15 +44,11 @@ function Home() {
                 ) : (
                     <p>Loading employee information...</p>
                 )}
-        </div>
+        </div> */}
 
-        <div className="menu-div">
-            <h2>Menu</h2>
-        </div>
-
-        <div className="profile-div">
+        {/* <div className="profile-div">
             <h2>{employee ? `${employee.first_name} ${employee.last_name}` : "Profile"}</h2>
-        </div>
+        </div> */}
 
     </div>
 }
