@@ -1,5 +1,6 @@
-import Dropdown from "./Dropdown"
+import Dropdown from "./Dropdown";
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 import "../../styles/MenuStyles.css";
 
 const MenuItems = ({ items }) => {
@@ -17,10 +18,10 @@ const MenuItems = ({ items }) => {
                     >
                         {items.title} {" "}
                     </button>
-                    <Dropdown subMenus={items.subMenu} dropdown={dropdown} />
+                    <Dropdown subMenus={items.subMenu} dropdown={dropdown} menuTitle={items.title} />
                 </>
             ) : (
-                <a href="/#">{items.title}</a>
+                <Link to={`/${items.title.toLowerCase().replace(/\s+/g, '-')}`}>{items.title}</Link>
             )}
         </li>
     );

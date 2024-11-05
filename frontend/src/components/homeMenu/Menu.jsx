@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 import api from "../../api";
+import logo from "../../assets/logo.jpg";
+import "../../styles/MenuStyles.css";
+import MenuItems from "./MenuItems";
+import { defaultMenuItems } from "./MenuItemsData";
 
-export const defaultMenuItems = [
-    { title: "Контакти и организация" },
-    { title: "Отпуск", subMenu: [] },
-    { title: "Работа от вкъщи", subMenu: [{ title: "Нова заявка" }, { title: "Мои заявка" }] },
-    { title: "Мои заявки" },
-    { title: "Профил" }
-];
-
-export const MenuItemsProvider = ({ children }) => {
+function Menu() {
     const [menuItems, setMenuItems] = useState(defaultMenuItems);
 
     useEffect(() => {
@@ -31,5 +27,19 @@ export const MenuItemsProvider = ({ children }) => {
         fetchLeaveTypes();
     }, []);
 
-    return children(menuItems);
-};
+    return (
+        <div className="nav-area">
+            <img src={logo} className="logo" alt="StaffSync" />
+            
+            <nav className="main-nav">
+                <ul className="menus">
+                    {menuItems.map((menu, index) => (
+                        <MenuItems items={menu} key={index} />
+                    ))}
+                </ul>
+            </nav>
+        </div>
+    );
+}
+
+export default Menu;
