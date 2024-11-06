@@ -1,0 +1,32 @@
+.profile {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.profile-name {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin-right: 15px;
+}
+
+.profile-name:hover {
+    color: #007bff;
+}
+
+.profile-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: none;
+}
+
+.profile span {
+    font-size: 22px;
+    color: #333;
+}

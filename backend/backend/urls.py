@@ -1,13 +1,16 @@
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from api.views import GetCurrentUserToManage, GetDepartmentById, LeaveTypeListView
+from api.views import GetCurrentUserToManage, GetDepartmentById, LeaveTypeListView, GetCurrentUserToManageForHomeMenu
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token', TokenObtainPairView.as_view(), name='get_token'),
     path('api/token/refresh', TokenRefreshView.as_view(), name='refresh_token'),
-    path("api/employee", GetCurrentUserToManage.as_view(), name="get_employee"),
+    path('api/employee', GetCurrentUserToManage.as_view(), name='get_employee'),
+    path('api/home_menu/employee', GetCurrentUserToManageForHomeMenu.as_view(), name='get_home_menu_employee'),
     path('api/departments/<int:department_id>/', GetDepartmentById.as_view(), name='get_department_by_id'),
-    path('api/leave-types/', LeaveTypeListView.as_view(), name="leave-types"),
-]
+    path('api/leave_types/', LeaveTypeListView.as_view(), name='leave_types'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

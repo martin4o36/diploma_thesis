@@ -4,6 +4,7 @@ import logo from "../../assets/logo.jpg";
 import "../../styles/MenuStyles.css";
 import MenuItems from "./MenuItems";
 import { defaultMenuItems } from "./MenuItemsData";
+import ProfileElement from "./ProfileElement";
 
 function Menu() {
     const [menuItems, setMenuItems] = useState(defaultMenuItems);
@@ -11,12 +12,12 @@ function Menu() {
     useEffect(() => {
         const fetchLeaveTypes = async () => {
             try {
-                const response = await api.get("/api/leave-types/");
+                const response = await api.get("/api/leave_types/");
                 const leaveTypes = response.data.map(type => ({ title: type.leave_name }));
 
                 setMenuItems(prevItems =>
                     prevItems.map(item =>
-                        item.title === "Отпуск" ? { ...item, subMenu: leaveTypes } : item
+                        item.title === "Vacation" ? { ...item, subMenu: leaveTypes } : item
                     )
                 );
             } catch (error) {
@@ -38,6 +39,8 @@ function Menu() {
                     ))}
                 </ul>
             </nav>
+
+            <ProfileElement />
         </div>
     );
 }

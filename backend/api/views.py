@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models_dir.employee_models import Employee, Department
 from .models_dir.records_models import LeaveType
 from rest_framework.response import Response
-from .serializers.emp_dep_serializer import EmployeeSerializer, DepartmentSerializer
+from .serializers.emp_dep_serializer import EmployeeSerializer, DepartmentSerializer, EmployeeHomeMenuSerializer
 from .serializers.records_serializer import LeaveTypeSerializer
 
 class GetCurrentUserToManage(APIView):
@@ -13,6 +13,18 @@ class GetCurrentUserToManage(APIView):
         try:
             employee = Employee.objects.get(user=request.user)
             serializer = EmployeeSerializer(employee)
+            return Response(serializer.data)
+        except Employee.DoesNotExist:
+            return Response({"error": "Employee not found"}, status=404)
+        
+
+class GetCurrentUserToManageForHomeMenu(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            employee = Employee.objects.get(user=request.user)
+            serializer = EmployeeHomeMenuSerializer(employee)
             return Response(serializer.data)
         except Employee.DoesNotExist:
             return Response({"error": "Employee not found"}, status=404)
