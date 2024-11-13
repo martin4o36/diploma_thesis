@@ -3,7 +3,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from api.views import GetCurrentUserToManage, GetDepartmentById, LeaveTypeListView, GetCurrentUserToManageForHomeMenu
+from api.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('api/home_menu/employee', GetCurrentUserToManageForHomeMenu.as_view(), name='get_home_menu_employee'),
     path('api/departments/<int:department_id>/', GetDepartmentById.as_view(), name='get_department_by_id'),
     path('api/leave_types/', LeaveTypeListView.as_view(), name='leave_types'),
+    path('api/user-permissions/', PermissionsList.as_view(), name='permissions_list'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

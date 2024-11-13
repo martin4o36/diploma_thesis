@@ -25,3 +25,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
         fields = '__all__'
+
+
+class PermissionsSerializer(serializers.Serializer):
+    can_manage_employees = serializers.BooleanField()

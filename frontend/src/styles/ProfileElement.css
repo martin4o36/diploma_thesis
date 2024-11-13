@@ -3,19 +3,20 @@
     align-items: center;
     position: absolute;
     right: 20px;
-    top: 20px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 8px;
+    padding: 0.5rem 0.8rem;
+}
+
+.profile:hover {
+    background-color: #e9ecef;
 }
 
 .profile-name {
+    position: relative;
     font-size: 22px;
-    font-weight: 600;
-    color: #333;
-    margin-right: 15px;
-}
-
-.profile-name:hover {
-    color: #007bff;
+    margin-right: 10px;
 }
 
 .profile-image {

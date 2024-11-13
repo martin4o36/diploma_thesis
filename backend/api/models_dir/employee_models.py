@@ -52,6 +52,9 @@ class Employee(models.Model):
 
     class Meta:
         db_table = 'employees'
+        permissions = [
+        ("crud_employee", "Can add, update and delete an employee"),
+        ]
 
 
 admin.site.register(Employee)

@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models_dir.employee_models import Employee, Department
 from .models_dir.records_models import LeaveType
 from rest_framework.response import Response
-from .serializers.emp_dep_serializer import EmployeeSerializer, DepartmentSerializer, EmployeeHomeMenuSerializer
+from .serializers.emp_dep_serializer import EmployeeSerializer, DepartmentSerializer, EmployeeHomeMenuSerializer, PermissionsSerializer
 from .serializers.records_serializer import LeaveTypeSerializer
 
 class GetCurrentUserToManage(APIView):
@@ -47,3 +47,15 @@ class LeaveTypeListView(APIView):
         leave_types = LeaveType.objects.all()
         serializer = LeaveTypeSerializer(leave_types, many=True)
         return Response(serializer.data)
+    
+
+class PermissionsList(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        try:
+            can_manage_employees = request.user.has_perm('api.crud_employee')
+            serializer = PermissionsSerializer({"can_manage_employees": can_manage_employees})
+            return Response(serializer.data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)

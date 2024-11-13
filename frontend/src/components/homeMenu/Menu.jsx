@@ -10,28 +10,40 @@ function Menu() {
     const [menuItems, setMenuItems] = useState(defaultMenuItems);
 
     useEffect(() => {
-        const fetchLeaveTypes = async () => {
+        const fetchDataForMenu = async () => {
             try {
-                const response = await api.get("/api/leave_types/");
-                const leaveTypes = response.data.map(type => ({ title: type.leave_name }));
+                // Fetching leave types
+                // const response = await api.get("/api/leave_types/");
+                // const leaveTypes = response.data.map(type => ({ title: type.leave_name }));
 
-                setMenuItems(prevItems =>
-                    prevItems.map(item =>
-                        item.title === "Vacation" ? { ...item, subMenu: leaveTypes } : item
-                    )
-                );
+                // Fetching user permissions for employee CRUD
+                const permissionsResponse = await api.get("/api/user-permissions/");
+
+                setMenuItems(prevItems => {
+                    // const updatedMenuItems = prevItems.map(item =>
+                    //     item.title === "Vacation" ? { ...item, subMenu: leaveTypes } : item
+                    // );
+                    const updatedMenuItems = [...prevItems];
+                    const isEmployeesItemExists = updatedMenuItems.some(item => item.title === "Admin");
+                    if (permissionsResponse.data.can_manage_employees && !isEmployeesItemExists) {
+                        updatedMenuItems.push({ title: "Admin" });
+                    }
+    
+                    return updatedMenuItems;
+                });
             } catch (error) {
                 console.error("Error fetching leave types:", error);
             }
         };
 
-        fetchLeaveTypes();
+        fetchDataForMenu();
     }, []);
+
 
     return (
         <div className="nav-area">
             <img src={logo} className="logo" alt="StaffSync" />
-            
+
             <nav className="main-nav">
                 <ul className="menus">
                     {menuItems.map((menu, index) => (
@@ -39,7 +51,6 @@ function Menu() {
                     ))}
                 </ul>
             </nav>
-
             <ProfileElement />
         </div>
     );

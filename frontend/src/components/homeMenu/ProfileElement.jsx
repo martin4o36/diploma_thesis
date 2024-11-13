@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import "../../styles/ProfileElement.css";
 import api from "../../api";
+import { useNavigate  } from "react-router-dom";
 
 function ProfileElement() {
     const [employee, setEmployee] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProfileInfo = async () => {
@@ -19,8 +21,12 @@ function ProfileElement() {
         fetchProfileInfo();
     }, []);
 
+    const handleClick = () => {
+        navigate("/profile");
+    };
+
     return (
-        <div className="profile">
+        <div className="profile" onClick={handleClick}>
             {employee ? (
                 <>
                     <span className="profile-name">
