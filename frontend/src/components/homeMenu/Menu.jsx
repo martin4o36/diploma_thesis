@@ -26,7 +26,7 @@ function Menu() {
                     const updatedMenuItems = [...prevItems];
                     const isEmployeesItemExists = updatedMenuItems.some(item => item.title === "Admin");
                     if (permissionsResponse.data.can_manage_employees && !isEmployeesItemExists) {
-                        updatedMenuItems.push({ title: "Admin" });
+                        updatedMenuItems.push({ title: "Admin", path: "/admin_panel" });
                     }
     
                     return updatedMenuItems;

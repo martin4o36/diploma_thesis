@@ -4,7 +4,7 @@ import "../../styles/MenuStyles.css";
 const MenuItems = ({ items }) => {
     return (
         <li className="menu-items">
-            <Link to={`/${items.title.toLowerCase().replace(/\s+/g, '-')}`}>{items.title}</Link>
+            <Link to={items.path}>{items.title}</Link>
         </li>
     );
 };
