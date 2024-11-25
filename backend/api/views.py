@@ -5,6 +5,7 @@ from .models_dir.records_models import LeaveType
 from rest_framework.response import Response
 from .serializers.emp_dep_serializer import EmployeeSerializer, DepartmentSerializer, EmployeeHomeMenuSerializer, PermissionsSerializer
 from .serializers.records_serializer import LeaveTypeSerializer
+from .utils import generate_chart_data
 
 class GetCurrentUserToManage(APIView):
     permission_classes = [IsAuthenticated]
@@ -44,9 +45,12 @@ class GetDepartmentById(APIView):
 
 class LeaveTypeListView(APIView):
     def get(self, request):
-        leave_types = LeaveType.objects.all()
-        serializer = LeaveTypeSerializer(leave_types, many=True)
-        return Response(serializer.data)
+        try:
+            leave_types = LeaveType.objects.all()
+            serializer = LeaveTypeSerializer(leave_types, many=True)
+            return Response(serializer.data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
     
 
 class PermissionsList(APIView):
@@ -59,3 +63,36 @@ class PermissionsList(APIView):
             return Response(serializer.data)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+        
+
+class DepartmentsChartView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            departments = Department.objects.all()
+            chart_data = generate_chart_data(departments)
+            return Response(chart_data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
+        
+
+class DepartmentsListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            departments = Department.objects.all()
+            serializer = DepartmentSerializer(departments, many=True)
+            return Response(serializer.data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
+        
+
+class DepartmentCreateView(APIView):
+    def post(self, request):
+        serializer = DepartmentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)

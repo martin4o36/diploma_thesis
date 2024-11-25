@@ -1,7 +1,9 @@
+import AdminMenu from "../../components/adminMenu/AdminMenu";
+
 function AdminPanel() {
     return (
-        <div>
-            Admin Panel
+        <div className="admin-page">
+            <AdminMenu />
         </div>
     )
 }

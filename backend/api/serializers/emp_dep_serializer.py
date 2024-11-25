@@ -26,6 +26,11 @@ class DepartmentSerializer(serializers.ModelSerializer):
         model = Department
         fields = '__all__'
 
+    def validate_parent_dept_id(self, value):
+        if value != 0 and not Department.objects.filter(department_id=value).exists():
+            raise serializers.ValidationError("Parent department does not exist.")
+        return value
+
 
 class PermissionsSerializer(serializers.Serializer):
     can_manage_employees = serializers.BooleanField()

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../../api";
 import logo from "../../assets/logo.jpg";
 import "../../styles/MenuStyles.css";
-import MenuItems from "./MenuItems";
 import { defaultMenuItems } from "./MenuItemsData";
 import ProfileElement from "./ProfileElement";
 
@@ -12,17 +12,9 @@ function Menu() {
     useEffect(() => {
         const fetchDataForMenu = async () => {
             try {
-                // Fetching leave types
-                // const response = await api.get("/api/leave_types/");
-                // const leaveTypes = response.data.map(type => ({ title: type.leave_name }));
-
-                // Fetching user permissions for employee CRUD
                 const permissionsResponse = await api.get("/api/user-permissions/");
 
                 setMenuItems(prevItems => {
-                    // const updatedMenuItems = prevItems.map(item =>
-                    //     item.title === "Vacation" ? { ...item, subMenu: leaveTypes } : item
-                    // );
                     const updatedMenuItems = [...prevItems];
                     const isEmployeesItemExists = updatedMenuItems.some(item => item.title === "Admin");
                     if (permissionsResponse.data.can_manage_employees && !isEmployeesItemExists) {
@@ -46,8 +38,10 @@ function Menu() {
 
             <nav className="main-nav">
                 <ul className="menus">
-                    {menuItems.map((menu, index) => (
-                        <MenuItems items={menu} key={index} />
+                    {menuItems.map((item, index) => (
+                        <li className="menu-items" key={index}>
+                            <Link to={item.path}>{item.title}</Link>
+                        </li>
                     ))}
                 </ul>
             </nav>

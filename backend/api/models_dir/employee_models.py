@@ -31,7 +31,6 @@ class Department(models.Model):
         db_table = 'departments'
 
 
-
 class Employee(models.Model):
     employee_id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -53,9 +52,12 @@ class Employee(models.Model):
     class Meta:
         db_table = 'employees'
         permissions = [
-        ("crud_employee", "Can add, update and delete an employee"),
+        ("crud_employees_leave-types_departments", "Can add, update and delete an employee"),
+        ("export_records", "Can add, update and delete an employee"),
         ]
 
 
 admin.site.register(Employee)
 admin.site.register(Department)
+admin.site.register(Countries)
+admin.site.register(NonWorkingDays)
