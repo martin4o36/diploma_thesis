@@ -5,7 +5,7 @@ from .models_dir.records_models import LeaveType
 from rest_framework.response import Response
 from .serializers.emp_dep_serializer import EmployeeSerializer, DepartmentSerializer, EmployeeHomeMenuSerializer, PermissionsSerializer
 from .serializers.records_serializer import LeaveTypeSerializer
-from .utils import generate_chart_data
+from .utils import generate_org_data
 
 class GetCurrentUserToManage(APIView):
     permission_classes = [IsAuthenticated]
@@ -71,8 +71,8 @@ class DepartmentsChartView(APIView):
     def get(self, request):
         try:
             departments = Department.objects.all()
-            chart_data = generate_chart_data(departments)
-            return Response(chart_data)
+            org_data = generate_org_data(departments)
+            return Response(org_data)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
         

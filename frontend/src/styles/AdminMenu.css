@@ -1,43 +1,93 @@
-.vertical-menu {
+/* Admin-specific Vertical Sidebar Menu */
+.admin-nav-area {
     display: flex;
+}
+
+/* Admin Menu Container */
+.admin-nav-area .admin-nav {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
     position: fixed;
-    flex-direction: column;
     top: 0;
     left: 0;
     bottom: 0;
+    width: 250px; /* Fixed width for the vertical menu */
     background-color: #f8f9fa;
     box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
-    padding: 1rem 0;
+    padding-top: 20px;
 }
 
-.menu-list {
+/* Admin Logo */
+.admin-nav-area .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+/* Admin Menu List */
+.admin-nav-area .main-nav .menus {
+    display: flex;
+    flex-direction: column; /* Stack menu items vertically */
+    align-items: flex-start;
     list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 
-.menu-item {
+/* Admin Menu Item Styling */
+.admin-nav-area .menu-items {
     font-size: 22px;
-    margin: 0.5rem 0;
     padding: 1rem 1.5rem;
     cursor: pointer;
     color: #333;
     border-radius: 8px;
+    width: 100%;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.menu-item:hover {
+/* Admin Menu Item Hover Effect */
+.admin-nav-area .menu-items:hover {
     background-color: #e9ecef;
     transform: translateX(10px);
 }
 
-.menu-item.active {
+/* Active Admin Menu Item */
+.admin-nav-area .menu-items.active {
     background-color: #e9ecef;
     font-weight: bold;
 }
 
-.content-area {
-    margin-left: 250px;
+/* Content Area Next to Sidebar */
+.admin-nav-area .content-area {
+    margin-left: 250px; /* Make space for the vertical menu */
     padding: 2rem;
     flex-grow: 1;
+    background-color: #f8f9fa;
+}
+
+/* Department Tree View specific styling */
+.admin-nav-area .treeview-container {
+    margin-top: 20px;
+}
+
+.admin-nav-area .treeview-item {
+    font-size: 18px;
+    margin-left: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Hover effect for tree items */
+.admin-nav-area .treeview-item:hover {
+    transform: translateX(10px);
+}
+
+.admin-nav-area .tree-title {
+    font-weight: bold;
+}
+
+.admin-nav-area .children {
+    margin-left: 20px;
 }
