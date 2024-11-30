@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/AdminMenu.css";
+import "../../styles/adminPanelStyles/AdminMenu.css";
 import OrgDepartmentsView from "./OrgDepartmentsView";
+import LeaveTypesView from "./LeaveTypesView";
+import RequestsStatistics from "./RequestsStatistics";
 
 function AdminMenu() {
     const menuItems = [
         { title: "Employees and Departments" },
         { title: "Leave Types" },
-        { title: "Requests" },
         { title: "Employee Vacation Balances" },
         { title: "Employee Allowances" },
+        { title: "Request Statistics" },
     ];
 
     const [selectedContent, setSelectedContent] = useState(menuItems[0].title);
@@ -42,9 +44,9 @@ function AdminMenu() {
             </div>
 
             <div className="content-area">
-                {selectedContent === "Employees and Departments" && <OrgDepartmentsView />}
-                {selectedContent === "Leave Types" && <div>Leave Types Component Placeholder</div>}
-                {selectedContent === "Requests" && <div>Requests Component Placeholder</div>}
+                {selectedContent === "Employees and Departments" && <OrgDepartmentsView /> }
+                {selectedContent === "Leave Types" && <LeaveTypesView /> }
+                {selectedContent === "Requests" && <RequestsStatistics /> }
             </div>
         </div>
     );

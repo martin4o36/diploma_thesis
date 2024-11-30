@@ -6,8 +6,6 @@ function AddDepartmentForm() {
     const [name, setName] = useState("");
     const [parentDept, setParentDept] = useState(0);
     const [departments, setDepartments] = useState([]);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
 
     useEffect(() => {
         const fetchDepartments = async () => {

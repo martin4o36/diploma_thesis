@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/OrgDepartments.css";
+import "../../styles/adminPanelStyles/OrgDepartments.css";
 import api from "../../api";
 
 function OrgDepartmentsView() {
@@ -31,8 +31,8 @@ function OrgDepartmentsView() {
             case "viewEmployees":
                 console.log("View employees for:", department);
                 break;
-            case "addSubDepartment":
-                console.log("Add sub-department for:", department);
+            case "addDepartment":
+                console.log("Add department for:", department);
                 break;
             case "edit":
                 console.log("Edit department:", department);
@@ -40,29 +40,47 @@ function OrgDepartmentsView() {
             case "delete":
                 console.log("Delete department:", department);
                 break;
-            default:
-                console.log("Unknown action:", action);
-                break;
         }
     };
 
     const renderTree = (node, level = 0) => {
         const hasChildren = Array.isArray(node.children) && node.children.length > 0;
-
+    
         return (
             <li key={node.key} className="treeview-item" style={{ marginLeft: `${level * 20}px` }}>
-                <div
-                    className={`tree-title ${expanded[node.key] ? "expanded" : "collapsed"}`}
-                    onClick={() => hasChildren && toggleExpand(node.key)}
-                >
-                    {hasChildren && (expanded[node.key] ? "-" : "+")} {node.title}
+                <div className="tree-title" onClick={() => hasChildren && toggleExpand(node.key)}>
+                    {hasChildren && (
+                        <i className={`fa ${expanded[node.key] ? "fa-angle-down" : "fa-angle-right"}`} style={{ marginRight: "8px" }}></i>
+                    )}
+                    {node.title}
+                    <div className="department-actions">
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleDepartmentAction("addDepartment", node);
+                            }}
+                        >
+                            <i className="fa fa-plus"></i>
+                        </button>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleDepartmentAction("edit", node);
+                            }}
+                        >
+                            <i className="fa fa-pencil"></i>
+                        </button>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleDepartmentAction("delete", node);
+                            }}
+                        >
+                            <i className="fa fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
-                <div className="department-actions">
-                    <button onClick={() => handleDepartmentAction("viewEmployees", node)}>View Employees</button>
-                    <button onClick={() => handleDepartmentAction("addSubDepartment", node)}>Add Sub-Department</button>
-                    <button onClick={() => handleDepartmentAction("edit", node)}>Edit</button>
-                    <button onClick={() => handleDepartmentAction("delete", node)}>Delete</button>
-                </div>
+    
                 {expanded[node.key] && hasChildren && (
                     <ul className="children">
                         {node.children.map((child) => renderTree(child, level + 1))}
@@ -70,7 +88,7 @@ function OrgDepartmentsView() {
                 )}
             </li>
         );
-    };
+    };    
 
     return (
         <div className="treeview-container">

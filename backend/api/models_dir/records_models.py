@@ -27,7 +27,7 @@ class EmployeeAllowance(models.Model):
         unique_together = ('employee', 'leave_type', 'period_start_date', 'period_end_date')
 
 
-class WriteOffs(models.Model):
+class WriteOff(models.Model):
     wo_id = models.AutoField(primary_key=True)
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
     employee_allowance = models.ForeignKey(EmployeeAllowance, on_delete=models.DO_NOTHING)
@@ -37,7 +37,7 @@ class WriteOffs(models.Model):
         db_table = 'write_offs'
 
 
-class EmployeeBalances(models.Model):
+class EmployeeBalance(models.Model):
     eb_id = models.AutoField(primary_key=True)
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
     leave_type = models.ForeignKey(LeaveType, on_delete=models.DO_NOTHING)
@@ -89,3 +89,6 @@ class Substitute(models.Model):
 
 admin.site.register(Request)
 admin.site.register(LeaveType)
+admin.site.register(EmployeeBalance)
+admin.site.register(WriteOff)
+admin.site.register(EmployeeAllowance)

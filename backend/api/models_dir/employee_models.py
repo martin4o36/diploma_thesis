@@ -12,7 +12,7 @@ class Countries(models.Model):
         db_table = 'countries'
 
 
-class NonWorkingDays(models.Model):
+class NonWorkingDay(models.Model):
     nwd_id = models.AutoField(primary_key=True)
     country = models.ForeignKey(Countries, on_delete=models.CASCADE)
     date = models.DateTimeField(null=False)
@@ -60,4 +60,4 @@ class Employee(models.Model):
 admin.site.register(Employee)
 admin.site.register(Department)
 admin.site.register(Countries)
-admin.site.register(NonWorkingDays)
+admin.site.register(NonWorkingDay)
