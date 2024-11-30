@@ -1,4 +1,5 @@
-import AdminMenu from "../../components/adminMenu/AdminMenu";
+import AdminMenu from "../../components/adminPanel/AdminMenu";
+import OrgDepartmentsView from "../../components/adminPanel/OrgDepartmentsView";
 
 function AdminPanel() {
     return (

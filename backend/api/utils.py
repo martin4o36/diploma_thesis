@@ -26,5 +26,4 @@ def generate_org_data(departments):
         ]
 
     tree = build_tree(0)
-    print(tree)
     return tree

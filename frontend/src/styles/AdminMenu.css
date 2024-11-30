@@ -1,93 +1,103 @@
-/* Admin-specific Vertical Sidebar Menu */
 .admin-nav-area {
     display: flex;
+    transition: margin-left 0.3s ease;
 }
 
-/* Admin Menu Container */
 .admin-nav-area .admin-nav {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
+    flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
-    width: 250px; /* Fixed width for the vertical menu */
+    width: 250px;
     background-color: #f8f9fa;
     box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
     padding-top: 20px;
+    transition: width 0.3s ease;
+    z-index: 1;
 }
 
-/* Admin Logo */
-.admin-nav-area .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    padding: 10px 20px;
-    text-align: center;
+.admin-nav-area .admin-nav.collapsed {
+    width: 80px;
 }
 
-/* Admin Menu List */
+.admin-nav-area .toggle-menu-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: -40px;
+    border-radius: 5px;
+    z-index: 2;
+    transition: right 0.3s ease;
+}
+
 .admin-nav-area .main-nav .menus {
     display: flex;
-    flex-direction: column; /* Stack menu items vertically */
+    flex-direction: column;
+    justify-content: center;
     align-items: flex-start;
     list-style: none;
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
-/* Admin Menu Item Styling */
 .admin-nav-area .menu-items {
     font-size: 22px;
-    padding: 1rem 1.5rem;
+    padding: 15px 20px;
     cursor: pointer;
     color: #333;
     border-radius: 8px;
     width: 100%;
+    text-align: left;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
 }
 
-/* Admin Menu Item Hover Effect */
+.admin-nav-area .menu-items span {
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.admin-nav-area .admin-nav.collapsed .menu-items span {
+    display: none;
+}
+
+.admin-nav-area .admin-nav:not(.collapsed) .menu-items span {
+    display: inline-block;
+}
+
 .admin-nav-area .menu-items:hover {
     background-color: #e9ecef;
+}
+
+.admin-nav-area .menu-items:hover span {
     transform: translateX(10px);
 }
 
-/* Active Admin Menu Item */
 .admin-nav-area .menu-items.active {
     background-color: #e9ecef;
     font-weight: bold;
 }
 
-/* Content Area Next to Sidebar */
 .admin-nav-area .content-area {
-    margin-left: 250px; /* Make space for the vertical menu */
+    margin-left: 250px;
     padding: 2rem;
     flex-grow: 1;
     background-color: #f8f9fa;
+    transition: margin-left 0.3s ease;
 }
 
-/* Department Tree View specific styling */
-.admin-nav-area .treeview-container {
-    margin-top: 20px;
-}
-
-.admin-nav-area .treeview-item {
-    font-size: 18px;
-    margin-left: 20px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-/* Hover effect for tree items */
-.admin-nav-area .treeview-item:hover {
-    transform: translateX(10px);
-}
-
-.admin-nav-area .tree-title {
-    font-weight: bold;
-}
-
-.admin-nav-area .children {
-    margin-left: 20px;
+.admin-nav-area .admin-nav.collapsed ~ .content-area {
+    margin-left: 80px;
 }
