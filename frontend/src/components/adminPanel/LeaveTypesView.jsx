@@ -1,47 +1,64 @@
 import { useEffect, useState } from "react";
 import api from "../../api";
 import "../../styles/adminPanelStyles/LeaveTypesStyles.css"
+import AddLeaveTypeForm from "../forms/AddLeaveTypeForm";
 
 
 function LeaveTypesView() {
-    const [leaveTypes, setleaveTypes] = useState([]);
+    const [leaveTypes, setLeaveTypes] = useState([]);
+    const [showAddForm, setShowAddForm] = useState(false);
+
+    const fetchLeaveTypes = async () => {
+        try {
+            const response = await api.get("/api/leave_types/");
+            setLeaveTypes(response.data);
+        } catch (error) {
+            console.error("Error fetching leave types:", error);
+        }
+    };
 
     useEffect(() => {
-        const fetchLeaveTypes = async () => {
-            try {
-                const response = await api.get("/api/leave_types/");
-                setleaveTypes(response.data);
-            } catch (error) {
-                console.log("Error fetching leave types:", error);
-            }
-        };
-
         fetchLeaveTypes();
     }, []);
 
-    const handleAddLeaveType = () => {
-        console.log("Add Leave Type button clicked!");
-    };
+    const handleEditLeaveType = async (leaveId) => {
+        console.log("Edit leave type with ID:", leaveId);
+    }
 
-    const handleLeaveTypeAction = async (action) => {
-        switch (action) {
-            case "edit":
-                console.log("Edit leave type:");
-                break;
-            case "delete":
-                console.log("Delete leave type:");
-                break;
+    const handleDeleteLeaveType = async (leaveId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this leave type?");
+
+        if(confirmDelete) {
+            try {
+                await api.delete(`/api/leave_types/${leaveId}/delete/`);
+                fetchLeaveTypes();
+            } catch (error) {
+                console.error("Error deleting leave type:", error);
+            }
+        } else {
+            console.log("Deletion cancelled");
         }
-    };
+    }
 
     return (
         <div className="leave-types-container">
             <div className="leave-types-header">
                 <h2>Leave Types</h2>
-                <button className="add-leave-button" onClick={handleAddLeaveType}>
+                <button className="add-leave-button" onClick={() => setShowAddForm(true)} >
                     <i className="fa fa-plus"></i> Add Leave Type
                 </button>
             </div>
+
+            {showAddForm && (
+                <AddLeaveTypeForm
+                    onSuccess={() => {
+                        fetchLeaveTypes();
+                        setShowAddForm(false);
+                    }}
+                    onCancel={() => setShowAddForm(false)}
+                />
+            )}
+
             <ul className="leave-types-list">
                 {leaveTypes.map((leaveType) => (
                     <li key={leaveType.leave_id} className="leave-type-item">
@@ -50,7 +67,7 @@ function LeaveTypesView() {
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
-                                handleLeaveTypeAction("edit");
+                                handleEditLeaveType(leaveType.leave_id);
                             }}
                         >
                             <i className="fa fa-pencil"></i>
@@ -58,7 +75,7 @@ function LeaveTypesView() {
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
-                                handleLeaveTypeAction("delete");
+                                handleDeleteLeaveType(leaveType.leave_id);
                             }}
                         >
                             <i className="fa fa-trash"></i>

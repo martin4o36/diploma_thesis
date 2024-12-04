@@ -7,7 +7,6 @@ function LoginForm() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const route = "/api/token";
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -15,7 +14,7 @@ function LoginForm() {
         e.preventDefault();
 
         try {
-            const result = await api.post(route, { username, password });
+            const result = await api.post("/api/token", { username, password });
             localStorage.setItem(ACCESS_TOKEN, result.data.access);
             localStorage.setItem(REFRESH_TOKEN, result.data.refresh);
             navigate("/");

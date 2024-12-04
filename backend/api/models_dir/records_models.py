@@ -7,7 +7,7 @@ from django.contrib import admin
 # Create your models here.
 class LeaveType(models.Model):
     leave_id = models.AutoField(primary_key=True)
-    leave_name = models.CharField(null=False)
+    leave_name = models.CharField(max_length=255, null=False)
     days = models.IntegerField(null=False)
 
     class Meta:
@@ -37,6 +37,9 @@ class WriteOff(models.Model):
         db_table = 'write_offs'
 
 
+# Add saving for write offs(how many days and when a person has lost or got)
+
+
 class EmployeeBalance(models.Model):
     eb_id = models.AutoField(primary_key=True)
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
@@ -45,6 +48,9 @@ class EmployeeBalance(models.Model):
 
     class Meta:
         db_table = 'employee_balances'
+
+
+# Track how and when the balance changed
 
 
 class Type(Enum):

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/adminPanelStyles/OrgDepartments.css";
 import api from "../../api";
+import AddDepartmentForm from "../forms/AddDepartmentForm";
 
 function OrgDepartmentsView() {
     const [departments, setDepartments] = useState([]);
     const [expanded, setExpanded] = useState({});
+    const [showModal, setShowModal] = useState(false);
+    const [currentDepartment, setCurrentDepartment] = useState(null);
 
     useEffect(() => {
         const fetchDepartments = async () => {
@@ -32,7 +35,8 @@ function OrgDepartmentsView() {
                 console.log("View employees for:", department);
                 break;
             case "addDepartment":
-                console.log("Add department for:", department);
+                setCurrentDepartment(department);
+                setShowModal(true);
                 break;
             case "edit":
                 console.log("Edit department:", department);
@@ -43,14 +47,19 @@ function OrgDepartmentsView() {
         }
     };
 
+    const closeModal = () => {
+        setShowModal(false);
+        setCurrentDepartment(null);
+    };
+
     const renderTree = (node, level = 0) => {
         const hasChildren = Array.isArray(node.children) && node.children.length > 0;
-    
+
         return (
             <li key={node.key} className="treeview-item" style={{ marginLeft: `${level * 20}px` }}>
                 <div className="tree-title" onClick={() => hasChildren && toggleExpand(node.key)}>
                     {hasChildren && (
-                        <i className={`fa ${expanded[node.key] ? "fa-angle-down" : "fa-angle-right"}`} style={{ marginRight: "8px" }}></i>
+                        <i className={`fa ${expanded[node.key] ? "fa-angle-down" : "fa-angle-right"}`} />
                     )}
                     {node.title}
                     <div className="department-actions">
@@ -60,7 +69,7 @@ function OrgDepartmentsView() {
                                 handleDepartmentAction("addDepartment", node);
                             }}
                         >
-                            <i className="fa fa-plus"></i>
+                            <i className="fa fa-plus" />
                         </button>
                         <button
                             onClick={(e) => {
@@ -68,7 +77,7 @@ function OrgDepartmentsView() {
                                 handleDepartmentAction("edit", node);
                             }}
                         >
-                            <i className="fa fa-pencil"></i>
+                            <i className="fa fa-pencil" />
                         </button>
                         <button
                             onClick={(e) => {
@@ -76,11 +85,11 @@ function OrgDepartmentsView() {
                                 handleDepartmentAction("delete", node);
                             }}
                         >
-                            <i className="fa fa-trash"></i>
+                            <i className="fa fa-trash" />
                         </button>
                     </div>
                 </div>
-    
+
                 {expanded[node.key] && hasChildren && (
                     <ul className="children">
                         {node.children.map((child) => renderTree(child, level + 1))}
@@ -88,13 +97,24 @@ function OrgDepartmentsView() {
                 )}
             </li>
         );
-    };    
+    };
 
     return (
         <div className="treeview-container">
             <ul className="treeview-list">
                 {departments.map((dept) => renderTree(dept))}
             </ul>
+
+            {showModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <AddDepartmentForm
+                            department={currentDepartment}
+                            onClose={closeModal}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

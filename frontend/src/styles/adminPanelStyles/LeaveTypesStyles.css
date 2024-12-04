@@ -1,8 +1,8 @@
 .leave-types-container {
     padding: 24px;
-    background: linear-gradient(145deg, #e3f2fd, #f9f9f9);
+    background: linear-gradient(145deg, #D4D8DD, #F0F4F8);
     border-radius: 16px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
     max-width: 800px;
     margin: 40px auto;
     font-family: 'Roboto', sans-serif;
@@ -10,7 +10,7 @@
 }
 
 .leave-types-container:hover {
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
 }
 
 .leave-types-header {
@@ -21,36 +21,36 @@
 }
 
 .leave-types-header h2 {
-    font-size: 30px;
+    font-size: 32px;
     font-weight: bold;
-    color: #333;
+    color: #2E4156;
     margin: 0;
+    letter-spacing: 1px;
 }
 
 .add-leave-button {
-    background-color: #1e88e5;
-    color: #fff;
+    background-color: #2E4156;
+    color: #ffffff;
     border: none;
     border-radius: 10px;
-    padding: 14px 20px;
+    padding: 14px 24px;
     cursor: pointer;
     font-size: 16px;
     display: flex;
     align-items: center;
     gap: 12px;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .add-leave-button:hover {
-    background-color: #1565c0;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    background-color: #3C536D;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.18);
 }
 
 .add-leave-button i {
-    font-size: 18px;
-    margin-right: 6px;
+    font-size: 20px;
 }
 
 .leave-types-list {
@@ -63,51 +63,65 @@
     font-size: 18px;
     padding: 18px 24px;
     margin-bottom: 16px;
-    background: #ffffff;
-    border: 1px solid #e0e0e0;
+    background: #F9FAFB;
+    border: 1px solid #C0C8CA;
     border-radius: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
     font-weight: 500;
 }
 
 .leave-type-item:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 14px rgba(0, 0, 0, 0.1);
-    background: #f6f9fc;
+    background: #ECEFF1;
 }
 
 .leave-type-item strong {
-    color: #1976d2;
+    color: #2E4156;
     font-size: 20px;
 }
 
 .leave-type-item span {
-    color: #757575;
+    color: #5E6C78;
     font-weight: 400;
 }
 
 .leave-type-item-actions {
     display: flex;
     gap: 10px;
+    margin-left: auto;
 }
 
 .leave-type-item-actions button {
     background-color: transparent;
-    border: none;
-    font-size: 18px;
+    border: 1px solid #C0C8CA;
+    padding: 8px 12px;
+    border-radius: 8px;
     cursor: pointer;
-    color: #616161;
-    transition: color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .leave-type-item-actions button:hover {
-    color: #1e88e5;
+    background-color: rgba(0, 0, 0, 0.1);
     transform: scale(1.1);
 }
 
-.leave-type-item-actions i {
-    font-size: 18px;
+.leave-type-item-actions .leave-edit-btn i {
+    color: #5CB85C;
+    font-size: 20px;
+}
+
+.leave-type-item-actions .leave-trash-btn i {
+    color: #D9534F;
+    font-size: 20px;
+}
+
+.leave-type-item-actions button:hover i {
+    color: #2E4156;
 }

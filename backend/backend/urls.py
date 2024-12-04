@@ -16,5 +16,7 @@ urlpatterns = [
     path('api/departments/', DepartmentsListView.as_view(), name='get_all_departments'),
     path('api/add_department/', DepartmentCreateView.as_view(), name='create_department'),
     path('api/leave_types/', LeaveTypeListView.as_view(), name='leave_types'),
+    path('api/add_leave_type/', LeaveTypeCreateView.as_view(), name='create_leave_type'),
+    path('api/leave_types/<int:pk>/delete/', LeaveTypeDeleteView.as_view(), name='delete_leave_type'),
     path('api/user-permissions/', PermissionsList.as_view(), name='permissions_list'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

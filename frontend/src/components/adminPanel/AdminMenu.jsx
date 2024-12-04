@@ -8,9 +8,8 @@ function AdminMenu() {
     const menuItems = [
         { title: "Employees and Departments" },
         { title: "Leave Types" },
-        { title: "Employee Vacation Balances" },
+        { title: "Employee Balances" },
         { title: "Employee Allowances" },
-        { title: "Request Statistics" },
     ];
 
     const [selectedContent, setSelectedContent] = useState(menuItems[0].title);
