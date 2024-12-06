@@ -17,7 +17,7 @@ urlpatterns = [
     # path('api/add_department/', DepartmentCreateView.as_view(), name='create_department'),
     path('api/departments/', include('urls_dir.departments_urls')),
     path('api/employees/', include('urls_dir.employees_urls')),
-    path('api/employees/', include('urls_dir.employees_urls')),
+    path('api/leave_types/', include('urls_dir.leave_types_urls')),
 
     path('api/leave_types/', LeaveTypeListView.as_view(), name='leave_types'),
     path('api/add_leave_type/', LeaveTypeCreateView.as_view(), name='create_leave_type'),
