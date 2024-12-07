@@ -10,7 +10,7 @@ function ProfileElement() {
     useEffect(() => {
         const fetchProfileInfo = async () => {
             try {
-                const response = await api.get("/api/home_menu/employee");
+                const response = await api.get("/api/employee/home");
                 console.log(response.data);
                 setEmployee(response.data);
             } catch (error) {

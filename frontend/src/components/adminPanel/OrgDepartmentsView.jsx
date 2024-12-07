@@ -12,7 +12,7 @@ function OrgDepartmentsView() {
     useEffect(() => {
         const fetchDepartments = async () => {
             try {
-                const response = await api.get("/api/departments_chart/");
+                const response = await api.get("/api/departments/chart/");
                 setDepartments(response.data);
             } catch (error) {
                 console.log("Error fetching departments:", error);
