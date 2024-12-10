@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../../api";
-import "../../../styles/adminPanelStyles/LeaveTypesStyles.css"
+import "../../../styles/adminPanelStyles/leaveStyles/LeaveTypesStyles.css"
 import AddLeaveTypeForm from "./AddLeaveTypeForm";
 
 

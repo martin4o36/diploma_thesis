@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../../../api";
-import "../../../styles/adminPanelStyles/AddDepartmentStyles.css";
+import "../../../styles/adminPanelStyles/departmentStyles/AddDepartmentStyles.css";
 
 function AddDeptEmpForm({ department, onClose }) {
     const departmentId = department?.key || 0;

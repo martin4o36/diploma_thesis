@@ -1,6 +1,6 @@
 import { useState } from "react";
 import api from "../../../api";
-import "../../../styles/adminPanelStyles/AddLeaveTypeStyles.css"
+import "../../../styles/adminPanelStyles/leaveStyles/AddLeaveTypeStyles.css"
 
 function AddLeaveTypeForm({ onSuccess, onCancel }) {
     const [name, setName] = useState("");
@@ -11,7 +11,7 @@ function AddLeaveTypeForm({ onSuccess, onCancel }) {
         e.preventDefault();
 
         if (name.trim() === "" || days.trim() === "") {
-            alert("Please fill in all fields!");
+            alert("Please fill in the name!");
             return;
         }
 
