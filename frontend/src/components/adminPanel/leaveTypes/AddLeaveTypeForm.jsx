@@ -18,7 +18,7 @@ function AddLeaveTypeForm({ onSuccess, onCancel }) {
         setLoading(true);
 
         try {
-            await api.post("/api/leave_types/add", {
+            await api.post("/api/leave_types/add/", {
                 leave_name: name,
                 days: Number(days),
             });

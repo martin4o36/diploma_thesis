@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../styles/adminPanelStyles/departmentStyles/OrgDepartments.css";
 import api from "../../../api";
-import AddDeptEmpForm from "./AddDepartEmpForm";
+import AddDeptEmpForm from "./AddDeptEmpForm";
 
 function OrgDepartmentsView() {
     const [departments, setDepartments] = useState([]);

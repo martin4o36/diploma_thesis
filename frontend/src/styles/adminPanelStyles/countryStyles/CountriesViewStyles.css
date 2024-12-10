@@ -1,0 +1,141 @@
+.countries-container {
+    position: relative;
+    padding: 20px;
+    background: linear-gradient(145deg, #D4D8DD, #F0F4F8);
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+}
+
+.add-country-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+    z-index: 1050;
+}
+
+.countries-container:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+}
+
+.countries-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.countries-header h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #2E4156;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.add-country-button {
+    background-color: #2E4156;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 24px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.add-country-button:hover {
+    background-color: #3C536D;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.18);
+}
+
+.add-country-button i {
+    font-size: 20px;
+}
+
+.country-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.country-item {
+    font-size: 18px;
+    padding: 18px 24px;
+    margin-bottom: 16px;
+    background: #F9FAFB;
+    border: 1px solid #C0C8CA;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    font-weight: 500;
+}
+
+.country-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.1);
+    background: #ECEFF1;
+}
+
+.country-item strong {
+    color: #2E4156;
+    font-size: 20px;
+}
+
+.country-item-actions {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.country-item-actions button {
+    background-color: transparent;
+    border: 1px solid #C0C8CA;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.country-item-actions button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+}
+
+.country-item-actions .country-delete-btn i {
+    color: #D9534F;
+    font-size: 20px;
+}
+
+.country-item-actions button:hover i {
+    color: #2E4156;
+}

@@ -52,3 +52,8 @@ class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Countries
         fields = '__all__'
+
+    def validate_country_name(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("Country name cannot be empty or whitespace.")
+        return value

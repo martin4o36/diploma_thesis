@@ -29,8 +29,6 @@ function CountriesView() {
             } catch (error) {
                 console.error("Error deleting country:", error);
             }
-        } else {
-            console.log("Deletion cancelled");
         }
     };
 
@@ -44,13 +42,18 @@ function CountriesView() {
             </div>
 
             {showAddForm && (
-                <AddCountryForm
-                    onSuccess={() => {
-                        fetchCountries();
-                        setShowAddForm(false);
-                    }}
-                    onCancel={() => setShowAddForm(false)}
-                />
+                <>
+                    <div className="modal-overlay" onClick={() => setShowAddForm(false)}></div>
+                    <div className="add-country-modal">
+                        <AddCountryForm
+                            onSuccess={() => {
+                                fetchCountries();
+                                setShowAddForm(false);
+                            }}
+                            onCancel={() => setShowAddForm(false)}
+                        />
+                    </div>
+                </>
             )}
 
             <ul className="country-list">
