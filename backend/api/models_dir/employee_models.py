@@ -46,14 +46,14 @@ class Employee(models.Model):
     manager_id = models.IntegerField(default=0)
     position = models.CharField(max_length=100, null=False)
     hired_date = models.DateField(null=False)
-    left_date = models.DateField()
-    profile_picture = models.ImageField(upload_to='employees/')
+    left_date = models.DateField(null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='employees/', null=True, blank=True)
 
     class Meta:
         db_table = 'employees'
         permissions = [
-        ("crud_employees_leave-types_departments", "Can add, update and delete an employee"),
-        ("export_records", "Can add, update and delete an employee"),
+            ("crud_employees_leave-types_departments", "Can add, update and delete an employee"),
+            ("export_records", "Can add, update and delete an employee"),
         ]
 
 

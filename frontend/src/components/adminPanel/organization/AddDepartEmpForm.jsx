@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import api from "../../api";
-import "../../styles/adminPanelStyles/AddDepartmentStyles.css"
+import api from "../../../api";
+import "../../../styles/adminPanelStyles/AddDepartmentStyles.css"
 
-function AddDepartmentForm({ department, onClose }) {
+function AddDepartEmpForm({ department, onClose }) {
+    const departmentId = department?.key || 0;
+
     const [formType, setFormType] = useState("department");
     const [departmentName, setDepartmentName] = useState("");
     const [employeeData, setEmployeeData] = useState({
@@ -10,23 +12,23 @@ function AddDepartmentForm({ department, onClose }) {
         last_name: "",
         age: 0,
         email: "",
-        country: null,
+        country: 0,
         city: "",
         work_start: "",
         work_end: "",
-        department_id: 0,
+        department_id: departmentId,
         manager_id: 0,
         position: "",
         hired_date: "",
-        left_date: "",
+        left_date: null,
         profile_picture: null,
     });
 
     const handleEmployeeChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, files } = e.target;
         setEmployeeData((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: files ? files[0] : value,
         }));
     };
 
@@ -34,21 +36,63 @@ function AddDepartmentForm({ department, onClose }) {
         setFormType(type);
         setDepartmentName("");
         setEmployeeData({
-            departmentName: "",
-            employeeName: "",
-            employeeEmail: "",
-            employeePosition: "",
+            first_name: "",
+            last_name: "",
+            age: 0,
+            email: "",
+            country: 0,
+            city: "",
+            work_start: "",
+            work_end: "",
+            department_id: departmentId,
+            manager_id: 0,
+            position: "",
+            hired_date: "",
+            left_date: null,
+            profile_picture: null,
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formType === "department") {
-            console.log("Department Submitted:", departmentName);
-        } else if (formType === "employee") {
-            console.log("Employee Submitted:", employeeData);
+        try {
+            if (formType === "department") {
+                await api.post("/api/departments/add/", { 
+                    dep_name: departmentName, 
+                    parent_dept_id: department?.key || 0 
+                });
+            } else if (formType === "employee") {
+                formData.append("first_name", employeeData.first_name);
+                formData.append("last_name", employeeData.last_name);
+                formData.append("age", employeeData.age);
+                formData.append("email", employeeData.email);
+                formData.append("country", employeeData.country);
+                formData.append("city", employeeData.city);
+                formData.append("work_start", employeeData.work_start);
+                formData.append("work_end", employeeData.work_end);
+                formData.append("department_id", employeeData.department_id);
+                formData.append("manager_id", employeeData.manager_id);
+                formData.append("position", employeeData.position);
+                formData.append("hired_date", employeeData.hired_date);
+                if (employeeData.left_date) {
+                    formData.append("left_date", employeeData.left_date);
+                }
+                if (employeeData.profile_picture) {
+                    formData.append("profile_picture", employeeData.profile_picture);
+                }
+                
+                await api.post("/api/employee/add/", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+            }
+            alert(`${formType === "department" ? "Department" : "Employee"} added successfully!`);
+            onClose();
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            alert("An error occurred while saving. Please try again.");
         }
-        onClose();
     };
 
     return (
@@ -134,9 +178,9 @@ function AddDepartmentForm({ department, onClose }) {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="country">Country</label>
+                            <label htmlFor="country">Country ID</label>
                             <input
-                                type="text"
+                                type="number"
                                 id="country"
                                 name="country"
                                 value={employeeData.country || ""}
@@ -156,7 +200,7 @@ function AddDepartmentForm({ department, onClose }) {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="work_start">Work Start</label>
+                            <label htmlFor="work_start">Work Start Time</label>
                             <input
                                 type="time"
                                 id="work_start"
@@ -167,7 +211,7 @@ function AddDepartmentForm({ department, onClose }) {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="work_end">Work End</label>
+                            <label htmlFor="work_end">Work End Time</label>
                             <input
                                 type="time"
                                 id="work_end"
@@ -238,6 +282,7 @@ function AddDepartmentForm({ department, onClose }) {
                                 id="profile_picture"
                                 name="profile_picture"
                                 onChange={handleEmployeeChange}
+                                required
                             />
                         </div>
                     </>
@@ -253,4 +298,4 @@ function AddDepartmentForm({ department, onClose }) {
     );
 }
 
-export default AddDepartmentForm;
+export default AddDepartEmpForm;

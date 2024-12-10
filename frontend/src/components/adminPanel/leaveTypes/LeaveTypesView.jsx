@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import api from "../../api";
-import "../../styles/adminPanelStyles/LeaveTypesStyles.css"
-import AddLeaveTypeForm from "../forms/AddLeaveTypeForm";
+import api from "../../../api";
+import "../../../styles/adminPanelStyles/LeaveTypesStyles.css"
+import AddLeaveTypeForm from "./AddLeaveTypeForm";
 
 
 function LeaveTypesView() {
@@ -21,8 +21,12 @@ function LeaveTypesView() {
         fetchLeaveTypes();
     }, []);
 
-    const handleEditLeaveType = async (leaveId) => {
-        console.log("Edit leave type with ID:", leaveId);
+    const handleEditLeaveTypeName = async (leaveId) => {
+        
+    }
+
+    const handleEditLeaveTypeDays = async (leaveId) => {
+        
     }
 
     const handleDeleteLeaveType = async (leaveId) => {
@@ -63,11 +67,19 @@ function LeaveTypesView() {
                 {leaveTypes.map((leaveType) => (
                     <li key={leaveType.leave_id} className="leave-type-item">
                         <strong>{leaveType.leave_name}</strong>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleEditLeaveTypeName(leaveType.leave_id);
+                            }}
+                        >
+                            <i className="fa fa-pencil"></i>
+                        </button>
                         <span>{leaveType.days} days</span>
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
-                                handleEditLeaveType(leaveType.leave_id);
+                                handleEditLeaveTypeDays(leaveType.leave_id);
                             }}
                         >
                             <i className="fa fa-pencil"></i>

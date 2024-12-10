@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/adminPanelStyles/AdminMenu.css";
-import OrgDepartmentsView from "./OrgDepartmentsView";
-import LeaveTypesView from "./LeaveTypesView";
-import RequestsStatistics from "./RequestsStatistics";
-
+import OrgDepartmentsView from "./organization/OrgDepartmentsView";
+import LeaveTypesView from "./leaveTypes/LeaveTypesView";
 function AdminMenu() {
     const menuItems = [
         { title: "Employees and Departments" },
@@ -45,7 +43,6 @@ function AdminMenu() {
             <div className="content-area">
                 {selectedContent === "Employees and Departments" && <OrgDepartmentsView /> }
                 {selectedContent === "Leave Types" && <LeaveTypesView /> }
-                {selectedContent === "Requests" && <RequestsStatistics /> }
             </div>
         </div>
     );

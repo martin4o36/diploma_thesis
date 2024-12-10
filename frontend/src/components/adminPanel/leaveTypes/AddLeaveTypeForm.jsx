@@ -1,6 +1,6 @@
 import { useState } from "react";
-import api from "../../api";
-import "../../styles/adminPanelStyles/AddLeaveTypeStyles.css"
+import api from "../../../api";
+import "../../../styles/adminPanelStyles/AddLeaveTypeStyles.css"
 
 function AddLeaveTypeForm({ onSuccess, onCancel }) {
     const [name, setName] = useState("");
