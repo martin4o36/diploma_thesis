@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../styles/adminPanelStyles/OrgDepartments.css";
 import api from "../../../api";
-import AddDepartEmpForm from "./AddDepartEmpForm";
+import AddDeptEmpForm from "./AddDepartEmpForm";
 
 function OrgDepartmentsView() {
     const [departments, setDepartments] = useState([]);
@@ -133,7 +133,7 @@ function OrgDepartmentsView() {
             {showModal && (
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        <AddDepartEmpForm
+                        <AddDeptEmpForm
                             department={currentDepartment}
                             onClose={closeModal}
                         />

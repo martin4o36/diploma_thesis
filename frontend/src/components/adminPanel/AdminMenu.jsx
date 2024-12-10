@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import "../../styles/adminPanelStyles/AdminMenu.css";
 import OrgDepartmentsView from "./organization/OrgDepartmentsView";
 import LeaveTypesView from "./leaveTypes/LeaveTypesView";
+import CountriesView from "./countries/CountriesView";
+
 function AdminMenu() {
     const menuItems = [
         { title: "Employees and Departments" },
         { title: "Leave Types" },
+        { title: "Countries" },
         { title: "Employee Balances" },
         { title: "Employee Allowances" },
     ];
@@ -43,6 +46,7 @@ function AdminMenu() {
             <div className="content-area">
                 {selectedContent === "Employees and Departments" && <OrgDepartmentsView /> }
                 {selectedContent === "Leave Types" && <LeaveTypesView /> }
+                {selectedContent === "Countries" && <CountriesView /> }
             </div>
         </div>
     );

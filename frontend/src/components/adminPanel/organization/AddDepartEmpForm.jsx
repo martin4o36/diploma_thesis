@@ -1,26 +1,39 @@
 import { useState, useEffect } from "react";
 import api from "../../../api";
-import "../../../styles/adminPanelStyles/AddDepartmentStyles.css"
+import "../../../styles/adminPanelStyles/AddDepartmentStyles.css";
 
-function AddDepartEmpForm({ department, onClose }) {
+function AddDeptEmpForm({ department, onClose }) {
     const departmentId = department?.key || 0;
+    const [countries, setCountries] = useState([])
+
+    useEffect(() => {
+        const fetchCountries = async () => {
+            const response = await api.get("/api/country/");
+            console.log(response.data)
+            setCountries(response.data);
+        };
+        
+        fetchCountries();
+    }, []);
 
     const [formType, setFormType] = useState("department");
     const [departmentName, setDepartmentName] = useState("");
     const [employeeData, setEmployeeData] = useState({
-        first_name: "",
-        last_name: "",
-        age: 0,
-        email: "",
-        country: 0,
-        city: "",
-        work_start: "",
-        work_end: "",
+        first_name: '',
+        middle_name: '',
+        last_name: '',
+        age: '',
+        email: '',
+        phone_number: '',
+        country: '',
+        city: '',
+        work_start: '',
+        work_end: '',
         department_id: departmentId,
-        manager_id: 0,
-        position: "",
-        hired_date: "",
-        left_date: null,
+        manager_id: '',
+        position: '',
+        hired_date: '',
+        left_date: '',
         profile_picture: null,
     });
 
@@ -36,25 +49,28 @@ function AddDepartEmpForm({ department, onClose }) {
         setFormType(type);
         setDepartmentName("");
         setEmployeeData({
-            first_name: "",
-            last_name: "",
-            age: 0,
-            email: "",
-            country: 0,
-            city: "",
-            work_start: "",
-            work_end: "",
+            first_name: '',
+            middle_name: '',
+            last_name: '',
+            age: '',
+            email: '',
+            phone_number: '',
+            country: '',
+            city: '',
+            work_start: '',
+            work_end: '',
             department_id: departmentId,
-            manager_id: 0,
-            position: "",
-            hired_date: "",
-            left_date: null,
+            manager_id: '',
+            position: '',
+            hired_date: '',
+            left_date: '',
             profile_picture: null,
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData();
         try {
             if (formType === "department") {
                 await api.post("/api/departments/add/", { 
@@ -63,9 +79,12 @@ function AddDepartEmpForm({ department, onClose }) {
                 });
             } else if (formType === "employee") {
                 formData.append("first_name", employeeData.first_name);
+                formData.append("middle_name", employeeData.middle_name);
                 formData.append("last_name", employeeData.last_name);
+                formData.append("password", employeeData.password);
                 formData.append("age", employeeData.age);
                 formData.append("email", employeeData.email);
+                formData.append("phone_number", employeeData.phone_number);
                 formData.append("country", employeeData.country);
                 formData.append("city", employeeData.city);
                 formData.append("work_start", employeeData.work_start);
@@ -80,12 +99,8 @@ function AddDepartEmpForm({ department, onClose }) {
                 if (employeeData.profile_picture) {
                     formData.append("profile_picture", employeeData.profile_picture);
                 }
-                
-                await api.post("/api/employee/add/", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                });
+
+                await api.post("/api/employee/add/", formData);
             }
             alert(`${formType === "department" ? "Department" : "Employee"} added successfully!`);
             onClose();
@@ -145,12 +160,34 @@ function AddDepartEmpForm({ department, onClose }) {
                             />
                         </div>
                         <div className="form-group">
+                            <label htmlFor="middle_name">Middle Name</label>
+                            <input
+                                type="text"
+                                id="middle_name"
+                                name="middle_name"
+                                value={employeeData.middle_name}
+                                onChange={handleEmployeeChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
                             <label htmlFor="last_name">Last Name</label>
                             <input
                                 type="text"
                                 id="last_name"
                                 name="last_name"
                                 value={employeeData.last_name}
+                                onChange={handleEmployeeChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={employeeData.password}
                                 onChange={handleEmployeeChange}
                                 required
                             />
@@ -178,15 +215,36 @@ function AddDepartEmpForm({ department, onClose }) {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="country">Country ID</label>
+                            <label htmlFor="phone_number">Phone Number</label>
                             <input
-                                type="number"
-                                id="country"
-                                name="country"
-                                value={employeeData.country || ""}
+                                type="text"
+                                id="phone_number"
+                                name="phone_number"
+                                value={employeeData.phone_number}
                                 onChange={handleEmployeeChange}
                                 required
                             />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="country">Country</label>
+                            <select
+                                id="country"
+                                name="country"
+                                value={employeeData.country}
+                                onChange={handleEmployeeChange}
+                                required
+                            >
+                                <option value="">Select Country</option>
+                                {countries.length > 0 ? (
+                                    countries.map((country) => (
+                                        <option key={country.country_id} value={country.country_id}>
+                                            {country.country_name}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option value="" disabled>Loading countries...</option>
+                                )}
+                            </select>
                         </div>
                         <div className="form-group">
                             <label htmlFor="city">City</label>
@@ -217,17 +275,6 @@ function AddDepartEmpForm({ department, onClose }) {
                                 id="work_end"
                                 name="work_end"
                                 value={employeeData.work_end}
-                                onChange={handleEmployeeChange}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="department_id">Department ID</label>
-                            <input
-                                type="number"
-                                id="department_id"
-                                name="department_id"
-                                value={employeeData.department_id}
                                 onChange={handleEmployeeChange}
                                 required
                             />
@@ -282,7 +329,6 @@ function AddDepartEmpForm({ department, onClose }) {
                                 id="profile_picture"
                                 name="profile_picture"
                                 onChange={handleEmployeeChange}
-                                required
                             />
                         </div>
                     </>
@@ -298,4 +344,4 @@ function AddDepartEmpForm({ department, onClose }) {
     );
 }
 
-export default AddDepartEmpForm;
+export default AddDeptEmpForm;

@@ -1,11 +1,23 @@
 from rest_framework import serializers
 from django.conf import settings
 from ..models_dir.employee_models import Employee, Department
+from django.contrib.auth.models import User
+from ..models_dir.employee_models import Countries
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = Employee
         fields = '__all__'
+
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        username = f"{validated_data['first_name']}_{validated_data['middle_name']}_{validated_data['last_name']}"
+        user = User.objects.create_user(username=username, password=password)
+        
+        employee = Employee.objects.create(user=user, **validated_data)
+        return employee
 
 
 class EmployeeHomeMenuSerializer(serializers.ModelSerializer):
@@ -34,3 +46,9 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 class PermissionsSerializer(serializers.Serializer):
     can_manage_employees = serializers.BooleanField()
+
+
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Countries
+        fields = '__all__'

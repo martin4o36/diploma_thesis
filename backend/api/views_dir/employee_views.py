@@ -3,6 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models_dir.employee_models import Employee
 from ..serializers.emp_dep_serializer import EmployeeSerializer, EmployeeHomeMenuSerializer
+from rest_framework.parsers import MultiPartParser, FormParser
+from ..models_dir.employee_models import Countries
 
 class GetCurrentUserToManage(APIView):
     permission_classes = [IsAuthenticated]
@@ -49,21 +51,13 @@ class CreateEmployee(APIView):
 
     def post(self, request):
         employee_data = request.data
-        print("REQUEST: ", employee_data)
-        serializer = EmployeeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+        print("REQUEST DATA: ", employee_data)
+    
     
 
-def mapCountryFromRequestToObject():
-    pass
-
-
-def createDjangoUserForEmployee():
-    pass
-
-
-def profilePictureNameToSave():
-    pass
+def mapCountryFromRequestToObject(country_id):
+    try:
+        country = Countries.objects.get(pk=country_id)
+        return country
+    except Countries.DoesNotExist:
+        raise ValueError(f"Country with ID '{country_id}' does not exist.")
