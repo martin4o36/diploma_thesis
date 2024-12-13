@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from ..models_dir.records_models import LeaveType
+from ..models_dir.employee_models import NonWorkingDay
 
 class LeaveTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,3 +16,8 @@ class LeaveTypeSerializer(serializers.ModelSerializer):
         if not value.strip():
             raise serializers.ValidationError("Leave name cannot be empty or whitespace.")
         return value
+    
+class NonWorkingDaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NonWorkingDay
+        fields = '__all__'

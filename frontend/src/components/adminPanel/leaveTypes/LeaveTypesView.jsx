@@ -10,7 +10,7 @@ function LeaveTypesView() {
 
     const fetchLeaveTypes = async () => {
         try {
-            const response = await api.get("/api/leave_types/");
+            const response = await api.get("/api/leave-types/");
             setLeaveTypes(response.data);
         } catch (error) {
             console.error("Error fetching leave types:", error);
@@ -34,7 +34,7 @@ function LeaveTypesView() {
 
         if(confirmDelete) {
             try {
-                await api.delete(`/api/leave_types/${leaveId}/delete/`);
+                await api.delete(`/api/leave-types/${leaveId}/delete/`);
                 fetchLeaveTypes();
             } catch (error) {
                 console.error("Error deleting leave type:", error);

@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('api/employee/', include('api.urls_dir.employees_urls')),
     path('api/departments/', include('api.urls_dir.departments_urls')),
-    path('api/leave_types/', include('api.urls_dir.leave_types_urls')),
+    path('api/leave-types/', include('api.urls_dir.leave_types_urls')),
     path('api/country/', include('api.urls_dir.countries_urls')),
+    path('api/non-working-days/', include('api.urls_dir.non_working_days_urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

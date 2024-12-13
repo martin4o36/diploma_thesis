@@ -22,6 +22,7 @@ function AddDeptEmpForm({ department, onClose }) {
         first_name: '',
         middle_name: '',
         last_name: '',
+        password: '',
         age: '',
         email: '',
         phone_number: '',
@@ -49,64 +50,36 @@ function AddDeptEmpForm({ department, onClose }) {
         setFormType(type);
         setDepartmentName("");
         setEmployeeData({
+            ...employeeData,
             first_name: '',
-            middle_name: '',
             last_name: '',
-            age: '',
-            email: '',
-            phone_number: '',
-            country: '',
-            city: '',
-            work_start: '',
-            work_end: '',
-            department_id: departmentId,
-            manager_id: '',
-            position: '',
-            hired_date: '',
-            left_date: '',
-            profile_picture: null,
+            password: '',
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
         try {
             if (formType === "department") {
-                await api.post("/api/departments/add/", { 
-                    dep_name: departmentName, 
-                    parent_dept_id: department?.key || 0 
+                await api.post("/api/departments/add/", {
+                    dep_name: departmentName,
+                    parent_dept_id: department?.key || 0,
                 });
-            } else if (formType === "employee") {
-                formData.append("first_name", employeeData.first_name);
-                formData.append("middle_name", employeeData.middle_name);
-                formData.append("last_name", employeeData.last_name);
-                formData.append("password", employeeData.password);
-                formData.append("age", employeeData.age);
-                formData.append("email", employeeData.email);
-                formData.append("phone_number", employeeData.phone_number);
-                formData.append("country", employeeData.country);
-                formData.append("city", employeeData.city);
-                formData.append("work_start", employeeData.work_start);
-                formData.append("work_end", employeeData.work_end);
-                formData.append("department_id", employeeData.department_id);
-                formData.append("manager_id", employeeData.manager_id);
-                formData.append("position", employeeData.position);
-                formData.append("hired_date", employeeData.hired_date);
-                if (employeeData.left_date) {
-                    formData.append("left_date", employeeData.left_date);
-                }
-                if (employeeData.profile_picture) {
-                    formData.append("profile_picture", employeeData.profile_picture);
-                }
-
-                await api.post("/api/employee/add/", formData);
+                alert("Department added successfully!");
+            } else {
+                const formData = new FormData();
+                Object.entries(employeeData).forEach(([key, value]) =>
+                    formData.append(key, value)
+                );
+                await api.post("/api/employee/add/", formData, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+                alert("Employee added successfully!");
             }
-            alert(`${formType === "department" ? "Department" : "Employee"} added successfully!`);
             onClose();
         } catch (error) {
             console.error("Error submitting form:", error);
-            alert("An error occurred while saving. Please try again.");
+            alert("Failed to save. Please try again.");
         }
     };
 

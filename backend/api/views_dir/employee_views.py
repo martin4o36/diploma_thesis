@@ -1,10 +1,13 @@
+import os
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models_dir.employee_models import Employee
 from ..serializers.emp_dep_serializer import EmployeeSerializer, EmployeeHomeMenuSerializer
-from rest_framework.parsers import MultiPartParser, FormParser
 from ..models_dir.employee_models import Countries
+from django.contrib.auth.models import User
 
 class GetCurrentUserToManage(APIView):
     permission_classes = [IsAuthenticated]
@@ -51,13 +54,61 @@ class CreateEmployee(APIView):
 
     def post(self, request):
         employee_data = request.data
-        print("REQUEST DATA: ", employee_data)
-    
-    
+        first_name = employee_data.get('first_name')
+        last_name = employee_data.get('last_name')
+        password = employee_data.get('password')
+        country_id = employee_data.get('country')
 
-def mapCountryFromRequestToObject(country_id):
-    try:
-        country = Countries.objects.get(pk=country_id)
-        return country
-    except Countries.DoesNotExist:
-        raise ValueError(f"Country with ID '{country_id}' does not exist.")
+        if not first_name or not last_name or not password or not country_id:
+            return Response({"error": "Missing required fields"}, status=400)
+        
+        print("PROFILE PICTURE: ", request.FILES.get('profile_picture', None))
+        print("LEFT DATE: ", employee_data.get('left_date'))
+
+        try:
+            country = Countries.objects.get(country_id=country_id)
+            user = User.objects.create_user(
+                username=f"{first_name.lower()}_{last_name.lower()}",
+                password=password
+            )
+            print("USER CREATED: ", user.username)
+
+            employee = Employee.objects.create(
+                user=user,
+                first_name=first_name,
+                middle_name=employee_data.get('middle_name'),
+                last_name=last_name,
+                age=employee_data.get('age'),
+                email=employee_data.get('email'),
+                phone_number=employee_data.get('phone_number'),
+                country=country,
+                city=employee_data.get('city'),
+                work_start=employee_data.get('work_start'),
+                work_end=employee_data.get('work_end'),
+                department_id=employee_data.get('department_id'),
+                manager_id=employee_data.get('manager_id'),
+                position=employee_data.get('position'),
+                hired_date=employee_data.get('hired_date'),
+            )
+            print("BEFORE SAVE!!!!!")
+
+            employee.save()
+            print("EMPLOYEE SAVED: ", employee.employee_id)
+
+            if request.FILES.get('profile_picture'):
+                profile_picture = request.FILES['profile_picture']
+                new_filename = f"profile_picture_{employee.employee_id}.{profile_picture.name.split('.')[-1]}"
+                file_path = os.path.join('employees/', new_filename)
+                file = ContentFile(profile_picture.read())
+                default_storage.save(file_path, file)
+                print("FILE PATH:", file_path)
+
+                employee.profile_picture = file_path
+                employee.save()
+
+            return Response({"message": "Employee created successfully", "employee_id": employee.employee_id}, status=201)
+
+        except Countries.DoesNotExist:
+            return Response({"error": "Country not found"}, status=404)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
