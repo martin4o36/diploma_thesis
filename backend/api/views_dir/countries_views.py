@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models_dir.employee_models import Countries
 from ..serializers.emp_dep_serializer import CountrySerializer
+from django.contrib.auth.decorators import permission_required
 
 class GetAllCountries(APIView):
     permission_classes = [IsAuthenticated]
@@ -16,6 +17,7 @@ class GetAllCountries(APIView):
             return Response({"error": str(e)}, status=500)
 
 
+# @permission_required(raise_exception=True)
 class CreateCountry(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -27,6 +29,7 @@ class CreateCountry(APIView):
         return Response({"message": "Failed to create country", "errors": serializer.errors}, status=400)
     
 
+# @permission_required(raise_exception=True)
 class DeleteCountry(APIView):
     permission_classes = [IsAuthenticated]
 

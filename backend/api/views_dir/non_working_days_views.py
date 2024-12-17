@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models_dir.employee_models import NonWorkingDay, Countries
 from ..serializers.records_serializer import NonWorkingDaySerializer
+from django.contrib.auth.decorators import permission_required
 
 class GetNonWorkingDaysByCountry(APIView):
     permission_classes = [IsAuthenticated]
@@ -18,6 +19,7 @@ class GetNonWorkingDaysByCountry(APIView):
             return Response({"error": str(e)}, status=500)
 
 
+# @permission_required(raise_exception=True)
 class AddNonWorkingDay(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -43,6 +45,7 @@ class AddNonWorkingDay(APIView):
             return Response({"error": str(e)}, status=500)
 
 
+# @permission_required(raise_exception=True)
 class DeleteNonWorkingDay(APIView):
     permission_classes = [IsAuthenticated]
 

@@ -31,6 +31,12 @@ class EmployeeHomeMenuSerializer(serializers.ModelSerializer):
         if obj.profile_picture:
             return settings.MEDIA_URL + obj.profile_picture.name
         return None
+    
+
+class EmployeeBalanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = ['employee_id', 'first_name', 'middle_name', 'last_name', 'position']
 
 
 class DepartmentSerializer(serializers.ModelSerializer):

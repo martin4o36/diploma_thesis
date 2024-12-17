@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models_dir.employee_models import Department
 from ..serializers.emp_dep_serializer import DepartmentSerializer
+from django.contrib.auth.decorators import permission_required
 
 
 class DepartmentsChartView(APIView):
@@ -17,6 +18,7 @@ class DepartmentsChartView(APIView):
             return Response({"error": str(e)}, status=500)
 
 
+# @permission_required(raise_exception=True)
 class DepartmentCreateView(APIView):
     permission_classes = [IsAuthenticated]
     
@@ -26,6 +28,14 @@ class DepartmentCreateView(APIView):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+    
+
+# @permission_required(raise_exception=True)
+class DeleteDepartment(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request):
+        pass
     
 
 

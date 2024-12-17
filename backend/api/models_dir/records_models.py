@@ -20,7 +20,7 @@ class EmployeeAllowance(models.Model):
     leave_type = models.ForeignKey(LeaveType, on_delete=models.DO_NOTHING)
     period_start_date = models.DateField(null=False)
     period_end_date = models.DateField(null=False)
-    days = models.IntegerField(null=False)
+    days = models.FloatField(null=False)
 
     class Meta:
         db_table = 'employee_allowance'

@@ -33,14 +33,14 @@ class Department(models.Model):
 
 class Employee(models.Model):
     employee_id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=200, null=False)
     middle_name = models.CharField(max_length=200, null=False)
     last_name = models.CharField(max_length=200, null=False)
     age = models.IntegerField()
     email = models.CharField(max_length=100, null=False)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
-    country = models.ForeignKey(Countries, on_delete=models.CASCADE)
+    country = models.ForeignKey(Countries, on_delete=models.DO_NOTHING)
     city = models.CharField(max_length=169)
     work_start = models.TimeField(null=False)
     work_end = models.TimeField(null=False)
@@ -54,8 +54,9 @@ class Employee(models.Model):
     class Meta:
         db_table = 'employees'
         permissions = [
-            ("crud_employees_leave-types_departments", "Can add, update and delete an employee"),
-            ("export_records", "Can add, update and delete an employee"),
+            ("Owner", "Can do everything"),
+            ("HR", "Can add, edit and delete people, leave types, countries etc and and export records of requests"),
+            ("Manager", "Can check certain things for his team etc"),
         ]
 
 

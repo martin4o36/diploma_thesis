@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from ..models_dir.records_models import LeaveType
 from ..serializers.records_serializer import LeaveTypeSerializer
+from django.contrib.auth.decorators import permission_required
 
 class LeaveTypeListView(APIView):
     permission_classes = [IsAuthenticated]
@@ -16,6 +17,7 @@ class LeaveTypeListView(APIView):
             return Response({"error": str(e)}, status=500)
         
 
+# @permission_required(raise_exception=True)
 class LeaveTypeCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -27,6 +29,7 @@ class LeaveTypeCreateView(APIView):
         return Response({"message": "Failed to create leave type", "errors": serializer.errors}, status=400)
     
 
+# @permission_required(raise_exception=True)
 class LeaveTypeDeleteView(APIView):
     permission_classes = [IsAuthenticated]
 

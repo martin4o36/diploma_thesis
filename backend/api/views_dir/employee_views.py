@@ -5,9 +5,11 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models_dir.employee_models import Employee
-from ..serializers.emp_dep_serializer import EmployeeSerializer, EmployeeHomeMenuSerializer
+from ..serializers.emp_dep_serializer import EmployeeSerializer, EmployeeHomeMenuSerializer, EmployeeBalanceSerializer
 from ..models_dir.employee_models import Countries
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import permission_required
+
 
 class GetCurrentUserToManage(APIView):
     permission_classes = [IsAuthenticated]
@@ -16,7 +18,7 @@ class GetCurrentUserToManage(APIView):
         try:
             employee = Employee.objects.get(user=request.user)
             serializer = EmployeeSerializer(employee)
-            return Response(serializer.data)
+            return Response(serializer.data, status=200)
         except Employee.DoesNotExist:
             return Response({"error": "Employee not found"}, status=404)
 
@@ -28,7 +30,7 @@ class GetCurrentUserToManageForHomeMenu(APIView):
         try:
             employee = Employee.objects.get(user=request.user)
             serializer = EmployeeHomeMenuSerializer(employee)
-            return Response(serializer.data)
+            return Response(serializer.data, status=200)
         except Employee.DoesNotExist:
             return Response({"error": "Employee not found"}, status=404)
     
@@ -49,6 +51,20 @@ class GetEmployeesByDepartmentID(APIView):
             return Response({"error": "Employees for department not found"}, status=404)
         
 
+# @permission_required(raise_exception=True)
+class GetAllEmployees(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            employees = Employee.objects.all()
+            serializer = EmployeeBalanceSerializer(employees, many=True)
+            return Response(serializer.data, status=200)
+        except Exception as e:
+            return Response({"error:" : "Employees not found"}, status=400)
+        
+
+# @permission_required(raise_exception=True)
 class CreateEmployee(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -67,14 +83,8 @@ class CreateEmployee(APIView):
 
         try:
             country = Countries.objects.get(country_id=country_id)
-            user = User.objects.create_user(
-                username=f"{first_name.lower()}_{last_name.lower()}",
-                password=password
-            )
-            print("USER CREATED: ", user.username)
 
             employee = Employee.objects.create(
-                user=user,
                 first_name=first_name,
                 middle_name=employee_data.get('middle_name'),
                 last_name=last_name,
@@ -90,10 +100,16 @@ class CreateEmployee(APIView):
                 position=employee_data.get('position'),
                 hired_date=employee_data.get('hired_date'),
             )
-            print("BEFORE SAVE!!!!!")
 
             employee.save()
-            print("EMPLOYEE SAVED: ", employee.employee_id)
+
+            user = User.objects.create_user(
+                username=f"{first_name.lower()}_{employee.middle_name.lower()}_{last_name.lower()}",
+                password=password
+            )
+
+            employee.user=user
+            employee.save()
 
             if request.FILES.get('profile_picture'):
                 profile_picture = request.FILES['profile_picture']
@@ -112,3 +128,19 @@ class CreateEmployee(APIView):
             return Response({"error": "Country not found"}, status=404)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+        
+
+# @permission_required(raise_exception=True)
+class DeleteEmployee(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request):
+        pass
+
+
+# @permission_required(raise_exception=True)
+class EditEmployee(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        pass

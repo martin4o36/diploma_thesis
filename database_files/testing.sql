@@ -7,6 +7,8 @@ WHERE table_schema = 'public';
 SELECT * FROM employees;
 SELECT * FROM departments;
 
+SELECT * FROM leave_types;
+
 INSERT INTO departments(dep_name, parent_dept_id) VALUES('DriveTech Gadgets', 1);
 
 INSERT INTO employees(first_name, last_name, age, email, work_start, work_end, manager_id, position, hired_date, department_id)

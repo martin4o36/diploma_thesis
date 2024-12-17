@@ -1,0 +1,108 @@
+/* === Main Container Styling === */
+.non-working-days-container {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+}
+
+.non-working-days-container h3 {
+    text-align: center;
+    font-size: 24px;
+    color: #1f2937;
+    margin-bottom: 20px;
+}
+
+/* === Add Day Form === */
+.add-nwd-form {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.add-nwd-form input {
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.add-nwd-form input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 4px rgba(37, 99, 235, 0.3);
+}
+
+.add-nwd-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-nwd-btn:hover {
+    background-color: #1e40af;
+    transform: scale(1.05);
+}
+
+/* === Non-Working Days List === */
+.non-working-days-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.non-working-day-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9fafb;
+    margin-bottom: 10px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.non-working-day-item:hover {
+    background-color: #f3f4f6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.delete-nwd-btn {
+    background-color: #ef4444;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.delete-nwd-btn:hover {
+    background-color: #dc2626;
+    transform: scale(1.05);
+}
+
+.delete-nwd-btn i {
+    pointer-events: none; /* Ensures the icon doesn't interfere with button clicks */
+}
+
+/* === Calendar Container (Already Styled) === */
+/* Ensuring Calendar fits well into the main container */
+.rbc-calendar {
+    border-radius: 12px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

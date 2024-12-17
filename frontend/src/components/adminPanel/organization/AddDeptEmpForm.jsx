@@ -9,7 +9,6 @@ function AddDeptEmpForm({ department, onClose }) {
     useEffect(() => {
         const fetchCountries = async () => {
             const response = await api.get("/api/country/");
-            console.log(response.data)
             setCountries(response.data);
         };
         
