@@ -81,22 +81,16 @@ function EmployeeBalancesView() {
                             <strong>Position:</strong> {selectedEmployee.position}
                         </p>
 
-                        <h5>Allowances</h5>
+                        <h5>Allowance</h5>
                         {allowances ? (
                             <ul>
                                 {allowances.map((allowance) => (
                                     <li key={allowance.allowance_id}>
-                                        <p>
-                                            <strong>Leave Type:</strong> {allowance.leave_type}
-                                        </p>
-                                        <p>
-                                            <strong>Days:</strong> {allowance.days}
-                                        </p>
-                                        <p>
-                                            <strong>Period:</strong>{" "}
-                                            {allowance.period_start_date} to{" "}
+                                            <strong>Leave Type:</strong> {allowance.leave_type} 
+                                            <strong>Days:</strong> {allowance.days} 
+                                            <strong>Period:</strong>{" "} 
+                                            {allowance.period_start_date} to{" "} 
                                             {allowance.period_end_date}
-                                        </p>
                                     </li>
                                 ))}
                             </ul>

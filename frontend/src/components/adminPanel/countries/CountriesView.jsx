@@ -3,11 +3,16 @@ import api from "../../../api";
 import AddCountryForm from "./AddCountryForm";
 import "../../../styles/adminPanelStyles/countryStyles/CountriesViewStyles.css";
 import NonWorkingDays from "./NonWorkingDays";
+import holidays from "date-holidays"
 
 function CountriesView() {
     const [countries, setCountries] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState(null);
+
+    const hd = new holidays('BG');
+    const holiday = hd.getHolidays();
+    console.log(holiday);
 
     const fetchCountries = async () => {
         try {

@@ -12,9 +12,7 @@ class GetAllowancesForEmployee(APIView):
     def get(self, request, employee_id):
         try:
             employee = Employee.objects.get(employee_id=employee_id)
-            print("EMPLOYEE: ", employee)
             allowances = EmployeeAllowance.objects.filter(employee=employee)
-            print("ALLOWANCE: ", allowances)
             serializer = EmployeeAllowanceSerializer(allowances, many=True)
             return Response(serializer.data, status=200)
         except Exception:

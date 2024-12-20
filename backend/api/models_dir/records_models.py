@@ -21,25 +21,15 @@ class EmployeeAllowance(models.Model):
     period_start_date = models.DateField(null=False)
     period_end_date = models.DateField(null=False)
     days = models.FloatField(null=False)
+    bring_forward = models.IntegerField(null=True, blank=True)
+    comment = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         db_table = 'employee_allowance'
         unique_together = ('employee', 'leave_type', 'period_start_date', 'period_end_date')
 
 
-class WriteOff(models.Model):
-    wo_id = models.AutoField(primary_key=True)
-    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
-    employee_allowance = models.ForeignKey(EmployeeAllowance, on_delete=models.DO_NOTHING)
-    days = models.IntegerField()
-
-    class Meta:
-        db_table = 'write_offs'
-
-
-# Add saving for write offs(how many days and when a person has lost or got)
-
-
+# Tracks the current balance of every employee
 class EmployeeBalance(models.Model):
     eb_id = models.AutoField(primary_key=True)
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
@@ -50,7 +40,30 @@ class EmployeeBalance(models.Model):
         db_table = 'employee_balances'
 
 
+# Add saving for write offs(how many days a person has lost or got at the end of his period time)
+class WriteOff(models.Model):
+    wo_id = models.AutoField(primary_key=True)
+    date_updated = models.DateTimeField(auto_now_add=True)
+    employee_balance = models.ForeignKey(EmployeeBalance, on_delete=models.DO_NOTHING)
+    initial_days = models.IntegerField(default=0)
+    days_brought_forward = models.IntegerField(default=0)
+    days_lost = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'write_offs'
+
+
 # Track how and when the balance changed
+class EmployeeBalanceChange(models.Model):
+    ebc_id = models.AutoField(primary_key=True)
+    date_changed = models.DateTimeField(auto_now_add=True)
+    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
+    old_days_left = models.IntegerField(default=0)
+    days_used = models.IntegerField(default=0)
+    new_days_left = models.IntegerField(default=0)
+    
+    class Meta:
+        db_table = "employee_balance_change"
 
 
 class Type(Enum):
