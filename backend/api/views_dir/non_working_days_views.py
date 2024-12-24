@@ -13,7 +13,6 @@ class GetNonWorkingDaysByCountry(APIView):
             country = Countries.objects.get(country_id=country_id)
             non_working_days = NonWorkingDay.objects.filter(country=country)
             serializer = NonWorkingDaySerializer(non_working_days, many=True)
-            print(serializer.data)
             return Response(serializer.data)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
@@ -37,7 +36,6 @@ class AddNonWorkingDay(APIView):
             )
 
             serializer = NonWorkingDaySerializer(new_non_working_day)
-            print(serializer.data)
             return Response(serializer.data, status=201)
         except Countries.DoesNotExist:
             return Response({"error": "Country not found"}, status=404)

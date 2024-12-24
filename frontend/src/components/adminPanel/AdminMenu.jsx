@@ -3,7 +3,7 @@ import "../../styles/adminPanelStyles/AdminMenu.css";
 import OrgDepartmentsView from "./organization/OrgDepartmentsView";
 import LeaveTypesView from "./leaveTypes/LeaveTypesView";
 import CountriesView from "./countries/CountriesView";
-import EmployeeBalancesView from "./employeeBalances/EmployeeBalancesView";
+import EmployeeBalancesView from "./employee_balances/EmployeeBalancesView";
 
 function AdminMenu() {
     const menuItems = [

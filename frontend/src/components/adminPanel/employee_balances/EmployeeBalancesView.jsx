@@ -23,13 +23,13 @@ function EmployeeBalancesView() {
 
     const fetchDetails = async (employee_id) => {
         try {
+            // Fetch Allowance
             const allowancesResponse = await api.get(`/api/allowance/${employee_id}/`);
             setAllowances(allowancesResponse.data);
-            console.log(allowancesResponse.data);
 
             // Fetch Balance
-            // const balanceResponse = await api.get(`/api/balance/${employee_id}`);
-            // setBalance(balanceResponse.data);
+            const balanceResponse = await api.get(`/api/balance/${employee_id}`);
+            setBalance(balanceResponse.data);
         } catch (error) {
             console.error("Error fetching employee details:", error);
         }

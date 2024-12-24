@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import api from "../../../api";
 import "../../../styles/adminPanelStyles/departmentStyles/AddDepartmentStyles.css";
+import ConfigureAllowance from "./ConfigureAllowance";
 
 function AddDeptEmpForm({ department, onClose }) {
     const departmentId = department?.key || 0;
-    const [countries, setCountries] = useState([])
+    const [countries, setCountries] = useState([]);
+    const [redirectToOtherForm, setRedirectToOtherForm] = useState(false);
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
     useEffect(() => {
         const fetchCountries = async () => {
@@ -70,17 +73,20 @@ function AddDeptEmpForm({ department, onClose }) {
                 Object.entries(employeeData).forEach(([key, value]) =>
                     formData.append(key, value)
                 );
-                await api.post("/api/employee/add/", formData, {
-                    headers: { "Content-Type": "multipart/form-data" },
-                });
-                alert("Employee added successfully!");
+                // await api.post("/api/employee/add/", formData, {
+                //     headers: { "Content-Type": "multipart/form-data" },
+                // });
+                setIsFormSubmitted(true);
             }
-            onClose();
         } catch (error) {
             console.error("Error submitting form:", error);
             alert("Failed to save. Please try again.");
         }
     };
+
+    if (isFormSubmitted && redirectToOtherForm) {
+        return <ConfigureAllowance />;
+    }
 
     return (
         <div className="form-container">
@@ -128,7 +134,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="first_name"
                                 value={employeeData.first_name}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -139,7 +145,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="middle_name"
                                 value={employeeData.middle_name}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -150,7 +156,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="last_name"
                                 value={employeeData.last_name}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -161,7 +167,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="password"
                                 value={employeeData.password}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -172,7 +178,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="age"
                                 value={employeeData.age}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -183,7 +189,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="email"
                                 value={employeeData.email}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -194,7 +200,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="phone_number"
                                 value={employeeData.phone_number}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -204,7 +210,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="country"
                                 value={employeeData.country}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             >
                                 <option value="">Select Country</option>
                                 {countries.length > 0 ? (
@@ -226,7 +232,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="city"
                                 value={employeeData.city}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -237,7 +243,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="work_start"
                                 value={employeeData.work_start}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -248,7 +254,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="work_end"
                                 value={employeeData.work_end}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -259,7 +265,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="manager_id"
                                 value={employeeData.manager_id}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -270,7 +276,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="position"
                                 value={employeeData.position}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -281,7 +287,7 @@ function AddDeptEmpForm({ department, onClose }) {
                                 name="hired_date"
                                 value={employeeData.hired_date}
                                 onChange={handleEmployeeChange}
-                                required
+                                // required
                             />
                         </div>
                         <div className="form-group">
@@ -305,6 +311,29 @@ function AddDeptEmpForm({ department, onClose }) {
                         </div>
                     </>
                 )}
+
+                {formType === "employee" && isFormSubmitted && (
+                    <div className="form-group">
+                        <label>Do you want to configure allowances now?</label>
+                        <div>
+                            <button
+                                type="button"
+                                className="yes-button"
+                                onClick={() => setRedirectToOtherForm(true)}
+                            >
+                                Yes
+                            </button>
+                            <button
+                                type="button"
+                                className="no-button"
+                                onClick={() => setRedirectToOtherForm(false)}
+                            >
+                                No
+                            </button>
+                        </div>
+                    </div>
+                )}
+
                 <div className="form-actions">
                     <button type="submit" className="submit-button">Save</button>
                     <button type="button" className="cancel-button" onClick={onClose}>
