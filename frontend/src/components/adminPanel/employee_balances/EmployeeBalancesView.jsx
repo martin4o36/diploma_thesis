@@ -1,12 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import api from "../../../api";
+import {
+    ChevronDown,
+    ChevronUp,
+    ChevronLeft,
+    ChevronRight,
+    Calendar,
+    Clock,
+    MessageSquare,
+    Search,
+} from "lucide-react";
+import debounce from "lodash/debounce";
+import "../../../styles/adminPanelStyles/balances/EmployeeBalanceStyles.css";
 
 function EmployeeBalancesView() {
     const [employees, setEmployees] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [selectedEmployee, setSelectedEmployee] = useState(null);
-    const [balance, setBalance] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
+    const [sortOption, setSortOption] = useState("name");
+    const [expandedEmployee, setExpandedEmployee] = useState(null);
+    const [isSortDropdownExpanded, setSortDropdownExpanded] = useState(false);
+    const [balances, setBalances] = useState(null);
     const [allowances, setAllowances] = useState(null);
+
+    const debouncedSearch = debounce((value) => {
+        setSearchQuery(value);
+        setCurrentPage(1);
+    }, 300);
 
     useEffect(() => {
         const fetchAllEmployees = async () => {
@@ -14,7 +35,7 @@ function EmployeeBalancesView() {
                 const response = await api.get("/api/employee/all/");
                 setEmployees(response.data);
             } catch (error) {
-                console.log("Error fetching employees:", error);
+                console.error("Error fetching employees:", error);
             }
         };
 
@@ -23,86 +44,170 @@ function EmployeeBalancesView() {
 
     const fetchDetails = async (employee_id) => {
         try {
-            // Fetch Allowance
             const allowancesResponse = await api.get(`/api/allowance/${employee_id}/`);
             setAllowances(allowancesResponse.data);
 
-            // Fetch Balance
             const balanceResponse = await api.get(`/api/balance/${employee_id}`);
-            setBalance(balanceResponse.data);
+            setBalances(balanceResponse.data);
         } catch (error) {
             console.error("Error fetching employee details:", error);
         }
     };
 
-    const handleShowDetails = (employee) => {
-        setSelectedEmployee(employee);
-        setShowModal(true);
-        setBalance(null);
-        setAllowances(null);
-        fetchDetails(employee.employee_id);
+    const handleExpandCollapse = (employee) => {
+        if (expandedEmployee === employee.employee_id) {
+            setExpandedEmployee(null);
+        } else {
+            setExpandedEmployee(employee.employee_id);
+            fetchDetails(employee.employee_id);
+        }
     };
 
-    const handleCloseModal = () => {
-        setShowModal(false);
-        setSelectedEmployee(null);
-        setBalance(null);
-        setAllowances(null);
-    };
+    const filteredEmployees = useMemo(() => {
+        let results = employees.filter(
+            (emp) =>
+                emp.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                emp.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                emp.position.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        if (sortOption === "name") {
+            results.sort((a, b) =>
+                `${a.first_name} ${a.last_name}`.localeCompare(`${b.first_name} ${b.last_name}`)
+            );
+        } else if (sortOption === "position") {
+            results.sort((a, b) => a.position.localeCompare(b.position));
+        }
+
+        return results;
+    }, [employees, searchQuery, sortOption]);
+
+    const paginatedEmployees = useMemo(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        return filteredEmployees.slice(startIndex, startIndex + itemsPerPage);
+    }, [filteredEmployees, currentPage, itemsPerPage]);
 
     return (
-        <div>
-            <h3>Employee Balances</h3>
-            <ul>
-                {employees.map((employee) => (
-                    <li key={employee.employee_id}>
-                        <strong>
-                            {employee.first_name} {employee.middle_name} {employee.last_name}
-                        </strong>{" "}
-                        - <em>{employee.position}</em>
-                        <span
-                            className="fa fa-info-circle"
-                            style={{ marginLeft: "10px", cursor: "pointer" }}
-                            onClick={() => handleShowDetails(employee)}
-                        ></span>
-                    </li>
-                ))}
-            </ul>
-
-            {showModal && selectedEmployee && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h4>Employee Details</h4>
-                        <p>
-                            <strong>Name:</strong> {selectedEmployee.first_name}{" "}
-                            {selectedEmployee.middle_name} {selectedEmployee.last_name}
-                        </p>
-                        <p>
-                            <strong>Position:</strong> {selectedEmployee.position}
-                        </p>
-
-                        <h5>Allowance</h5>
-                        {allowances ? (
-                            <ul>
-                                {allowances.map((allowance) => (
-                                    <li key={allowance.allowance_id}>
-                                            <strong>Leave Type:</strong> {allowance.leave_type} 
-                                            <strong>Days:</strong> {allowance.days} 
-                                            <strong>Period:</strong>{" "} 
-                                            {allowance.period_start_date} to{" "} 
-                                            {allowance.period_end_date}
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p>Loading allowances...</p>
+        <div className="balance-container">
+            <header className="balance-header">
+                <h1>Employee Vacation Details</h1>
+                <div className="balance-controls">
+                    <div className="balance-search-container">
+                        <Search />
+                        <input
+                            type="text"
+                            placeholder="Search employees..."
+                            onChange={(e) => debouncedSearch(e.target.value)}
+                        />
+                    </div>
+                    <div className="balance-sort-container">
+                        <div
+                            className="balance-sort-header"
+                            onClick={() => setSortDropdownExpanded(!isSortDropdownExpanded)}
+                        >
+                            <span>{sortOption === "name" ? "Sort by Name" : "Sort by Position"}</span>
+                            {isSortDropdownExpanded ? <ChevronUp /> : <ChevronDown />}
+                        </div>
+                        {isSortDropdownExpanded && (
+                            <div className="balance-sort-options">
+                                <button
+                                    onClick={() => {
+                                        setSortOption("name");
+                                        setSortDropdownExpanded(false);
+                                    }}
+                                >
+                                    Sort by Name
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setSortOption("position");
+                                        setSortDropdownExpanded(false);
+                                    }}
+                                >
+                                    Sort by Position
+                                </button>
+                            </div>
                         )}
-                        <button onClick={handleCloseModal} className="close-modal-btn">
-                            Close
-                        </button>
                     </div>
                 </div>
-            )}
+            </header>
+
+            <div className="balance-employee-list">
+                {paginatedEmployees.map((employee) => (
+                    <div key={employee.employee_id} className="balance-employee-card">
+                        <div className="balance-employee-header" onClick={() => handleExpandCollapse(employee)}>
+                            <div>
+                                <h2>{`${employee.first_name} ${employee.last_name}`}</h2>
+                                <p>{employee.position}</p>
+                            </div>
+                            {expandedEmployee === employee.employee_id ? <ChevronUp /> : <ChevronDown />}
+                        </div>
+                        {expandedEmployee === employee.employee_id && (
+                            <div className="balance-employee-details">
+                                <div className="allowance-container">
+                                    <h3 className="balance-section-title">Allowance Details</h3>
+                                    {allowances &&
+                                        allowances.map((allowance) => (
+                                            <div key={allowance.allowance_id} className="allowance-item">
+                                                <p>
+                                                    <Calendar /> <strong>{allowance.leave_type_name}</strong>
+                                                </p>
+                                                <p>{`${allowance.period_start_date} - ${allowance.period_end_date}`}</p>
+                                                <p>
+                                                    <strong>Allowance:</strong> {allowance.days} days (Carry forward:{" "}
+                                                    {allowance.bring_forward})
+                                                </p>
+                                                {allowance.comment && (
+                                                    <p>
+                                                        <MessageSquare /> {allowance.comment}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        ))}
+                                </div>
+                                <div className="balance-container">
+                                    <h3 className="balance-section-title">Current Balance</h3>
+                                    {balances &&
+                                        balances.map((balance) => (
+                                            <div key={balance.eb_id} className="balance-item">
+                                                <Clock />
+                                                <p>
+                                                    <strong>{balance.leave_type_name}:</strong> {balance.days_left} days
+                                                </p>
+                                            </div>
+                                        ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+
+            <footer className="balance-pagination">
+                <button
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                >
+                    <ChevronLeft />
+                </button>
+                <span>
+                    {currentPage}
+                </span>
+                <button
+                    onClick={() =>
+                        setCurrentPage((prev) =>
+                            currentPage < Math.ceil(filteredEmployees.length / itemsPerPage)
+                                ? prev + 1
+                                : prev
+                        )
+                    }
+                    disabled={
+                        currentPage >= Math.ceil(filteredEmployees.length / itemsPerPage)
+                    }
+                >
+                    <ChevronRight />
+                </button>
+            </footer>
         </div>
     );
 }

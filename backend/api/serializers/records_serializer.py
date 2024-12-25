@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models_dir.records_models import LeaveType, EmployeeAllowance
+from ..models_dir.records_models import LeaveType, EmployeeAllowance, EmployeeBalance
 from ..models_dir.employee_models import NonWorkingDay
 
 class LeaveTypeSerializer(serializers.ModelSerializer):
@@ -25,6 +25,26 @@ class NonWorkingDaySerializer(serializers.ModelSerializer):
 
 
 class EmployeeAllowanceSerializer(serializers.ModelSerializer):
+    leave_type_name = serializers.CharField(source="leave_type.leave_name", read_only=True)
+
     class Meta:
         model = EmployeeAllowance
-        fields = '__all__'
+        fields = [
+            "allowance_id",
+            "employee",
+            "leave_type",
+            "leave_type_name",
+            "period_start_date",
+            "period_end_date",
+            "days",
+            "bring_forward",
+            "comment",
+        ]
+
+
+class EmployeeBalanceSerializer(serializers.ModelSerializer):
+    leave_type_name = serializers.CharField(source="leave_type.leave_name", read_only=True)
+
+    class Meta:
+        model = EmployeeBalance
+        fields = ["eb_id", "employee", "leave_type", "leave_type_name", "days_left"]

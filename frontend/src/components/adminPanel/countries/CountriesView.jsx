@@ -65,9 +65,22 @@ function CountriesView() {
 
 
     // Countries actions handling
-    const handleAddCountry = () => {
-        console.log("Add country");
+    const handleAddCountry = async () => {
+        try {
+            await api.post("/api/country/add/", {
+                country_name: newCountryName
+            });
+            fetchCountries();
+            setNewCountryName("");
+            setShowAddCountry(false);
+        } catch (error) {
+            console.log("Error adding country:", error);
+        }
     };
+
+    const handleEditCountry = async () => {
+        
+    }
 
     const handleDeleteCountry = async (countryId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this country?");
@@ -84,7 +97,6 @@ function CountriesView() {
 
     // Non working days actions handling
     const handleAddNonWorkingDay = async () => {
-        console.log("Add non working day");
         try {
             await api.post("/api/non-working-days/add/", {
                 country_id: selectedCountry.country_id,
@@ -121,7 +133,7 @@ function CountriesView() {
 
 
     return (
-        <main className="countries-non-working-days-container">
+        <div className="countries-non-working-days-container">
             <h1 className="countries-non-working-days-heading">
                 Holiday Calendar Manager
             </h1>
@@ -168,7 +180,7 @@ function CountriesView() {
                     {/* Country List */}
                     <ul className="countries-list">
                         {countries.map((country) => (
-                            <li key={country.country_id}>
+                            <li key={country.country_id} className="country-item-container">
                                 <button
                                     onClick={() => setSelectedCountry(country)}
                                     className={`country-item ${
@@ -179,6 +191,22 @@ function CountriesView() {
                                 >
                                     {country.country_name}
                                 </button>
+                                <div className="country-actions">
+                                    <button
+                                        onClick={() => handleEditCountry(country)}
+                                        className="country-edit-button"
+                                        aria-label="Edit country"
+                                    >
+                                        <Edit2 className="country-edit-icon" />
+                                    </button>
+                                    <button
+                                        onClick={() => handleDeleteCountry(country.country_id)}
+                                        className="country-delete-button"
+                                        aria-label="Delete country"
+                                    >
+                                        <Trash2 className="country-delete-icon" />
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>
@@ -388,8 +416,8 @@ function CountriesView() {
                     <p>No holidays to display</p>
                 )}
             </div>
-        </main>
-    );      
+        </div>
+    );
 }
 
 export default CountriesView;
