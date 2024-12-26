@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../../api";
 import "../../../styles/adminPanelStyles/leaveStyles/LeaveTypesStyles.css"
 import AddLeaveTypeForm from "./AddLeaveTypeForm";
-import { Trash2, Edit2 } from "lucide-react";
+import { Trash2, Edit2, Plus } from "lucide-react";
 
 
 function LeaveTypesView() {
@@ -44,7 +44,8 @@ function LeaveTypesView() {
             <div className="leave-types-header">
                 <h2>Leave Types</h2>
                 <button className="add-leave-button" onClick={() => setShowAddForm(true)}>
-                    <span>+</span> Add Leave Type
+                    <Plus size={20} />
+                    <span>Add Leave Type</span>
                 </button>
             </div>
 

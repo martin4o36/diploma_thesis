@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../../styles/adminPanelStyles/departmentStyles/OrgDepartments.css";
 import api from "../../../api";
 import AddDeptEmpForm from "./AddDeptEmpForm";
-import { Trash2, Edit2, User, Building2 } from "lucide-react"; 
+import { Trash2, Edit2, Plus, User, Building2 } from "lucide-react"; 
 
 function OrgDepartmentsView() {
     const [departments, setDepartments] = useState([]);
