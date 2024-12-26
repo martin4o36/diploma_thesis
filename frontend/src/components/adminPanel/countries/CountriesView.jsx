@@ -180,32 +180,37 @@ function CountriesView() {
                     {/* Country List */}
                     <ul className="countries-list">
                         {countries.map((country) => (
-                            <li key={country.country_id} className="country-item-container">
-                                <button
+                            <li key={country.country_id} className={`country-item-container ${selectedCountry?.country_id === country.country_id ? "selected-country" : ""}`}>
+                                <div
                                     onClick={() => setSelectedCountry(country)}
-                                    className={`country-item ${
-                                        selectedCountry?.country_id === country.country_id
-                                            ? "selected-country"
-                                            : "default-country"
-                                    }`}
+                                    className="country-item"
+                                    role="button"
+                                    tabIndex={0}
+                                    onKeyDown={(e) => e.key === "Enter" && setSelectedCountry(country)}
                                 >
-                                    {country.country_name}
-                                </button>
-                                <div className="country-actions">
-                                    <button
-                                        onClick={() => handleEditCountry(country)}
-                                        className="country-edit-button"
-                                        aria-label="Edit country"
-                                    >
-                                        <Edit2 className="country-edit-icon" />
-                                    </button>
-                                    <button
-                                        onClick={() => handleDeleteCountry(country.country_id)}
-                                        className="country-delete-button"
-                                        aria-label="Delete country"
-                                    >
-                                        <Trash2 className="country-delete-icon" />
-                                    </button>
+                                    <span className="country-name">{country.country_name}</span>
+                                    <div className="country-actions">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // Prevent triggering the parent click
+                                                handleEditCountry(country);
+                                            }}
+                                            className="country-edit-button"
+                                            aria-label="Edit country"
+                                        >
+                                            <Edit2 className="country-edit-icon" />
+                                        </button>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // Prevent triggering the parent click
+                                                handleDeleteCountry(country.country_id);
+                                            }}
+                                            className="country-delete-button"
+                                            aria-label="Delete country"
+                                        >
+                                            <Trash2 className="country-delete-icon" />
+                                        </button>
+                                    </div>
                                 </div>
                             </li>
                         ))}
@@ -311,20 +316,20 @@ function CountriesView() {
                                         })}
                                     </div>
                                     <div className="holiday-description">{day.description}</div>
-                                    <div className="nwd-action-buttons">
-                                        <button
-                                        onClick={() => handleEditNonWorkingDay(day)}
-                                        className="nwd-edit-button"
-                                        >
-                                        <Edit2 className="nwd-edit-icon" />
-                                        </button>
-                                        <button
-                                        onClick={() => handleDeleteNonWorkingDay(day.nwd_id)}
-                                        className="nwd-delete-button"
-                                        >
-                                        <Trash2 className="nwd-trash-icon" />
-                                        </button>
-                                    </div>
+                                        <div className="nwd-action-buttons">
+                                            <button
+                                                onClick={() => handleEditNonWorkingDay(day)}
+                                                className="country-edit-button"
+                                            >
+                                                <Edit2 className="country-edit-icon" />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteNonWorkingDay(day.nwd_id)}
+                                                className="country-delete-button"
+                                            >
+                                                <Trash2 className="country-delete-icon" />
+                                            </button>
+                                        </div>
                                     </div>
                                 )}
                                 </div>
@@ -350,11 +355,7 @@ function CountriesView() {
                 <div className="calendar-header">
                     <h3 className="calendar-title">Calendar View</h3>
                     <div className="calendar-navigation">
-                        <button
-                            onClick={prevMonth}
-                            className="prev-month-button"
-                            aria-label="Previous month"
-                        >
+                        <button onClick={prevMonth} className="prev-month-button" aria-label="Previous month">
                             <ChevronLeft className="left-icon" />
                         </button>
                         <span className="current-month">
@@ -363,11 +364,7 @@ function CountriesView() {
                                 year: "numeric",
                             })}
                         </span>
-                        <button
-                            onClick={nextMonth}
-                            className="next-month-button"
-                            aria-label="Next month"
-                        >
+                        <button onClick={nextMonth} className="next-month-button" aria-label="Next month">
                             <ChevronRight className="right-icon" />
                         </button>
                     </div>
@@ -396,16 +393,16 @@ function CountriesView() {
                                 day
                             );
 
+                            // Find the description for the non-working day
+                            const nonWorkingDay = nonWorkingDays.find(
+                                (d) => new Date(d.date).toLocaleDateString() === currentMonthDate.toLocaleDateString()
+                            );
+
                             return (
                                 <div
                                     key={day}
-                                    className={`calendar-day ${nonWorkingDays.some(
-                                        (d) =>
-                                            new Date(d.date).toLocaleDateString() ===
-                                            currentMonthDate.toLocaleDateString()
-                                    )
-                                        ? "non-working-day"
-                                        : ""}`}
+                                    className={`calendar-day ${nonWorkingDay ? "non-working-day" : ""}`}
+                                    {...(nonWorkingDay && { "data-description": nonWorkingDay.description })}
                                 >
                                     {day}
                                 </div>
@@ -413,7 +410,7 @@ function CountriesView() {
                         })}
                     </div>
                 ) : (
-                    <p>No holidays to display</p>
+                    <p>Select a country to display the calendar</p>
                 )}
             </div>
         </div>

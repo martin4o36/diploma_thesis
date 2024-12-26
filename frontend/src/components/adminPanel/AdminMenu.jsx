@@ -3,14 +3,14 @@ import "../../styles/adminPanelStyles/AdminMenu.css";
 import OrgDepartmentsView from "./organization/OrgDepartmentsView";
 import LeaveTypesView from "./leaveTypes/LeaveTypesView";
 import CountriesView from "./countries/CountriesView";
-import EmployeeBalancesView from "./employee_balances/EmployeeBalancesView";
+import EmployeeDetailsView from "./employee_balances/EmployeeDetailsView";
 
 function AdminMenu() {
     const menuItems = [
         { title: "Employees and Departments" },
         { title: "Leave Types" },
         { title: "Countries" },
-        { title: "Employee Balances" },
+        { title: "Employee Details" },
     ];
 
     const [selectedContent, setSelectedContent] = useState(menuItems[0].title);
@@ -47,7 +47,7 @@ function AdminMenu() {
                 {selectedContent === "Employees and Departments" && <OrgDepartmentsView /> }
                 {selectedContent === "Leave Types" && <LeaveTypesView /> }
                 {selectedContent === "Countries" && <CountriesView /> }
-                {selectedContent === "Employee Balances" && <EmployeeBalancesView /> }
+                {selectedContent === "Employee Details" && <EmployeeDetailsView /> }
             </div>
         </div>
     );

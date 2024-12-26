@@ -13,7 +13,7 @@ import {
 import debounce from "lodash/debounce";
 import "../../../styles/adminPanelStyles/balances/EmployeeBalanceStyles.css";
 
-function EmployeeBalancesView() {
+function EmployeeDetailsView() {
     const [employees, setEmployees] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -212,4 +212,4 @@ function EmployeeBalancesView() {
     );
 }
 
-export default EmployeeBalancesView;
+export default EmployeeDetailsView;

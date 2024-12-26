@@ -1,112 +1,127 @@
-.add-leave-container {
-    padding: 24px;
-    background: linear-gradient(145deg, #EFF3F7, #FFFFFF);
-    border-radius: 16px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    max-width: 600px;
-    margin: 40px auto;
-    font-family: 'Roboto', sans-serif;
-    transition: all 0.3s ease;
+/* Overlay */
+.add-leave-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
-.add-leave-container:hover {
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+/* Form Container */
+.add-leave-container {
+    padding: 32px;
+    background: linear-gradient(145deg, #ffffff, #f4f7fa);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    max-width: 550px;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* Header of Form */
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
 }
 
 .add-leave-title {
     font-size: 28px;
-    font-weight: bold;
-    color: #2E4156;
-    text-align: center;
-    margin-bottom: 24px;
-    letter-spacing: 1px;
+    font-weight: 600;
+    color: #283142;
+    margin: 0;
 }
 
+.close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #b0b9c3;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.close-button:hover {
+    color: #283142;
+    transform: scale(1.1);
+}
+
+/* Input Labels and Fields */
 .leave-label {
     display: block;
-    font-size: 16px;
-    color: #5E6C78;
+    font-size: 18px;
+    color: #5e6c78;
     margin-bottom: 8px;
     font-weight: 500;
-    letter-spacing: 0.5px;
 }
 
+/* Ensuring form input fields align perfectly */
 .leave-form-input {
     width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #C0C8CA;
-    border-radius: 8px;
+    padding: 14px 20px;
+    border: 1px solid #c0c8ca;
+    border-radius: 10px;
     font-size: 16px;
-    font-family: 'Roboto', sans-serif;
-    background-color: #FFFFFF;
+    margin-bottom: 20px; /* Adjusted spacing for better alignment */
+    box-sizing: border-box; /* Ensures padding and borders don't push beyond the container */
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Focus effect for inputs */
 .leave-form-input:focus {
-    border-color: #2E4156;
-    box-shadow: 0 0 8px rgba(46, 65, 86, 0.3);
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
     outline: none;
 }
 
-.leave-form-input::placeholder {
-    color: #A0A9B1;
-    font-style: italic;
-}
-
+/* Form Buttons */
 .form-buttons {
     display: flex;
     justify-content: space-between;
-    gap: 16px;
-    margin-top: 24px;
+    gap: 12px;
+    width: 100%; /* Ensure buttons align correctly */
 }
 
 .submit-leave-btn {
     flex: 1;
-    padding: 12px 16px;
-    background-color: #2E4156;
-    color: #ffffff;
+    padding: 14px 20px;
+    background: linear-gradient(145deg, #3498db, #6ab7fc);
+    color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
 }
 
 .submit-leave-btn:hover {
-    background-color: #3C536D;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.submit-leave-btn:disabled {
-    background-color: #A0A9B1;
-    cursor: not-allowed;
-    box-shadow: none;
+    background: linear-gradient(145deg, #2980b9, #3498db);
+    transform: translateY(-2px);
 }
 
 .cancel-leave-btn {
     flex: 1;
-    padding: 12px 16px;
-    background-color: #F0F4F8;
-    color: #5E6C78;
-    border: 1px solid #C0C8CA;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 14px 20px;
+    background-color: #f6f9fc;
+    color: #5e6c78;
+    border: 1px solid #c0c8ca;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .cancel-leave-btn:hover {
-    background-color: #E6EBEF;
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.cancel-leave-btn:disabled {
-    background-color: #F9FAFB;
-    cursor: not-allowed;
-    box-shadow: none;
+    background-color: #f1f5f9;
+    transform: translateY(-2px);
 }

@@ -73,9 +73,9 @@ function AddDeptEmpForm({ department, onClose }) {
                 Object.entries(employeeData).forEach(([key, value]) =>
                     formData.append(key, value)
                 );
-                // await api.post("/api/employee/add/", formData, {
-                //     headers: { "Content-Type": "multipart/form-data" },
-                // });
+                await api.post("/api/employee/add/", formData, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
                 setIsFormSubmitted(true);
             }
         } catch (error) {

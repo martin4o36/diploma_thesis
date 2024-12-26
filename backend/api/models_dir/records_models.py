@@ -9,6 +9,7 @@ class LeaveType(models.Model):
     leave_id = models.AutoField(primary_key=True)
     leave_name = models.CharField(max_length=255, null=False)
     days = models.IntegerField(null=False)
+    default_bring_forward_days = models.FloatField(null=True, blank=True, default=0)
 
     class Meta:
         db_table = 'leave_types'
@@ -16,8 +17,8 @@ class LeaveType(models.Model):
 
 class EmployeeAllowance(models.Model):
     allowance_id = models.AutoField(primary_key=True)
-    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
-    leave_type = models.ForeignKey(LeaveType, on_delete=models.DO_NOTHING)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE)
     period_start_date = models.DateField(null=False)
     period_end_date = models.DateField(null=False)
     days = models.FloatField(null=False)
@@ -32,8 +33,8 @@ class EmployeeAllowance(models.Model):
 # Tracks the current balance of every employee
 class EmployeeBalance(models.Model):
     eb_id = models.AutoField(primary_key=True)
-    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
-    leave_type = models.ForeignKey(LeaveType, on_delete=models.DO_NOTHING)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE)
     days_left = models.IntegerField(null=False)
 
     class Meta:

@@ -1,10 +1,12 @@
 import os
+from datetime import date
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models_dir.employee_models import Employee
+from ..models_dir.records_models import LeaveType, EmployeeAllowance, EmployeeBalance
 from ..serializers.emp_dep_serializer import EmployeeSerializer, EmployeeHomeMenuSerializer, EmployeeBalanceSerializer
 from ..models_dir.employee_models import Countries
 from django.contrib.auth.models import User
@@ -122,6 +124,8 @@ class CreateEmployee(APIView):
                 employee.profile_picture = file_path
                 employee.save()
 
+            createEmployeeAllowancesBalances(employee=employee)
+
             return Response({"message": "Employee created successfully", "employee_id": employee.employee_id}, status=201)
 
         except Countries.DoesNotExist:
@@ -144,3 +148,26 @@ class EditEmployee(APIView):
 
     def post(self, request):
         pass
+
+
+def createEmployeeAllowancesBalances(employee):
+    leave_types = LeaveType.objects.all()
+    current_year = date.today().year
+    period_start_date = date(current_year, 1, 1)
+    period_end_date = date(current_year, 12, 31)
+
+    for leave_type in leave_types:
+        EmployeeAllowance.objects.create(
+            employee=employee,
+            leave_type=leave_type,
+            period_start_date=period_start_date,
+            period_end_date=period_end_date,
+            days=leave_type.days,
+            bring_forward=leave_type.default_bring_forward_days
+        )
+
+        EmployeeBalance.objects.create(
+            employee=employee,
+            leave_type=leave_type,
+            days_left=leave_type.days
+        )

@@ -1,4 +1,3 @@
-/* Main container for the countries and non-working days view */
 .countries-non-working-days-container {
     display: flex;
     flex-direction: column;
@@ -8,7 +7,6 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Header for the entire container */
 .countries-non-working-days-heading {
     font-size: 2rem;
     font-weight: bold;
@@ -17,14 +15,12 @@
     color: #333;
 }
 
-/* Main layout for countries and non-working days */
 .countries-non-working-days-main {
     display: flex;
     justify-content: space-between;
-    gap: 20px; /* Added gap between the sections */
+    gap: 20px;
 }
 
-/* Left Section - Countries Manager */
 .countries-section {
     flex: 1;
     background-color: #ffffff;
@@ -33,7 +29,6 @@
     padding: 20px;
 }
 
-/* Countries header */
 .countries-header {
     display: flex;
     justify-content: space-between;
@@ -41,7 +36,6 @@
     margin-bottom: 20px;
 }
 
-/* Countries title */
 .countries-title {
     font-size: 1.5rem;
     display: flex;
@@ -53,7 +47,6 @@
     margin-right: 10px;
 }
 
-/* Add country button */
 .add-country-button {
     background-color: #4CAF50;
     color: white;
@@ -72,19 +65,79 @@
     height: 20px;
 }
 
+.countries-list {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.country-item-container {
+    background-color: #f9f9f9;
+    padding: 0; /* Remove padding for the li element */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    display: flex;
+    justify-content: flex-start; /* Align everything to the start */
+    align-items: center;
+    border: none;
+}
+
+.country-item-container.selected-country {
+    background-color: #fafafa; /* Soft background color like other sections */
+    border-left: 4px solid #2196F3; /* Border color to match the general blue theme */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for more depth */
+}
+
+/* Hover effect for the country item container */
+.country-item-container:hover {
+    background-color: #e6f7ff;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.country-item {
+    background-color: transparent;
+    width: 100%;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px; /* Padding around the content */
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.country-item:hover {
+    background-color: #e6f7ff;
+}
+
+.country-name {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px; /* Space between name and action buttons */
+}
+
 .country-actions {
     display: flex;
     gap: 10px;
-    justify-content: flex-end;
+    align-items: center;
 }
 
-/* Edit Country Button - Blue with white background and text */
 .country-edit-button,
-.nwd-edit-button {
+.country-delete-button {
     background-color: white;
-    color: #2196F3; /* Blue text */
-    border: 1px solid #2196F3; /* Blue border */
-    padding: 8px 12px;
+    padding: 8px;
+    border: 1px solid;
     cursor: pointer;
     border-radius: 5px;
     display: flex;
@@ -92,84 +145,32 @@
     gap: 8px;
 }
 
-.country-edit-button:hover,
-.nwd-edit-button:hover {
+.country-edit-button {
+    color: #2196F3;
+    border-color: #2196F3;
+}
+
+.country-edit-button:hover {
     background-color: #2196F3;
     color: white;
 }
 
-/* Edit Button Icon */
-.country-edit-icon,
-.nwd-edit-icon {
-    width: 20px;
-    height: 20px;
+.country-delete-button {
+    color: #f44336;
+    border-color: #f44336;
 }
 
-/* Delete Country Button - Same style for both sections (Countries and Non-working days) */
-.country-delete-button,
-.nwd-trash-button {
-    background-color: white;
-    color: #f44336; /* Red text */
-    padding: 8px 12px;
-    border: 1px solid #f44336;
-    cursor: pointer;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.country-delete-button:hover,
-.nwd-trash-button:hover {
+.country-delete-button:hover {
     background-color: #f44336;
     color: white;
 }
 
-/* Delete Button Icon */
-.country-delete-icon,
-.nwd-trash-icon {
+.country-edit-icon,
+.country-delete-icon {
     width: 20px;
     height: 20px;
 }
 
-/* Hover Effect on Edit and Delete Buttons */
-.country-edit-button:hover .country-edit-icon,
-.country-delete-button:hover .country-delete-icon,
-.nwd-edit-button:hover .nwd-edit-icon,
-.nwd-trash-button:hover .nwd-trash-icon {
-    transform: scale(1.1);
-}
-
-/* Countries list */
-.countries-list {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.country-item {
-    padding: 10px;
-    background-color: #f4f4f4;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    margin-bottom: 5px;
-    width: 100%;
-    text-align: left;
-    border-radius: 5px;
-}
-
-.selected-country {
-    background-color: #80e7a8;
-}
-
-.default-country {
-    background-color: #fff;
-}
-
-.country-item:hover {
-    background-color: #e0e0e0;
-}
-
-/* Right Section - Non-working Days Manager */
 .non-working-days-section {
     flex: 2;
     display: flex;
@@ -177,74 +178,37 @@
     gap: 20px;
 }
 
-/* Non-working days container */
 .non-working-days-container {
     padding: 20px;
-    background-color: #ffffff; /* White background */
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Non-working days title */
 .non-working-days-title {
     font-size: 1.5rem;
     margin-bottom: 20px;
 }
 
-/* Scrollable container for non-working days */
-.scrollable-non-working-days {
-    width: 100%;
-    max-width: 538px;
-    height: auto;
-    overflow-x: auto; /* Enable horizontal scrolling */
-    overflow-y: hidden; 
-    white-space: nowrap; /* Prevent wrapping of child elements */
-    border: 1px solid #ddd; /* Optional: add a border for clarity */
-    padding: 10px; /* Optional: add padding inside the container */
-    background-color: #f9f9f9; /* Optional: add a background color */
-    border-radius: 8px; /* Optional: round the corners */
-    display: flex; /* Ensures the cards stay in a row */
-    gap: 10px;
-}
-
-.non-working-day-card {
-    flex: 0 0 auto; /* Ensure cards don’t shrink or stretch */
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    margin: 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.2s ease-in-out;
-}
-
-.non-working-day-card:hover {
-    background-color: #e0e0e0;
-    cursor: pointer;
-}
-
-/* Add non-working day section */
 .add-non-working-day {
-    margin-bottom: 20px;
-}
-
-.input-fields {
     display: flex;
     gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .nwd-date-input,
 .nwd-description-input {
     padding: 8px;
-    width: 200px;
     border-radius: 5px;
     border: 1px solid #ccc;
+    width: 200px;
 }
 
 .add-non-working-day-button {
-    padding: 8px 16px;
     background-color: #4CAF50;
     color: white;
+    padding: 8px 16px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -254,107 +218,113 @@
     background-color: #45a049;
 }
 
-/* Non-working Days List */
-.non-working-days-list {
-    display: flex;
-    flex-direction: column;
-}
-
-.non-working-days-cards {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-/* Non-working day card */
-.non-working-day-card {
-    background-color: #f4f4f4;
+.scrollable-non-working-days {
+    width: 100%;
+    max-width: 538px;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    border: 1px solid #ddd;
     padding: 10px;
-    margin: 10px;
-    border: 1px solid #ccc;
-    width: 200px;
+    background-color: #f9f9f9;
     border-radius: 8px;
-    transition: background-color 0.3s ease;
+    display: flex;
+    gap: 10px;
+}
+
+.non-working-day-card {
+    flex: 0 0 auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease-in-out;
+    position: relative;
 }
 
 .non-working-day-card:hover {
     background-color: #e0e0e0;
+    cursor: pointer;
 }
 
-/* Actions for non-working day */
-.edit-day,
+.non-working-day-card:hover::after {
+    content: attr(data-description);
+    position: absolute;
+    bottom: -40px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .non-working-day-details {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
 }
 
-.nwd-edit-date-input,
-.nwd-edit-description-input {
-    padding: 8px;
-    width: 200px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.nwd-day-date {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
 }
 
-.nwd-edit-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.nwd-save-edit-button,
-.nwd-cancel-edit-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.nwd-save-edit-button:hover,
-.nwd-cancel-edit-button:hover {
-    background-color: #45a049;
+.holiday-description {
+    font-size: 0.9rem;
+    color: #666;
 }
 
 .nwd-action-buttons {
     display: flex;
     gap: 10px;
+    margin-top: 10px;
+}
+
+.nwd-edit-button,
+.nwd-delete-button {
+    background-color: white;
+    padding: 8px;
+    border: 1px solid;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .nwd-edit-button {
-    background-color: #2196F3;
-    color: white;
-    padding: 8px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    color: #2196F3;
+    border-color: #2196F3;
 }
 
 .nwd-edit-button:hover {
-    background-color: #1976D2;
+    background-color: #2196F3;
+    color: white;
 }
 
-.nwd-trash-button {
-    background-color: #ffffff;
+.nwd-delete-button {
     color: #f44336;
-    padding: 8px;
-    border: 1px solid #f44336;
-    cursor: pointer;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    border-color: #f44336;
 }
 
-.nwd-trash-button:hover {
+.nwd-delete-button:hover {
     background-color: #f44336;
     color: white;
 }
 
-/* Empty state when no country is selected */
+.nwd-edit-icon,
+.nwd-trash-icon {
+    width: 20px;
+    height: 20px;
+}
+
 .no-country-selected {
     text-align: center;
     margin-top: 50px;
@@ -374,14 +344,13 @@
     font-size: 1rem;
 }
 
-/* Calendar View */
 .calendar-container {
     margin-top: 40px;
     text-align: center;
-    background-color: #ffffff; /* White background */
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .calendar-header {
@@ -404,17 +373,20 @@
 
 .prev-month-button,
 .next-month-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 8px;
+    background-color: #eeeeee;
+    color: #333;
+    padding: 10px;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .prev-month-button:hover,
 .next-month-button:hover {
-    background-color: #45a049;
+    background-color: #d6d6d6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .current-month {
@@ -429,38 +401,63 @@
     margin-top: 20px;
 }
 
-/* Days of the week header */
 .calendar-day-header {
     font-weight: bold;
     color: #555;
-    background-color: #f4f4f4; /* Light grey background */
+    background-color: #f4f4f4;
     padding: 10px;
     text-align: center;
     border-radius: 5px;
 }
 
-/* Individual calendar days */
 .calendar-day {
     padding: 10px;
-    background-color: #f4f4f4;
+    background-color: #f9f9f9;
     text-align: center;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    border-radius: 8px;
+    position: relative;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .calendar-day:hover {
-    background-color: #e0e0e0; /* Lighter grey on hover */
+    background-color: #eaeaea;
+    transform: scale(1.05);
+}
+
+.calendar-day[data-description]:hover::after {
+    display: block; /* Show tooltip for non-working days */
+    content: attr(data-description);
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 
 .empty-cell {
-    background-color: #e0e0e0; /* Grey background for empty cells */
+    background-color: transparent;
 }
 
-/* Non-working day styling */
 .non-working-day {
-    background-color: #f44336;
-    color: white;
+    background-color: #e6f7ff;
+    color: #1890ff;
     font-weight: bold;
-    border-radius: 5px;
+    border: 1px solid #91d5ff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.non-working-day:hover {
+    background-color: #bae7ff;
+    color: #096dd9;
+    border-color: #69c0ff;
 }

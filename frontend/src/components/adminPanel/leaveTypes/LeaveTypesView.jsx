@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../../api";
 import "../../../styles/adminPanelStyles/leaveStyles/LeaveTypesStyles.css"
 import AddLeaveTypeForm from "./AddLeaveTypeForm";
+import { Trash2, Edit2 } from "lucide-react";
 
 
 function LeaveTypesView() {
@@ -21,11 +22,7 @@ function LeaveTypesView() {
         fetchLeaveTypes();
     }, []);
 
-    const handleEditLeaveTypeName = async (leaveId) => {
-        
-    }
-
-    const handleEditLeaveTypeDays = async (leaveId) => {
+    const handleEditLeaveType = async (leaveId) => {
         
     }
 
@@ -39,8 +36,6 @@ function LeaveTypesView() {
             } catch (error) {
                 console.error("Error deleting leave type:", error);
             }
-        } else {
-            console.log("Deletion cancelled");
         }
     }
 
@@ -48,8 +43,8 @@ function LeaveTypesView() {
         <div className="leave-types-container">
             <div className="leave-types-header">
                 <h2>Leave Types</h2>
-                <button className="add-leave-button" onClick={() => setShowAddForm(true)} >
-                    <i className="fa fa-plus"></i> Add Leave Type
+                <button className="add-leave-button" onClick={() => setShowAddForm(true)}>
+                    <span>+</span> Add Leave Type
                 </button>
             </div>
 
@@ -63,38 +58,39 @@ function LeaveTypesView() {
                 />
             )}
 
-            <ul className="leave-types-list">
-                {leaveTypes.map((leaveType) => (
-                    <li key={leaveType.leave_id} className="leave-type-item">
-                        <strong>{leaveType.leave_name}</strong>
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleEditLeaveTypeName(leaveType.leave_id);
-                            }}
-                        >
-                            <i className="fa fa-pencil"></i>
-                        </button>
-                        <span>{leaveType.days} days</span>
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleEditLeaveTypeDays(leaveType.leave_id);
-                            }}
-                        >
-                            <i className="fa fa-pencil"></i>
-                        </button>
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteLeaveType(leaveType.leave_id);
-                            }}
-                        >
-                            <i className="fa fa-trash"></i>
-                        </button>
-                    </li>
-                ))}
-            </ul>
+            <table className="leave-types-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Days</th>
+                        <th>Default Days to Bring Forward</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {leaveTypes.map((leaveType) => (
+                        <tr key={leaveType.leave_id}>
+                            <td>{leaveType.leave_name}</td>
+                            <td>{leaveType.days} days</td>
+                            <td>{leaveType.default_bring_forward_days} days</td>
+                            <td className="actions">
+                                <button
+                                    onClick={() => handleEditLeaveType(leaveType.leave_id)}
+                                    className="edit-btn"
+                                >
+                                    <Edit2 size={16} />
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteLeaveType(leaveType.leave_id)}
+                                    className="delete-btn"
+                                >
+                                    <Trash2 size={16} />
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }
