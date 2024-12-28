@@ -3,7 +3,7 @@ import api from "../../../api";
 import "../../../styles/adminPanelStyles/departmentStyles/AddDepartmentStyles.css";
 import ConfigureAllowance from "./ConfigureAllowance";
 
-function AddDeptEmpForm({ department, onClose }) {
+function AddDepartmentForm({ department, onClose }) {
     const departmentId = department?.key || 0;
     const [countries, setCountries] = useState([]);
     const [redirectToOtherForm, setRedirectToOtherForm] = useState(false);
@@ -345,4 +345,4 @@ function AddDeptEmpForm({ department, onClose }) {
     );
 }
 
-export default AddDeptEmpForm;
+export default AddDepartmentForm;

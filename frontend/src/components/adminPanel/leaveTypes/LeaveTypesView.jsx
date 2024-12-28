@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import api from "../../../api";
 import "../../../styles/adminPanelStyles/leaveStyles/LeaveTypesStyles.css"
 import AddLeaveTypeForm from "./AddLeaveTypeForm";
+import EditLeaveTypeForm from "./EditLeaveType";
 import { Trash2, Edit2, Plus } from "lucide-react";
 
 
 function LeaveTypesView() {
     const [leaveTypes, setLeaveTypes] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false);
+    const [showEditForm, setShowEditForm] = useState(false);
+    const [selectedLeaveType, setSelectedLeaveType] = useState(null);
 
     const fetchLeaveTypes = async () => {
         try {
@@ -22,8 +25,9 @@ function LeaveTypesView() {
         fetchLeaveTypes();
     }, []);
 
-    const handleEditLeaveType = async (leaveId) => {
-        
+    const handleEditLeaveType = async (leaveType) => {
+        setSelectedLeaveType(leaveType);
+        setShowEditForm(true);
     }
 
     const handleDeleteLeaveType = async (leaveId) => {
@@ -59,6 +63,17 @@ function LeaveTypesView() {
                 />
             )}
 
+            {showEditForm && selectedLeaveType && (
+                <EditLeaveTypeForm
+                    leaveType={selectedLeaveType}
+                    onSuccess={() => {
+                        fetchLeaveTypes();
+                        setShowEditForm(false);
+                    }}
+                    onCancel={() => setShowEditForm(false)}
+                />
+            )}
+
             <table className="leave-types-table">
                 <thead>
                     <tr>
@@ -76,7 +91,7 @@ function LeaveTypesView() {
                             <td>{leaveType.default_bring_forward_days} days</td>
                             <td className="actions">
                                 <button
-                                    onClick={() => handleEditLeaveType(leaveType.leave_id)}
+                                    onClick={() => handleEditLeaveType(leaveType)}
                                     className="edit-btn"
                                 >
                                     <Edit2 size={16} />

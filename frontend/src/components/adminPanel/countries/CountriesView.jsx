@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import api from "../../../api";
 import "../../../styles/adminPanelStyles/countryStyles/CountriesViewStyles.css";
 import { Calendar, ChevronLeft, ChevronRight, Plus, Trash2, Edit2, Save, X} from "lucide-react";
+import EditNonWorkingDay from "./EditNonWorkingDay";
+import CalendarView from "./CalendarView";
 
 function CountriesView() {
     const [countries, setCountries] = useState([]);
@@ -9,9 +11,10 @@ function CountriesView() {
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [newCountryName, setNewCountryName] = useState("");
     const [showAddCountry, setShowAddCountry] = useState(false);
+    const [showEditCountry, setShowEditCountry] = useState(false);
+    const [countryToEdit, setCountryToEdit] = useState(null);
     const [editingDay, setEditingDay] = useState(null);
     const [newNonWorkingDay, setNewNonWorkingDay] = useState({ date: "", description: "" });
-    const [currentDate, setCurrentDate] = useState(new Date());
 
     const fetchCountries = async () => {
         try {
@@ -41,28 +44,7 @@ function CountriesView() {
             fetchNonWorkingDays(selectedCountry.country_id);
         }
     }, [selectedCountry]);
-
-
-    const nextMonth = () => {
-        setCurrentDate(
-        new Date(currentDate.getFullYear(), currentDate.getMonth() + 1),
-        );
-    };
-
-    const prevMonth = () => {
-        setCurrentDate(
-        new Date(currentDate.getFullYear(), currentDate.getMonth() - 1),
-        );
-    };
-
-    const getDaysInMonth = (date) => {
-        return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    };
-
-    const getFirstDayOfMonth = (date) => {
-        return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-    };
-
+    
 
     // Countries actions handling
     const handleAddCountry = async () => {
@@ -78,8 +60,10 @@ function CountriesView() {
         }
     };
 
-    const handleEditCountry = async () => {
-        
+    const handleEditCountry = async (country) => {
+        setCountryToEdit(country);
+        setNewCountryName(country.country_name);
+        setShowEditCountry(true);
     }
 
     const handleDeleteCountry = async (countryId) => {
@@ -93,6 +77,21 @@ function CountriesView() {
             }
         }
     };
+
+    const handleSaveEditCountry = async () => {
+        try {
+            // await api.put(`/api/country/${countryToEdit.country_id}/edit/`, {
+            //     country_name: newCountryName,
+            // });
+            console.log(newCountryName);
+            fetchCountries();
+            setCountryToEdit(null);
+            setNewCountryName("");
+            setShowEditCountry(false);
+        } catch (error) {
+            console.error("Error editing country:", error);
+        }    
+    }
 
 
     // Non working days actions handling
@@ -123,12 +122,12 @@ function CountriesView() {
         }
     };
 
-    const handleEditNonWorkingDay = (day) => {
-        console.log("Editing non working day", day)
-    };
-
-    const handleSaveEdit = () => {
-        console.log("Save edit");
+    const handleSaveEditDay = async (updatedDay) => {
+        try {
+            console.log("Save edit, ", updatedDay);
+        } catch (error) {
+            console.error("Error saving edited non-working day:", error);
+        }
     };
 
 
@@ -174,8 +173,44 @@ function CountriesView() {
                             >
                                 Add
                             </button>
+
+                            <button
+                                onClick={() => setShowAddCountry(false)}
+                                className="add-country-cancel"
+                            >
+                                Cancel
+                            </button>
                         </div>
                     )}
+
+                    {showEditCountry && countryToEdit ? (
+                        <div className="edit-country-section">
+                            <input
+                                type="text"
+                                value={newCountryName}
+                                onChange={(e) => setNewCountryName(e.target.value)}
+                                placeholder="Enter new country name"
+                                className="country-name-input"
+                                aria-label="Edit country name"
+                            />
+                            <button
+                                onClick={handleSaveEditCountry}
+                                className="edit-country-submit"
+                            >
+                                Save
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setCountryToEdit(null);
+                                    setNewCountryName("");
+                                    setShowEditCountry(false);
+                                }}
+                                className="edit-country-cancel"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    ) : null}
 
                     {/* Country List */}
                     <ul className="countries-list">
@@ -198,7 +233,7 @@ function CountriesView() {
                                             className="country-edit-button"
                                             aria-label="Edit country"
                                         >
-                                            <Edit2 className="country-edit-icon" />
+                                            <Edit2 className="country-edit-icon" onClick={() => setShowEditCountry(true)} />
                                         </button>
                                         <button
                                             onClick={(e) => {
@@ -262,49 +297,15 @@ function CountriesView() {
 
                         {/* Non-working Days List */}
                         <div className="non-working-days-list">
-                            {/* Scrollable Section for Non-working Days */}
                             <div className="scrollable-non-working-days">
                             {nonWorkingDays.map((day) => (
                                 <div key={day.nwd_id} className="non-working-day-card">
                                 {editingDay?.nwd_id === day.nwd_id ? (
-                                    <div className="edit-day">
-                                    <input
-                                        type="date"
-                                        value={editingDay.date}
-                                        onChange={(e) =>
-                                        setEditingDay({
-                                            ...editingDay,
-                                            date: e.target.value,
-                                        })
-                                        }
-                                        className="nwd-edit-date-input"
+                                    <EditNonWorkingDay
+                                        editingDay={editingDay}
+                                        onSave={handleSaveEditDay}
+                                        onCancel={() => setEditingDay(null)}
                                     />
-                                    <input
-                                        type="text"
-                                        value={editingDay.description}
-                                        onChange={(e) =>
-                                        setEditingDay({
-                                            ...editingDay,
-                                            description: e.target.value,
-                                        })
-                                        }
-                                        className="nwd-edit-description-input"
-                                    />
-                                    <div className="nwd-edit-actions">
-                                        <button
-                                        onClick={handleSaveEdit}
-                                        className="nwd-save-edit-button"
-                                        >
-                                        <Save className="icon" />
-                                        </button>
-                                        <button
-                                        onClick={() => setEditingDay(null)}
-                                        className="nwd-cancel-edit-button"
-                                        >
-                                        <X className="nwd-cancel-icon" />
-                                        </button>
-                                    </div>
-                                    </div>
                                 ) : (
                                     <div className="non-working-day-details">
                                     <div className="nwd-day-date">
@@ -318,7 +319,7 @@ function CountriesView() {
                                     <div className="holiday-description">{day.description}</div>
                                         <div className="nwd-action-buttons">
                                             <button
-                                                onClick={() => handleEditNonWorkingDay(day)}
+                                                onClick={() => setEditingDay(day)}
                                                 className="country-edit-button"
                                             >
                                                 <Edit2 className="country-edit-icon" />
@@ -349,70 +350,11 @@ function CountriesView() {
                     )}
                 </div>
             </div>
-
-            {/* Calendar View */}
-            <div className="calendar-container">
-                <div className="calendar-header">
-                    <h3 className="calendar-title">Calendar View</h3>
-                    <div className="calendar-navigation">
-                        <button onClick={prevMonth} className="prev-month-button" aria-label="Previous month">
-                            <ChevronLeft className="left-icon" />
-                        </button>
-                        <span className="current-month">
-                            {currentDate.toLocaleString("default", {
-                                month: "long",
-                                year: "numeric",
-                            })}
-                        </span>
-                        <button onClick={nextMonth} className="next-month-button" aria-label="Next month">
-                            <ChevronRight className="right-icon" />
-                        </button>
-                    </div>
-                </div>
-
-                {/* Calendar Days */}
-                {selectedCountry ? (
-                    <div className="calendar-grid">
-                        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                            <div key={day} className="calendar-day-header">
-                                {day}
-                            </div>
-                        ))}
-                        {Array.from({
-                            length: getFirstDayOfMonth(currentDate),
-                        }).map((_, index) => (
-                            <div key={`empty-${index}`} className="empty-cell" />
-                        ))}
-                        {Array.from({
-                            length: getDaysInMonth(currentDate),
-                        }).map((_, index) => {
-                            const day = index + 1;
-                            const currentMonthDate = new Date(
-                                currentDate.getFullYear(),
-                                currentDate.getMonth(),
-                                day
-                            );
-
-                            // Find the description for the non-working day
-                            const nonWorkingDay = nonWorkingDays.find(
-                                (d) => new Date(d.date).toLocaleDateString() === currentMonthDate.toLocaleDateString()
-                            );
-
-                            return (
-                                <div
-                                    key={day}
-                                    className={`calendar-day ${nonWorkingDay ? "non-working-day" : ""}`}
-                                    {...(nonWorkingDay && { "data-description": nonWorkingDay.description })}
-                                >
-                                    {day}
-                                </div>
-                            );
-                        })}
-                    </div>
-                ) : (
-                    <p>Select a country to display the calendar</p>
-                )}
-            </div>
+            
+            <CalendarView
+                selectedCountry={selectedCountry}
+                nonWorkingDays={nonWorkingDays}
+            />
         </div>
     );
 }
