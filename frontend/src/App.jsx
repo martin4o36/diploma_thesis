@@ -24,7 +24,7 @@ function App() {
   useEffect(() => {
     const fetchDataForMenu = async () => {
         try {
-            const permissionsResponse = await api.get("/api/user-permissions/");
+            // const permissionsResponse = await api.get("/api/user-permissions/");
 
         } catch (error) {
             console.error("Error fetching leave types:", error);

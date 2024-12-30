@@ -42,3 +42,21 @@ class LeaveTypeDeleteView(APIView):
             return Response({"error": "Leave type not found"}, status=404)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+        
+
+class LeaveTypeEditView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, leave_id):
+        try:
+            leave_type = LeaveType.objects.get(leave_id=leave_id)
+            print(leave_type)
+        except LeaveType.DoesNotExist:
+            return Response({"error": "Leave type not found"}, status=404)
+        
+        serializer = LeaveTypeSerializer(leave_type, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        
+        return Response(serializer.errors, status=400)

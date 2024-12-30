@@ -1,0 +1,127 @@
+.add-leave-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.add-leave-container {
+    padding: 32px;
+    background: linear-gradient(145deg, #ffffff, #f4f7fa);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    max-width: 550px;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.add-leave-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #283142;
+    margin: 0;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #b0b9c3;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.close-button:hover {
+    color: #283142;
+    transform: scale(1.1);
+}
+
+.leave-label {
+    display: block;
+    font-size: 18px;
+    color: #5e6c78;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.leave-form-input {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1px solid #c0c8ca;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.leave-form-input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+    outline: none;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.submit-leave-btn {
+    flex: 1;
+    padding: 14px 20px;
+    background: linear-gradient(145deg, #3498db, #6ab7fc);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-leave-btn:hover {
+    background: linear-gradient(145deg, #2980b9, #3498db);
+    transform: translateY(-2px);
+}
+
+.cancel-leave-btn {
+    flex: 1;
+    padding: 14px 20px;
+    background-color: #f6f9fc;
+    color: #5e6c78;
+    border: 1px solid #c0c8ca;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-leave-btn:hover {
+    background-color: #f1f5f9;
+    transform: translateY(-2px);
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}

@@ -22,6 +22,7 @@ class NonWorkingDaySerializer(serializers.ModelSerializer):
     class Meta:
         model = NonWorkingDay
         fields = '__all__'
+        read_only_fields = ['nwd_id', 'country']
 
 
 class EmployeeAllowanceSerializer(serializers.ModelSerializer):

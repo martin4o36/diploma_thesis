@@ -1,5 +1,6 @@
 import { Save, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import "../../../styles/adminPanelStyles/countryStyles/EditNonWorkingDay.css"
 
 function EditNonWorkingDay({ editingDay, onSave, onCancel }) {
     const [formData, setFormData] = useState({ date: "", description: "" });
@@ -32,38 +33,43 @@ function EditNonWorkingDay({ editingDay, onSave, onCancel }) {
     };
 
     return (
-        <div className="edit-non-working-day-modal">
-            <h3>Edit Non-Working Day</h3>
-            <div className="edit-form">
-                <label>
-                    Date:
-                    <input
-                        type="date"
-                        name="date"
-                        value={formData.date}
-                        onChange={handleInputChange}
-                        className="edit-date-input"
-                    />
-                </label>
-                <label>
-                    Description:
-                    <input
-                        type="text"
-                        name="description"
-                        value={formData.description}
-                        onChange={handleInputChange}
-                        placeholder="Holiday description"
-                        className="edit-description-input"
-                    />
-                </label>
-            </div>
-            <div className="edit-actions">
-                <button onClick={handleSave} className="save-edit-button">
-                    <Save className="icon" /> Save
-                </button>
-                <button onClick={onCancel} className="cancel-edit-button">
-                    <X className="icon" /> Cancel
-                </button>
+        <div>
+            <div className="edit-non-working-day-overlay" onClick={onCancel}></div>
+            <div className="edit-non-working-day-modal">
+                <h3 className="edit-modal-heading">Edit Non-Working Day</h3>
+                <div className="edit-form">
+                    <div className="edit-form-group">
+                        <label htmlFor="date" className="edit-form-label">Date:</label>
+                        <input
+                            id="date"
+                            type="date"
+                            name="date"
+                            value={formData.date}
+                            onChange={handleInputChange}
+                            className="edit-input"
+                        />
+                    </div>
+                    <div className="edit-form-group">
+                        <label htmlFor="description" className="edit-form-label">Description:</label>
+                        <input
+                            id="description"
+                            type="text"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleInputChange}
+                            placeholder="Holiday description"
+                            className="edit-input"
+                        />
+                    </div>
+                </div>
+                <div className="edit-actions">
+                    <button onClick={handleSave} className="edit-button edit-button-save">
+                        <Save className="edit-button-icon" /> Save
+                    </button>
+                    <button onClick={onCancel} className="edit-button edit-button-cancel">
+                        <X className="edit-button-icon" /> Cancel
+                    </button>
+                </div>
             </div>
         </div>
     );

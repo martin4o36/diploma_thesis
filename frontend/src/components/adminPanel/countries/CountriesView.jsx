@@ -13,6 +13,7 @@ function CountriesView() {
     const [showAddCountry, setShowAddCountry] = useState(false);
     const [showEditCountry, setShowEditCountry] = useState(false);
     const [countryToEdit, setCountryToEdit] = useState(null);
+    const [showAddNonWorkingDay, setShowAddNonWorkingDay] = useState(false);
     const [editingDay, setEditingDay] = useState(null);
     const [newNonWorkingDay, setNewNonWorkingDay] = useState({ date: "", description: "" });
 
@@ -80,9 +81,9 @@ function CountriesView() {
 
     const handleSaveEditCountry = async () => {
         try {
-            // await api.put(`/api/country/${countryToEdit.country_id}/edit/`, {
-            //     country_name: newCountryName,
-            // });
+            await api.put(`/api/country/${countryToEdit.country_id}/edit/`, {
+                country_name: newCountryName,
+            });
             console.log(newCountryName);
             fetchCountries();
             setCountryToEdit(null);
@@ -90,7 +91,7 @@ function CountriesView() {
             setShowEditCountry(false);
         } catch (error) {
             console.error("Error editing country:", error);
-        }    
+        }
     }
 
 
@@ -124,10 +125,15 @@ function CountriesView() {
 
     const handleSaveEditDay = async (updatedDay) => {
         try {
-            console.log("Save edit, ", updatedDay);
+            await api.put(`/api/non-working-days/${updatedDay.nwd_id}/edit/`, {
+                date: updatedDay.date,
+                description: updatedDay.description,
+            });
+            fetchNonWorkingDays(selectedCountry.country_id);
+            setEditingDay(null);
         } catch (error) {
             console.error("Error saving edited non-working day:", error);
-        }
+        }    
     };
 
 
@@ -158,59 +164,71 @@ function CountriesView() {
 
                     {/* Add Country Section */}
                     {showAddCountry && (
-                        <div className="add-country-section">
-                            <input
-                                type="text"
-                                value={newCountryName}
-                                onChange={(e) => setNewCountryName(e.target.value)}
-                                placeholder="Enter country name"
-                                className="country-name-input"
-                                aria-label="New country name"
-                            />
-                            <button
-                                onClick={handleAddCountry}
-                                className="add-country-submit"
-                            >
-                                Add
-                            </button>
-
-                            <button
-                                onClick={() => setShowAddCountry(false)}
-                                className="add-country-cancel"
-                            >
-                                Cancel
-                            </button>
+                        <div className="country-overlay" onClick={() => setShowAddCountry(false)}>
+                            <div className="country-modal" onClick={(e) => e.stopPropagation()}>
+                                <h3 className="modal-heading">Add New Country</h3>
+                                <div className="country-form">
+                                    <div className="country-form-group">
+                                        <label htmlFor="country-name" className="country-form-label">Country Name:</label>
+                                        <input
+                                            id="country-name"
+                                            type="text"
+                                            value={newCountryName}
+                                            onChange={(e) => setNewCountryName(e.target.value)}
+                                            placeholder="Enter country name"
+                                            className="country-input"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="country-actions">
+                                    <button onClick={handleAddCountry} className="country-button country-button-save">
+                                        <Save className="country-button-icon" /> Add
+                                    </button>
+                                    <button onClick={() => setShowAddCountry(false)} className="country-button country-button-cancel">
+                                        <X className="country-button-icon" /> Cancel
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     )}
 
-                    {showEditCountry && countryToEdit ? (
-                        <div className="edit-country-section">
-                            <input
-                                type="text"
-                                value={newCountryName}
-                                onChange={(e) => setNewCountryName(e.target.value)}
-                                placeholder="Enter new country name"
-                                className="country-name-input"
-                                aria-label="Edit country name"
-                            />
-                            <button
-                                onClick={handleSaveEditCountry}
-                                className="edit-country-submit"
-                            >
-                                Save
-                            </button>
-                            <button
-                                onClick={() => {
-                                    setCountryToEdit(null);
-                                    setNewCountryName("");
-                                    setShowEditCountry(false);
-                                }}
-                                className="edit-country-cancel"
-                            >
-                                Cancel
-                            </button>
+                    {/* Edit Country Section - Modal */}
+                    {showEditCountry && countryToEdit && (
+                        <div className="country-overlay" onClick={() => setShowEditCountry(false)}>
+                            <div className="country-modal" onClick={(e) => e.stopPropagation()}>
+                                <h3 className="modal-heading">Edit Country</h3>
+                                <div className="country-form">
+                                    <div className="country-form-group">
+                                        <label htmlFor="country-name" className="country-form-label">New Country Name:</label>
+                                        <input
+                                            id="country-name"
+                                            type="text"
+                                            value={newCountryName}
+                                            onChange={(e) => setNewCountryName(e.target.value)}
+                                            placeholder="Enter new country name"
+                                            className="country-input"
+                                            aria-label="Edit country name"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="country-actions">
+                                    <button onClick={handleSaveEditCountry} className="country-button country-button-save">
+                                        <Save className="country-button-icon" /> Save
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setCountryToEdit(null);
+                                            setNewCountryName("");
+                                            setShowEditCountry(false);
+                                        }}
+                                        className="country-button country-button-cancel"
+                                    >
+                                        <X className="country-button-icon" /> Cancel
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    ) : null}
+                    )}
 
                     {/* Country List */}
                     <ul className="countries-list">
@@ -256,95 +274,116 @@ function CountriesView() {
                 <div className="non-working-days-section">
                     {selectedCountry ? (
                         <div className="non-working-days-container">
-                        <h2 className="non-working-days-title">
-                            Non-working Days for {selectedCountry.country_name}
-                        </h2>
-
-                        {/* Add Non-working Day */}
-                        <div className="add-non-working-day">
-                            <div className="input-fields">
-                            <input
-                                type="date"
-                                value={newNonWorkingDay.date}
-                                onChange={(e) =>
-                                setNewNonWorkingDay({
-                                    ...newNonWorkingDay,
-                                    date: e.target.value,
-                                })
-                                }
-                                className="nwd-date-input"
-                            />
-                            <input
-                                type="text"
-                                value={newNonWorkingDay.description}
-                                onChange={(e) =>
-                                setNewNonWorkingDay({
-                                    ...newNonWorkingDay,
-                                    description: e.target.value,
-                                })
-                                }
-                                placeholder="Holiday description"
-                                className="nwd-description-input"
-                            />
-                            <button
-                                onClick={handleAddNonWorkingDay}
-                                className="add-non-working-day-button"
-                            >
-                                <Plus className="nwd-plus-icon" /> Add Holiday
-                            </button>
+                            <div className="non-working-days-header">
+                                <h2 className="non-working-days-title">
+                                    Non-working Days for {selectedCountry.country_name}
+                                </h2>
+                                <button
+                                    onClick={() => setShowAddNonWorkingDay(true)}
+                                    className="add-non-working-day-button"
+                                >
+                                    <Plus className="nwd-plus-icon" /> Add Holiday
+                                </button>
                             </div>
-                        </div>
 
-                        {/* Non-working Days List */}
-                        <div className="non-working-days-list">
-                            <div className="scrollable-non-working-days">
-                            {nonWorkingDays.map((day) => (
-                                <div key={day.nwd_id} className="non-working-day-card">
-                                {editingDay?.nwd_id === day.nwd_id ? (
-                                    <EditNonWorkingDay
-                                        editingDay={editingDay}
-                                        onSave={handleSaveEditDay}
-                                        onCancel={() => setEditingDay(null)}
-                                    />
-                                ) : (
-                                    <div className="non-working-day-details">
-                                    <div className="nwd-day-date">
-                                        {new Date(day.date).toLocaleDateString(undefined, {
-                                        weekday: "long",
-                                        year: "numeric",
-                                        month: "long",
-                                        day: "numeric",
-                                        })}
-                                    </div>
-                                    <div className="holiday-description">{day.description}</div>
-                                        <div className="nwd-action-buttons">
-                                            <button
-                                                onClick={() => setEditingDay(day)}
-                                                className="country-edit-button"
-                                            >
-                                                <Edit2 className="country-edit-icon" />
+                            {/* Add Non-working Day Modal */}
+                            {showAddNonWorkingDay && (
+                                <div className="country-overlay" onClick={() => setShowAddNonWorkingDay(false)}>
+                                    <div className="country-modal" onClick={(e) => e.stopPropagation()}>
+                                        <h3 className="modal-heading">Add New Holiday</h3>
+                                        <div className="country-form">
+                                            <div className="country-form-group">
+                                                <label htmlFor="nwd-date" className="country-form-label">Date:</label>
+                                                <input
+                                                    id="nwd-date"
+                                                    type="date"
+                                                    value={newNonWorkingDay.date}
+                                                    onChange={(e) =>
+                                                        setNewNonWorkingDay({
+                                                            ...newNonWorkingDay,
+                                                            date: e.target.value,
+                                                        })
+                                                    }
+                                                    className="country-input"
+                                                />
+                                            </div>
+                                            <div className="country-form-group">
+                                                <label htmlFor="nwd-description" className="country-form-label">Holiday Description:</label>
+                                                <input
+                                                    id="nwd-description"
+                                                    type="text"
+                                                    value={newNonWorkingDay.description}
+                                                    onChange={(e) =>
+                                                        setNewNonWorkingDay({
+                                                            ...newNonWorkingDay,
+                                                            description: e.target.value,
+                                                        })
+                                                    }
+                                                    placeholder="Enter holiday description"
+                                                    className="country-input"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="country-actions">
+                                            <button onClick={handleAddNonWorkingDay} className="country-button country-button-save">
+                                                <Save className="country-button-icon" /> Add Holiday
                                             </button>
-                                            <button
-                                                onClick={() => handleDeleteNonWorkingDay(day.nwd_id)}
-                                                className="country-delete-button"
-                                            >
-                                                <Trash2 className="country-delete-icon" />
+                                            <button onClick={() => setShowAddNonWorkingDay(false)} className="country-button country-button-cancel">
+                                                <X className="country-button-icon" /> Cancel
                                             </button>
                                         </div>
                                     </div>
-                                )}
                                 </div>
-                            ))}
+                            )}
+
+                            {/* Non-working Days List */}
+                            <div className="non-working-days-list">
+                                <div className="scrollable-non-working-days">
+                                    {nonWorkingDays.map((day) => (
+                                        <div key={day.nwd_id} className="non-working-day-card">
+                                            {editingDay?.nwd_id === day.nwd_id ? (
+                                                <EditNonWorkingDay
+                                                    editingDay={editingDay}
+                                                    onSave={handleSaveEditDay}
+                                                    onCancel={() => setEditingDay(null)}
+                                                />
+                                            ) : (
+                                                <div className="non-working-day-details">
+                                                    <div className="nwd-day-date">
+                                                        {new Date(day.date).toLocaleDateString(undefined, {
+                                                            weekday: "long",
+                                                            year: "numeric",
+                                                            month: "long",
+                                                            day: "numeric",
+                                                        })}
+                                                    </div>
+                                                    <div className="holiday-description">{day.description}</div>
+                                                    <div className="nwd-action-buttons">
+                                                        <button
+                                                            onClick={() => setEditingDay(day)}
+                                                            className="country-edit-button"
+                                                        >
+                                                            <Edit2 className="country-edit-icon" />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDeleteNonWorkingDay(day.nwd_id)}
+                                                            className="country-delete-button"
+                                                        >
+                                                            <Trash2 className="country-delete-icon" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
                         </div>
                     ) : (
                         <div className="no-country-selected">
                             <div className="no-country-message">
                                 <Calendar className="icon-large" />
-                                <p className="message">
-                                Select a country to manage non-working days
-                                </p>
+                                <p className="message">Select a country to manage non-working days</p>
                             </div>
                         </div>
                     )}

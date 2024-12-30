@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
+from enum import Enum
 
 
 # Create your models here.
@@ -22,13 +23,14 @@ class NonWorkingDay(models.Model):
         db_table = 'non_working_days'
 
 
-class Department(models.Model):
-    department_id = models.AutoField(primary_key=True)
-    dep_name = models.CharField(max_length=200)
-    parent_dept_id = models.IntegerField(default=0)
+class Status(Enum):
+    ACTIVE = "Active"
+    LEFT = "Left"
+    FIRED = "Fired"
 
-    class Meta:
-        db_table = 'departments'
+    @classmethod
+    def choices(cls):
+        return [(key.name, key.value) for key in cls]
 
 
 class Employee(models.Model):
@@ -40,7 +42,7 @@ class Employee(models.Model):
     age = models.IntegerField()
     email = models.CharField(max_length=100, null=False)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
-    country = models.ForeignKey(Countries, on_delete=models.DO_NOTHING)
+    country = models.ForeignKey(Countries, on_delete=models.SET_NULL, null=True)
     city = models.CharField(max_length=169)
     work_start = models.TimeField(null=False)
     work_end = models.TimeField(null=False)
@@ -50,14 +52,52 @@ class Employee(models.Model):
     hired_date = models.DateField(null=False)
     left_date = models.DateField(null=True, blank=True)
     profile_picture = models.ImageField(upload_to='employees/', null=True, blank=True)
+    status = models.CharField(
+        max_length=7,
+        choices=Status.choices(),
+        null=True,
+        blank=True,
+        default=Status.ACTIVE.name
+    )
+
+    class RoleChoices(models.TextChoices):
+        MANAGER = 'Manager', 'Manager'
+        HR = 'HR', 'Human Resources'
+        OWNER = 'Owner', 'Owner'
+
+    roles = models.JSONField(
+        default=list,
+        help_text="List of roles assigned to the employee"
+    )
+
+    def has_role(self, role):
+        """Check if the employee has the specified role."""
+        return self.role == role
+    
+    def add_role(self, role):
+        """Add a role to the employee if it doesn't already exist."""
+        if role not in self.roles:
+            self.roles.append(role)
+            self.save()
+
+    def remove_role(self, role):
+        """Remove a role from the employee."""
+        if role in self.roles:
+            self.roles.remove(role)
+            self.save()
 
     class Meta:
         db_table = 'employees'
-        permissions = [
-            ("Owner", "Can do everything"),
-            ("HR", "Can add, edit and delete people, leave types, countries etc and and export records of requests"),
-            ("Manager", "Can check certain things for his team etc"),
-        ]
+
+
+class Department(models.Model):
+    department_id = models.AutoField(primary_key=True)
+    dep_name = models.CharField(max_length=200)
+    parent_dept_id = models.IntegerField(default=0)
+    manager = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        db_table = 'departments'
 
 
 admin.site.register(Employee)

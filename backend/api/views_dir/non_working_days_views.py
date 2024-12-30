@@ -61,3 +61,19 @@ class DeleteNonWorkingDay(APIView):
         
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+        
+
+class EditNonWorkingDay(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, nwd_id):
+        try:
+            nwd = NonWorkingDay.objects.get(nwd_id=nwd_id)
+        except NonWorkingDay.DoesNotExist:
+            return Response({'error': 'Non-working day not found'}, status=404)
+        
+        serializer = NonWorkingDaySerializer(nwd, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)

@@ -10,7 +10,6 @@ from ..models_dir.records_models import LeaveType, EmployeeAllowance, EmployeeBa
 from ..serializers.emp_dep_serializer import EmployeeSerializer, EmployeeHomeMenuSerializer, EmployeeBalanceSerializer
 from ..models_dir.employee_models import Countries
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import permission_required
 
 
 class GetCurrentUserToManage(APIView):
@@ -53,7 +52,6 @@ class GetEmployeesByDepartmentID(APIView):
             return Response({"error": "Employees for department not found"}, status=404)
         
 
-# @permission_required(raise_exception=True)
 class GetAllEmployees(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -66,7 +64,6 @@ class GetAllEmployees(APIView):
             return Response({"error:" : "Employees not found"}, status=400)
         
 
-# @permission_required(raise_exception=True)
 class CreateEmployee(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -134,7 +131,6 @@ class CreateEmployee(APIView):
             return Response({"error": str(e)}, status=500)
         
 
-# @permission_required(raise_exception=True)
 class DeleteEmployee(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -142,7 +138,6 @@ class DeleteEmployee(APIView):
         pass
 
 
-# @permission_required(raise_exception=True)
 class EditEmployee(APIView):
     permission_classes = [IsAuthenticated]
 

@@ -9,7 +9,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token', TokenObtainPairView.as_view(), name='get_token'),
     path('api/token/refresh', TokenRefreshView.as_view(), name='refresh_token'),
-    path('api/user-permissions/', PermissionsList.as_view(), name='permissions_list'),
 
     path('api/employee/', include('api.urls_dir.employees_urls')),
     path('api/departments/', include('api.urls_dir.departments_urls')),
