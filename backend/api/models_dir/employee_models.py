@@ -47,7 +47,6 @@ class Employee(models.Model):
     work_start = models.TimeField(null=False)
     work_end = models.TimeField(null=False)
     department_id = models.IntegerField(default=0)
-    manager_id = models.IntegerField(default=0)
     position = models.CharField(max_length=100, null=False)
     hired_date = models.DateField(null=False)
     left_date = models.DateField(null=True, blank=True)

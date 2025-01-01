@@ -5,12 +5,12 @@ from django.core.files.base import ContentFile
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from ..models_dir.employee_models import Employee
+from ..models_dir.employee_models import Employee, Department
 from ..models_dir.records_models import LeaveType, EmployeeAllowance, EmployeeBalance
 from ..serializers.emp_dep_serializer import EmployeeSerializer, EmployeeHomeMenuSerializer, EmployeeBalanceSerializer
 from ..models_dir.employee_models import Countries
 from django.contrib.auth.models import User
-
+from ..permissions import HasRolePermissionWithRoles
 
 class GetCurrentUserToManage(APIView):
     permission_classes = [IsAuthenticated]
@@ -39,13 +39,9 @@ class GetCurrentUserToManageForHomeMenu(APIView):
 class GetEmployeesByDepartmentID(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def get(self, request, departmentId):
         try:
-            department_id = request.data.get('department_id')
-            if not department_id:
-                return Response({"error": "Department ID is required"}, status=400)
-            
-            employees = Employee.objects.filter(department_id=department_id)
+            employees = Employee.objects.filter(department_id=departmentId)
             serializer = EmployeeSerializer(employees, many=True)
             return Response(serializer.data, status=200)
         except:
@@ -58,14 +54,14 @@ class GetAllEmployees(APIView):
     def get(self, request):
         try:
             employees = Employee.objects.all()
-            serializer = EmployeeBalanceSerializer(employees, many=True)
+            serializer = EmployeeSerializer(employees, many=True)
             return Response(serializer.data, status=200)
         except Exception as e:
             return Response({"error:" : "Employees not found"}, status=400)
         
 
 class CreateEmployee(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
     def post(self, request):
         employee_data = request.data
@@ -129,20 +125,6 @@ class CreateEmployee(APIView):
             return Response({"error": "Country not found"}, status=404)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
-        
-
-class DeleteEmployee(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def delete(self, request):
-        pass
-
-
-class EditEmployee(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        pass
 
 
 def createEmployeeAllowancesBalances(employee):
@@ -166,3 +148,17 @@ def createEmployeeAllowancesBalances(employee):
             leave_type=leave_type,
             days_left=leave_type.days
         )
+
+
+class DeleteEmployee(APIView):
+    permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
+
+    def delete(self, request):
+        pass
+
+
+class EditEmployee(APIView):
+    permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
+
+    def put(self, request):
+        pass

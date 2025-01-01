@@ -1,4 +1,4 @@
-.add-department-modal {
+.edit-department-modal {
     background-color: #fff;
     position: fixed;
     top: 50%;
@@ -17,11 +17,11 @@
 }
 
 /* Modal header */
-.add-department-header {
+.edit-department-header {
     margin-bottom: 20px;
 }
 
-.add-department-title {
+.edit-department-title {
     font-size: 1.6rem;
     font-weight: bold;
     color: #333;
@@ -29,21 +29,21 @@
     margin-bottom: 8px;
 }
 
-.add-department-current-manager {
+.edit-department-current-manager {
     font-size: 1rem;
     color: #555;
     text-align: center;
 }
 
 /* Form container */
-.add-department-form {
+.edit-department-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
 /* Form group */
-.add-department-form-group {
+.edit-department-form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -51,15 +51,15 @@
 }
 
 /* Labels */
-.add-department-label {
+.edit-department-label {
     font-size: 1rem;
     font-weight: 500;
     color: #444;
 }
 
 /* Inputs and selects */
-.add-department-input,
-.add-department-select {
+.edit-department-input,
+.edit-department-select {
     padding: 12px 16px;
     border-radius: 8px;
     border: 1px solid #ccc;
@@ -70,28 +70,28 @@
     box-sizing: border-box;
 }
 
-.add-department-input:hover,
-.add-department-select:hover {
+.edit-department-input:hover,
+.edit-department-select:hover {
     border-color: #64b5f6;
     background-color: #ffffff;
 }
 
-.add-department-input:focus,
-.add-department-select:focus {
+.edit-department-input:focus,
+.edit-department-select:focus {
     border-color: #2196F3;
     outline: none;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* Actions container */
-.add-department-actions {
+.edit-department-actions {
     display: flex;
     justify-content: space-between;
     gap: 16px;
 }
 
 /* Buttons */
-.add-department-btn {
+.edit-department-btn {
     padding: 12px 24px;
     border-radius: 12px;
     border: none;
@@ -105,27 +105,27 @@
     transition: background-color 0.3s ease;
 }
 
-.add-department-btn.save {
+.edit-department-btn.save {
     background-color: #4CAF50;
     color: white;
 }
 
-.add-department-btn.cancel {
+.edit-department-btn.cancel {
     background-color: #f44336;
     color: white;
 }
 
-.add-department-btn.save:hover {
+.edit-department-btn.save:hover {
     background-color: #45a049;
 }
 
-.add-department-btn.cancel:hover {
+.edit-department-btn.cancel:hover {
     background-color: #d32f2f;
 }
 
 /* Fix for department name field alignment */
-.add-department-form-group input[type="text"],
-.add-department-form-group select {
+.edit-department-form-group input[type="text"],
+.edit-department-form-group select {
     padding: 12px 16px;
     width: 100%;
     font-size: 1rem;
@@ -137,14 +137,14 @@
     box-sizing: border-box;
 }
 
-.add-department-form-group input[type="text"]:hover,
-.add-department-form-group select:hover {
+.edit-department-form-group input[type="text"]:hover,
+.edit-department-form-group select:hover {
     border-color: #64b5f6;
     background-color: #ffffff;
 }
 
-.add-department-form-group input[type="text"]:focus,
-.add-department-form-group select:focus {
+.edit-department-form-group input[type="text"]:focus,
+.edit-department-form-group select:focus {
     border-color: #2196F3;
     outline: none;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
@@ -152,11 +152,11 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .add-department-modal {
+    .edit-department-modal {
         padding: 20px;
     }
 
-    .add-department-btn {
+    .edit-department-btn {
         padding: 10px 16px;
     }
 }

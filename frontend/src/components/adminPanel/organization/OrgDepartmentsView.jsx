@@ -5,7 +5,7 @@ import AddDepartmentForm from "./AddDepartmentForm";
 import AddEmployeeForm from "./AddEmployeeForm";
 import EditDepartment from "./EditDepartment";
 import EditEmployee from "./EditEmployee";
-import { Trash2, Edit2, Plus, User, Building2 } from "lucide-react"; 
+import { Trash2, Edit2, Plus, User, Building2 } from "lucide-react";
 
 function OrgDepartmentsView() {
     const [departments, setDepartments] = useState([]);
@@ -30,7 +30,7 @@ function OrgDepartmentsView() {
 
     const fetchEmployeesByDepartment = async (departmentId) => {
         try {
-            const response = await api.post("/api/employee/by-department/", { department_id: departmentId });
+            const response = await api.get(`/api/employee/${departmentId}/by-department/`);
             setEmployeesByDepartment((prev) => ({
                 ...prev,
                 [departmentId]: response.data,
@@ -125,9 +125,8 @@ function OrgDepartmentsView() {
 
                 {isExpanded && (
                     <ul className="children">
-                        {hasChildren
-                            ? node.children.map((child) => renderTree(child, level + 1))
-                            : null}
+                        {hasChildren &&
+                            node.children.map((child) => renderTree(child, level + 1))}
 
                         {employees.length === 0 && !hasChildren && (
                             <li className="empty-item">No departments or employees found</li>

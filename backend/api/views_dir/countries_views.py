@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models_dir.employee_models import Countries
 from ..serializers.emp_dep_serializer import CountrySerializer
-from ..permissions import HasRolePermission, HasRolePermissionWithRoles
+from ..permissions import HasRolePermissionWithRoles
 
 class GetAllCountries(APIView):
     permission_classes = [IsAuthenticated]

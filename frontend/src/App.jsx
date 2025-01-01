@@ -7,7 +7,6 @@ import ProtectedRoute from './components/ProtectedRoute'
 import ContactsAndOrganization from './pages/menu_navigate/ContactsAndOrg'
 import Vacations from './pages/menu_navigate/Vacations'
 import AdminPanel from './pages/menu_navigate/AdminPanel'
-import HomeOffice from './pages/menu_navigate/HomeOffice'
 import MyRequests from './pages/menu_navigate/MyRequests'
 import Profile from './pages/menu_navigate/Profile'
 import { useState, useEffect } from 'react'
@@ -45,7 +44,6 @@ function App() {
 
           <Route path="/contacts" element={ <ProtectedRoute> <ContactsAndOrganization /> </ProtectedRoute> }/>
           <Route path="/vacation" element={ <ProtectedRoute> <Vacations /> </ProtectedRoute> }/>
-          <Route path="/home_office" element={ <ProtectedRoute> <HomeOffice /> </ProtectedRoute> }/>
           <Route path="/my_requests" element={ <ProtectedRoute> <MyRequests /> </ProtectedRoute> }/>
 
           { hasAdminPermission && (
