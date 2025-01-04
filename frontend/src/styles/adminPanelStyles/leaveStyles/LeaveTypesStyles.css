@@ -1,11 +1,34 @@
 .leave-types-container {
-    padding: 32px;
-    background: linear-gradient(145deg, #eef1f6, #ffffff);
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    max-width: 1000px;
-    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    background-color: #f4f7fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
+}
+
+.leave-types-heading {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.leave-types-main {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.leave-types-section {
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-top: 20px;
 }
 
 .leave-types-header {
@@ -15,108 +38,101 @@
     margin-bottom: 30px;
 }
 
-.leave-types-header h2 {
-    font-size: 32px;
-    font-weight: 600;
-    color: #283142;
-    margin: 0;
-    letter-spacing: 1px;
+.leave-types-title {
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    color: #444;
+}
+
+.leave-types-title-icon {
+    margin-right: 10px;
 }
 
 .add-leave-button {
-    background: linear-gradient(145deg, #4c9af8, #6ab7fc);
+    background-color: #4CAF50;
     color: white;
-    border: none;
-    border-radius: 10px;
     padding: 12px 20px;
+    border: none;
     cursor: pointer;
-    font-size: 18px;
-    font-weight: 600;
+    border-radius: 8px;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     gap: 10px;
     transition: all 0.3s ease;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }
 
 .add-leave-button:hover {
-    background: linear-gradient(145deg, #4182e5, #4f8feb);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+.add-icon {
+    width: 20px;
+    height: 20px;
 }
 
 .leave-types-table {
     width: 100%;
     border-collapse: collapse;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    margin-top: 20px;
 }
 
-.leave-types-table th,
-.leave-types-table td {
-    padding: 18px 22px;
+.leave-types-table th, .leave-types-table td {
+    padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #e0e6ef;
-    font-size: 16px;
-    font-weight: 500;
+    border-bottom: 1px solid #f1f1f1;
 }
 
 .leave-types-table th {
-    background: #f5f8fa;
-    color: #405068;
-    text-transform: uppercase;
+    background-color: #f0f0f0;
+    color: #555;
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
-.leave-types-table td {
-    background: #ffffff;
-    color: #4a5b70;
-}
-
-.leave-types-table tr:last-child td {
-    border-bottom: none;
+.leave-types-table tr:hover {
+    background-color: #e6f7ff;
+    cursor: pointer;
 }
 
 .actions {
     display: flex;
-    gap: 14px;
-    justify-content: center;
-    align-items: center;
+    gap: 12px;
 }
 
-.actions button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+.edit-btn,
+.delete-btn {
+    background-color: white;
     padding: 10px;
+    border: 1px solid;
+    cursor: pointer;
     border-radius: 8px;
-    transition: background 0.2s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
 }
 
-.actions button:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    transform: scale(1.1);
+.edit-btn {
+    color: #2196F3;
+    border-color: #2196F3;
 }
 
-.edit-btn svg {
-    color: #3498db;
-    transition: color 0.2s ease;
+.edit-btn:hover {
+    background-color: #2196F3;
+    color: white;
+    transform: translateY(-2px);
 }
 
-.edit-btn:hover svg {
-    color: #2980b9;
+.delete-btn {
+    color: #f44336;
+    border-color: #f44336;
 }
 
-.delete-btn svg {
-    color: #e74c3c;
-    transition: color 0.2s ease;
-}
-
-.delete-btn:hover svg {
-    color: #c0392b;
-}
-
-.leave-types-table td span {
-    font-weight: 600;
-    color: #283142;
+.delete-btn:hover {
+    background-color: #f44336;
+    color: white;
+    transform: translateY(-2px);
 }

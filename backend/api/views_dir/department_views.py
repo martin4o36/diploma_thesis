@@ -18,8 +18,8 @@ class DepartmentsChartView(APIView):
             return Response({"error": str(e)}, status=500)
 
 
-class DepartmentCreateView(APIView, HasRolePermissionWithRoles(['Owner', 'HR'])):
-    permission_classes = [IsAuthenticated]
+class DepartmentCreateView(APIView):
+    permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
     
     def post(self, request):
         serializer = DepartmentSerializer(data=request.data)
@@ -66,13 +66,12 @@ def generate_org_data(departments):
     return tree
 
 
-class EditDepartmentView(APIView, HasRolePermissionWithRoles(['Owner', 'HR'])):
-    permission_classes = [IsAuthenticated, ]
+class EditDepartmentView(APIView):
+    permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
     def put(self, request, department_id):
         try:
             department = Department.objects.get(department_id=department_id)
-            print(department)
         except Department.DoesNotExist:
             return Response({"error": "Department not found."}, status=404)
         
@@ -99,8 +98,20 @@ class EditDepartmentView(APIView, HasRolePermissionWithRoles(['Owner', 'HR'])):
         return Response({"message": "Department updated successfully.", "data": serializer.data}, status=200)
     
 
-class DeleteDepartment(APIView, HasRolePermissionWithRoles(['Owner', 'HR'])):
+class DeleteDepartment(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
     def delete(self, request):
         pass
+
+
+class AllDepartments(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            departments = Department.objects.all()
+            serializer = DepartmentSerializer(departments, many=True)
+            return Response(serializer.data, status=200)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)

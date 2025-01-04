@@ -1,5 +1,5 @@
 /* Modal styling */
-.add-employee-modal {
+.edit-employee-modal {
     background-color: #fff;
     position: fixed;
     top: 50%;
@@ -19,19 +19,19 @@
     font-family: 'Roboto', sans-serif;
 }
 
-.add-employee-form-scrollable {
+.edit-employee-form-scrollable {
     max-height: 700px;
     overflow-y: auto;
     padding: 0;
 }
 
 /* Header */
-.add-employee-form-header {
+.edit-employee-form-header {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.add-employee-form-title {
+.edit-employee-form-title {
     font-size: 1.6rem;
     font-weight: bold;
     color: #333;
@@ -39,7 +39,7 @@
 }
 
 /* Form section styling */
-.add-employee-form-section {
+.edit-employee-form-section {
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -50,7 +50,7 @@
     margin-bottom: 24px;
 }
 
-.add-employee-form-section-title {
+.edit-employee-form-section-title {
     font-size: 1.2rem;
     font-weight: bold;
     color: #444;
@@ -63,7 +63,7 @@
     align-items: flex-start;
 }
 
-.add-employee-form-profile-picture {
+.edit-employee-form-profile-picture {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,7 +71,7 @@
     width: 180px;
 }
 
-.add-employee-form-profile-picture-label {
+.edit-employee-form-profile-picture-label {
     font-size: 1rem;
     color: #555555;
     margin-bottom: 12px;
@@ -83,7 +83,7 @@
     transition: background-color 0.3s ease;
 }
 
-.add-employee-form-profile-picture-label:hover {
+.edit-employee-form-profile-picture-label:hover {
     background-color: #007bff;
     color: white;
 }
@@ -112,21 +112,21 @@
     font-size: 1rem;
 }
 
-.add-employee-form-names {
+.edit-employee-form-names {
     display: flex;
     flex: 1;
     flex-direction: column;
     gap: 12px;
 }
 
-.add-employee-form-names > div {
+.edit-employee-form-names > div {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
 /* Inline groups for email and phone number */
-.add-employee-form-inline-group {
+.edit-employee-form-inline-group {
     display: flex;
     flex-wrap: wrap;
     gap: 32px;
@@ -135,15 +135,15 @@
     margin-top: 24px;
 }
 
-.add-employee-form-inline-group > div {
+.edit-employee-form-inline-group > div {
     flex: 1;
     min-width: 45%;
     box-sizing: border-box;
 }
 
 /* Input styling */
-.add-employee-form-input,
-.add-employee-form-select {
+.edit-employee-form-input,
+.edit-employee-form-select {
     padding: 12px 16px;
     border: 1px solid #cccccc;
     border-radius: 8px;
@@ -155,29 +155,29 @@
     box-sizing: border-box;
 }
 
-.add-employee-form-input:focus,
-.add-employee-form-select:focus {
+.edit-employee-form-input:focus,
+.edit-employee-form-select:focus {
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
     outline: none;
 }
 
 /* Checkbox settings */
-.add-employee-form-hr-settings {
+.edit-employee-form-hr-settings {
     display: flex;
     flex-direction: column;
     gap: 12px;
     margin-top: 20px;
 }
 
-.add-employee-form-hr-checkbox-wrapper {
+.edit-employee-form-hr-checkbox-wrapper {
     display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
 }
 
-.add-employee-form-hr-checkbox {
+.edit-employee-form-hr-checkbox {
     width: 20px;
     height: 20px;
     margin-right: 10px;
@@ -186,13 +186,13 @@
     cursor: pointer;
 }
 
-.add-employee-form-hr-label {
+.edit-employee-form-hr-label {
     font-size: 1rem;
     color: #333;
     font-weight: bold;
 }
 
-.add-employee-form-hr-options {
+.edit-employee-form-hr-options {
     margin-top: 12px;
     padding-left: 24px;
     display: flex;
@@ -200,7 +200,7 @@
     gap: 8px;
 }
 
-.add-employee-form-hr-option {
+.edit-employee-form-hr-option {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -214,7 +214,7 @@
 }
 
 /* Actions */
-.add-employee-form-actions {
+.edit-employee-form-actions {
     display: flex;
     justify-content: space-between;
     gap: 16px;
@@ -222,7 +222,7 @@
 }
 
 /* Buttons */
-.add-employee-form-button {
+.edit-employee-form-button {
     padding: 12px 24px;
     border-radius: 12px;
     border: none;
@@ -237,98 +237,41 @@
     margin-top: 8px;
 }
 
-.add-employee-form-button.save {
+.edit-employee-form-button.save {
     background-color: #4CAF50;
     color: white;
 }
 
-.add-employee-form-button.cancel {
+.edit-employee-form-button.cancel {
     background-color: #f44336;
     color: white;
 }
 
-.add-employee-form-button.save:hover {
+.edit-employee-form-button.save:hover {
     background-color: #45a049;
 }
 
-.add-employee-form-button.cancel:hover {
-    background-color: #d32f2f;
-}
-
-/* Confirmation section */
-.add-employee-form-confirmation {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 16px;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.add-employee-form-confirmation h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #444;
-}
-
-.add-employee-form-confirmation p {
-    font-size: 1rem;
-    color: #555;
-}
-
-/* Confirmation buttons */
-.add-employee-form-actions button {
-    padding: 12px 24px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-    transition: background-color 0.3s ease;
-    margin-top: 8px;
-}
-
-/* Override confirmation buttons' background colors */
-.add-employee-form-actions .add-employee-form-button-save {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.add-employee-form-actions .add-employee-form-button-cancel {
-    background-color: #f44336;
-    color: white;
-}
-
-.add-employee-form-actions .add-employee-form-button-save:hover {
-    background-color: #45a049;
-}
-
-.add-employee-form-actions .add-employee-form-button-cancel:hover {
+.edit-employee-form-button.cancel:hover {
     background-color: #d32f2f;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .add-employee-form-inline-group > div {
+    .edit-employee-form-inline-group > div {
         min-width: 100%;
     }
 
-    .add-employee-modal {
+    .edit-employee-modal {
         width: 95%;
         max-width: 100%;
         padding: 20px;
     }
 
-    .add-employee-form-title {
+    .edit-employee-form-title {
         font-size: 1.4rem;
     }
 
-    .add-employee-form-header {
+    .edit-employee-form-header {
         margin-bottom: 16px;
     }
 
@@ -337,15 +280,15 @@
         align-items: center;
     }
 
-    .add-employee-form-inline-group {
+    .edit-employee-form-inline-group {
         flex-direction: column;
     }
 
-    .add-employee-form-hr-settings {
+    .edit-employee-form-hr-settings {
         gap: 16px;
     }
 
-    .add-employee-form-hr-options {
+    .edit-employee-form-hr-options {
         margin-top: 10px;
         padding-left: 16px;
     }

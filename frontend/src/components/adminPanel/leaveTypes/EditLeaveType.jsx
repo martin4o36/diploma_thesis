@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../../../api";
 import "../../../styles/adminPanelStyles/leaveStyles/EditLeaveTypeStyles.css"
-import { X } from "lucide-react";
+import { Save, X } from "lucide-react";
 
 function EditLeaveTypeForm({ leaveType, onSuccess, onCancel }) {
     const [formData, setFormData] = useState({
@@ -41,73 +41,71 @@ function EditLeaveTypeForm({ leaveType, onSuccess, onCancel }) {
     };
 
     return (
-        <div className="add-leave-overlay">
-            <div className="add-leave-container">
-                <div className="form-header">
-                    <h1 className="add-leave-title">Edit Leave Type</h1>
-                    <button className="close-button" onClick={onCancel}>
-                        <X size={24} />
-                    </button>
+        <div>
+            {/* Dark overlay */}
+            <div className="edit-leave-modal-overlay" onClick={onCancel}></div>
+
+            {/* Modal */}
+            <div className="edit-leave-modal">
+                <div className="edit-leave-header">
+                    <h2 className="edit-leave-title">Edit Leave Type</h2>
                 </div>
 
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
-                
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="leave_name" className="leave-label">
-                        Leave Type Name:
-                    </label>
-                    <input
-                        name="leave_name"
-                        className="leave-form-input"
-                        type="text"
-                        value={formData.leave_name}
-                        onChange={handleInputChange}
-                        placeholder="Enter Leave Type Name"
-                        required
-                    />
 
-                    <label htmlFor="days" className="leave-label">
-                        Days Per Year:
-                    </label>
-                    <input
-                        name="days"
-                        className="leave-form-input"
-                        type="number"
-                        value={formData.days}
-                        onChange={handleInputChange}
-                        placeholder="Enter Days Per Year"
-                        required
-                        min="1"
-                    />
+                <form onSubmit={handleSubmit} className="edit-leave-form">
+                    <div className="edit-leave-form-group">
+                        <label htmlFor="leave_name" className="edit-leave-label">
+                            Leave Type Name
+                        </label>
+                        <input
+                            name="leave_name"
+                            className="edit-leave-input"
+                            type="text"
+                            value={formData.leave_name}
+                            onChange={handleInputChange}
+                            placeholder="Enter Leave Type Name"
+                            required
+                        />
+                    </div>
 
-                    <label htmlFor="daysBringForward" className="leave-label">
-                        Default Days to Bring Forward:
-                    </label>
-                    <input
-                        name="daysBringForward"
-                        className="leave-form-input"
-                        type="number"
-                        value={formData.default_bring_forward_days}
-                        onChange={handleInputChange}
-                        placeholder="Enter Days to Bring Forward (Optional)"
-                        min="0"
-                    />
+                    <div className="edit-leave-form-group">
+                        <label htmlFor="days" className="edit-leave-label">
+                            Days Per Year
+                        </label>
+                        <input
+                            name="days"
+                            className="edit-leave-input"
+                            type="number"
+                            value={formData.days}
+                            onChange={handleInputChange}
+                            placeholder="Enter Days Per Year"
+                            required
+                            min="1"
+                        />
+                    </div>
 
-                    <div className="form-buttons">
-                        <button
-                            type="submit"
-                            className="submit-leave-btn"
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? "Submitting..." : "Save Changes"}
+                    <div className="edit-leave-form-group">
+                        <label htmlFor="daysBringForward" className="edit-leave-label">
+                            Default Days to Bring Forward
+                        </label>
+                        <input
+                            name="daysBringForward"
+                            className="edit-leave-input"
+                            type="number"
+                            value={formData.default_bring_forward_days}
+                            onChange={handleInputChange}
+                            placeholder="Enter Days to Bring Forward (Optional)"
+                            min="0"
+                        />
+                    </div>
+
+                    <div className="edit-leave-actions">
+                        <button type="submit" className="edit-leave-btn save" disabled={isSubmitting}>
+                            <Save /> {isSubmitting ? "Submitting..." : "Save Changes"}
                         </button>
-                        <button
-                            type="button"
-                            className="cancel-leave-btn"
-                            onClick={onCancel}
-                            disabled={isSubmitting}
-                        >
-                            Cancel
+                        <button type="button" className="edit-leave-btn cancel" onClick={onCancel} disabled={isSubmitting}>
+                            <X /> Cancel
                         </button>
                     </div>
                 </form>

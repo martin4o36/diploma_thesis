@@ -2,30 +2,43 @@ import React, { useState, useEffect } from "react";
 import "../../../styles/adminPanelStyles/departmentStyles/OrgDepartments.css";
 import api from "../../../api";
 import AddDepartmentForm from "./AddDepartmentForm";
-import AddEmployeeForm from "./AddEmployeeForm";
+import AddEmployeeForm from "./AddEmployee";
 import EditDepartment from "./EditDepartment";
 import EditEmployee from "./EditEmployee";
 import { Trash2, Edit2, Plus, User, Building2 } from "lucide-react";
 
-function OrgDepartmentsView() {
+function OrgDepartmentsView({ setSelectedContent }) {
     const [departments, setDepartments] = useState([]);
+    const [employeesNoDepartment, setEmployeesNoDepartment] = useState([]);
     const [expanded, setExpanded] = useState({});
     const [employeesByDepartment, setEmployeesByDepartment] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [currentAction, setCurrentAction] = useState(null);
     const [currentEntity, setCurrentEntity] = useState(null);
 
-    useEffect(() => {
-        const fetchDepartments = async () => {
-            try {
-                const response = await api.get("/api/departments/chart/");
-                setDepartments(response.data);
-            } catch (error) {
-                console.log("Error fetching departments:", error);
-            }
-        };
+    const fetchDepartments = async () => {
+        try {
+            const response = await api.get("/api/departments/chart/");
+            setDepartments(response.data);
+        } catch (error) {
+            console.log("Error fetching departments:", error);
+        }
+    };
 
+    const fetchEmployeesWithNoDepartment = async () => {
+        try {
+            const response = await api.get("/api/employee/no-department/");
+            setEmployeesNoDepartment(response.data);
+            console.log(response.data);
+        } catch (error) {
+            console.log("Error fetching employees with no department:", error);
+        }
+    };
+
+    useEffect(() => {
         fetchDepartments();
+        fetchEmployeesWithNoDepartment();
+        console.log(employeesNoDepartment);
     }, []);
 
     const fetchEmployeesByDepartment = async (departmentId) => {
@@ -63,9 +76,27 @@ function OrgDepartmentsView() {
         setCurrentEntity(null);
     };
 
+    const refreshEmployees = (oldDepartmentId, newDepartmentId) => {
+        fetchEmployeesWithNoDepartment();
+        
+        if (oldDepartmentId && oldDepartmentId !== newDepartmentId) {
+            fetchEmployeesByDepartment(oldDepartmentId);
+        }
+
+        if (newDepartmentId) {
+            fetchEmployeesByDepartment(newDepartmentId);
+        }
+    };
+
+    const refreshDepartments = () => {
+        fetchDepartments();
+        fetchEmployeesWithNoDepartment();
+    }
+
     const handleDeleteDepartment = async (department) => {
         try {
             console.log(department.key);
+            refreshDepartments();
         } catch (error) {
             console.error("Error deleting department:", error);
         }
@@ -74,6 +105,7 @@ function OrgDepartmentsView() {
     const handleDeleteEmployee = async (employee) => {
         try {
             console.log(employee.employee_id);
+            refreshEmployees(employee.department_id, null);
         } catch (error) {
             console.error("Error deleting employee:", error);
         }
@@ -91,34 +123,34 @@ function OrgDepartmentsView() {
                     {node.title}
                     <div className="department-actions">
                         <button
+                            onClick={(e) => e.stopPropagation() || handleAction("addDepartment", node)}
+                            className="add-department-button"
+                            title="Add Sub-department"
+                        >
+                            <Plus className="department-plus-icon" />
+                            <Building2 />
+                        </button>
+                        <button
                             onClick={(e) => e.stopPropagation() || handleAction("editDepartment", node)}
-                            className="action-button"
+                            className="edit-department-button"
                             title="Edit Department"
                         >
-                            <Edit2 />
+                            <Edit2 className="department-edit-icon" />
                         </button>
                         <button
                             onClick={(e) => e.stopPropagation() || handleDeleteDepartment(node)}
-                            className="action-button"
+                            className="delete-department-button"
                             title="Delete Department"
                         >
-                            <Trash2 />
+                            <Trash2 className="department-trash-icon" />
                         </button>
                         <button
                             onClick={(e) => e.stopPropagation() || handleAction("addEmployee", node)}
-                            className="action-button"
+                            className="add-employee-button"
                             title="Add Employee"
                         >
-                            <Plus />
+                            <Plus className="employee-plus-icon" />
                             <User />
-                        </button>
-                        <button
-                            onClick={(e) => e.stopPropagation() || handleAction("addDepartment", node)}
-                            className="action-button"
-                            title="Add Sub-department"
-                        >
-                            <Plus />
-                            <Building2 />
                         </button>
                     </div>
                 </div>
@@ -139,15 +171,17 @@ function OrgDepartmentsView() {
                                     <div className="employee-actions">
                                         <button
                                             onClick={(e) => e.stopPropagation() || handleAction("editEmployee", employee)}
+                                            className="edit-employee-button"
                                             title="Edit Employee"
                                         >
-                                            <Edit2 />
+                                            <Edit2 className="employee-edit-icon" />
                                         </button>
                                         <button
                                             onClick={(e) => e.stopPropagation() || handleDeleteEmployee(employee)}
+                                            className="delete-employee-button"
                                             title="Delete Employee"
                                         >
-                                            <Trash2 />
+                                            <Trash2 className="employee-trash-icon" />
                                         </button>
                                     </div>
                                 </li>
@@ -161,13 +195,37 @@ function OrgDepartmentsView() {
     return (
         <div className="treeview-container">
             <div className="actions-bar">
-                <button onClick={() => handleAction("addDepartment", null)} className="action-button primary">
-                    <Plus /> Add Department
+                <button onClick={() => handleAction("addDepartment", null)} className="main-add-department-button" aria-label="Add department">
+                    <Plus className="main-department-plus-icon" /> Add Department
                 </button>
-                <button onClick={() => handleAction("addEmployee", null)} className="action-button secondary">
-                    <Plus /> Add Employee
+                <button onClick={() => handleAction("addEmployee", null)} className="main-add-employee-button" aria-label="Add employee">
+                    <Plus className="main-employee-plus-icon" /> Add Employee
                 </button>
             </div>
+
+            <ul>
+                {employeesNoDepartment.map((employee) => (
+                    <li key={employee.employee_id} className="employee-item">
+                        {employee.first_name} {employee.last_name} ({employee.position})
+                        <div className="employee-actions">
+                            <button
+                                onClick={(e) => e.stopPropagation() || handleAction("editEmployee", employee)}
+                                className="edit-employee-button"
+                                title="Edit Employee"
+                            >
+                                <Edit2 className="employee-edit-icon" />
+                            </button>
+                            <button
+                                onClick={(e) => e.stopPropagation() || handleDeleteEmployee(employee)}
+                                className="delete-employee-button"
+                                title="Delete Employee"
+                            >
+                                <Trash2 className="employee-trash-icon" />
+                            </button>
+                        </div>
+                    </li>
+                ))}
+            </ul>
 
             <ul className="treeview-list">
                 {departments.map((dept) => renderTree(dept))}
@@ -175,18 +233,35 @@ function OrgDepartmentsView() {
 
             {showModal && (
                 <div className="modal-overlay">
-                    <div className="modal-content">
+                    <div>
                         {currentAction === "addDepartment" && (
-                            <AddDepartmentForm department={currentEntity} onClose={closeModal} />
+                            <AddDepartmentForm 
+                                department={currentEntity} 
+                                onClose={closeModal}
+                                refreshData={refreshDepartments}
+                            />
                         )}
                         {currentAction === "editDepartment" && (
-                            <EditDepartment department={currentEntity} onClose={closeModal} />
+                            <EditDepartment 
+                                department={currentEntity} 
+                                onClose={closeModal}
+                                refreshData={refreshDepartments}
+                            />
                         )}
                         {currentAction === "addEmployee" && (
-                            <AddEmployeeForm department={currentEntity} onClose={closeModal} />
+                            <AddEmployeeForm 
+                                department={currentEntity} 
+                                onClose={closeModal} 
+                                setSelectedContent={setSelectedContent}
+                                refreshEmployees={refreshEmployees}
+                            />
                         )}
                         {currentAction === "editEmployee" && (
-                            <EditEmployee employee={currentEntity} onClose={closeModal} />
+                            <EditEmployee 
+                                employee={currentEntity} 
+                                onClose={closeModal}
+                                refreshEmployees={refreshEmployees}
+                            />
                         )}
                     </div>
                 </div>

@@ -5,6 +5,7 @@
     background-color: #fafafa;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
 }
 
 .countries-non-working-days-heading {
@@ -75,24 +76,23 @@
 
 .country-item-container {
     background-color: #f9f9f9;
-    padding: 0; /* Remove padding for the li element */
+    padding: 0;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
     position: relative;
     display: flex;
-    justify-content: flex-start; /* Align everything to the start */
+    justify-content: flex-start;
     align-items: center;
     border: none;
 }
 
 .country-item-container.selected-country {
-    background-color: #fafafa; /* Soft background color like other sections */
-    border-left: 4px solid #2196F3; /* Border color to match the general blue theme */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for more depth */
+    background-color: #fafafa;
+    border-left: 4px solid #2196F3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Hover effect for the country item container */
 .country-item-container:hover {
     background-color: #e6f7ff;
     transform: scale(1.02);
@@ -106,7 +106,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 20px; /* Padding around the content */
+    padding: 14px 20px;
     border-radius: 8px;
     cursor: pointer;
 }
@@ -124,7 +124,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-right: 10px; /* Space between name and action buttons */
+    margin-right: 10px;
 }
 
 .country-actions {

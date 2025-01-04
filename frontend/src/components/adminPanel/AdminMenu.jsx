@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../styles/adminPanelStyles/AdminMenu.css";
 import OrgDepartmentsView from "./organization/OrgDepartmentsView";
 import LeaveTypesView from "./leaveTypes/LeaveTypesView";
 import CountriesView from "./countries/CountriesView";
-import EmployeeDetailsView from "./employee_balances/EmployeeDetailsView";
+import EmployeeDetailsView from "./employee_details/EmployeeDetailsView";
 
 function AdminMenu() {
     const menuItems = [
@@ -44,7 +44,7 @@ function AdminMenu() {
             </div>
 
             <div className="content-area">
-                {selectedContent === "Employees and Departments" && <OrgDepartmentsView /> }
+                {selectedContent === "Employees and Departments" && <OrgDepartmentsView setSelectedContent={setSelectedContent} /> }
                 {selectedContent === "Leave Types" && <LeaveTypesView /> }
                 {selectedContent === "Countries" && <CountriesView /> }
                 {selectedContent === "Employee Details" && <EmployeeDetailsView /> }

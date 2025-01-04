@@ -1,127 +1,137 @@
-.add-leave-overlay {
+.edit-leave-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: 9998;
+}
+
+.edit-leave-modal {
+    background-color: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 9999;
-}
-
-.add-leave-container {
-    padding: 32px;
-    background: linear-gradient(145deg, #ffffff, #f4f7fa);
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    max-width: 550px;
     width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-    position: relative;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
 }
 
-.form-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-}
-
-.add-leave-title {
-    font-size: 28px;
-    font-weight: 600;
-    color: #283142;
-    margin: 0;
-}
-
-.close-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #b0b9c3;
-    transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.close-button:hover {
-    color: #283142;
-    transform: scale(1.1);
-}
-
-.leave-label {
-    display: block;
-    font-size: 18px;
-    color: #5e6c78;
-    margin-bottom: 8px;
-    font-weight: 500;
-}
-
-.leave-form-input {
-    width: 100%;
-    padding: 14px 20px;
-    border: 1px solid #c0c8ca;
-    border-radius: 10px;
-    font-size: 16px;
+/* Modal header */
+.edit-leave-header {
     margin-bottom: 20px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.leave-form-input:focus {
-    border-color: #3498db;
-    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
-    outline: none;
+.edit-leave-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #161414;
+    text-align: center;
+    margin-bottom: 8px;
 }
 
-.form-buttons {
+/* Form container */
+.edit-leave-form {
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Form group */
+.edit-leave-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     width: 100%;
 }
 
-.submit-leave-btn {
-    flex: 1;
-    padding: 14px 20px;
-    background: linear-gradient(145deg, #3498db, #6ab7fc);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.submit-leave-btn:hover {
-    background: linear-gradient(145deg, #2980b9, #3498db);
-    transform: translateY(-2px);
-}
-
-.cancel-leave-btn {
-    flex: 1;
-    padding: 14px 20px;
-    background-color: #f6f9fc;
-    color: #5e6c78;
-    border: 1px solid #c0c8ca;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.cancel-leave-btn:hover {
-    background-color: #f1f5f9;
-    transform: translateY(-2px);
-}
-
-.error-message {
-    color: #e74c3c;
-    font-size: 14px;
+/* Labels */
+.edit-leave-label {
+    font-size: 1rem;
     font-weight: 500;
-    margin-bottom: 16px;
+    color: #444;
+}
+
+/* Inputs and selects */
+.edit-leave-input {
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.edit-leave-input:hover {
+    border-color: #64b5f6;
+    background-color: #ffffff;
+}
+
+.edit-leave-input:focus {
+    border-color: #2196F3;
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Actions container */
+.edit-leave-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+/* Buttons */
+.edit-leave-btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    transition: background-color 0.3s ease;
+}
+
+.edit-leave-btn.save {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.edit-leave-btn.cancel {
+    background-color: #f44336;
+    color: white;
+}
+
+.edit-leave-btn.save:hover {
+    background-color: #45a049;
+}
+
+.edit-leave-btn.cancel:hover {
+    background-color: #d32f2f;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .edit-leave-modal {
+        padding: 20px;
+    }
+
+    .edit-leave-btn {
+        padding: 10px 16px;
+    }
 }

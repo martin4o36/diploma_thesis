@@ -3,7 +3,7 @@ import api from "../../../api";
 import "../../../styles/adminPanelStyles/departmentStyles/EditDepartmentStyles.css";
 import { Save, X } from "lucide-react";
 
-function EditDepartment({ department, onClose }) {
+function EditDepartment({ department, onClose, refreshData }) {
     const [departmentName, setDepartmentName] = useState(department.title || "");
     const [employees, setEmployees] = useState([]);
     const [selectedManager, setSelectedManager] = useState(department.manager_id || "");
@@ -27,8 +27,11 @@ function EditDepartment({ department, onClose }) {
         try {
             await api.put(`/api/departments/${department.key}/edit/`, {
                 dep_name: departmentName,
-                manager_id: selectedManager || department?.manager.id,
+                manager_id: selectedManager,
             });
+
+            refreshData();
+            onClose();
         } catch (error) {
             console.error("Error updating department:", error);
         }
@@ -56,11 +59,11 @@ function EditDepartment({ department, onClose }) {
                 </div>
 
                 <div className="edit-department-form-group">
-                    <label htmlFor="manager" className="edit-department-label">Select Manager</label>
+                <label htmlFor="manager" className="edit-department-label">Select Manager</label>
                     <select
                         id="manager"
                         className="edit-department-select"
-                        value={selectedManager}
+                        value={selectedManager || ""}
                         onChange={(e) => setSelectedManager(e.target.value)}
                     >
                         <option value="">None</option>

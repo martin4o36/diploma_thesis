@@ -60,6 +60,18 @@ class GetAllEmployees(APIView):
             return Response({"error:" : "Employees not found"}, status=400)
         
 
+class GetEmployeesNoDepartment(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            employees = Employee.objects.filter(department_id = 0)
+            serializer = EmployeeSerializer(employees, many=True)
+            return Response(serializer.data, status=200)
+        except Exception as e:
+            return Response({"error:" : "Employees without department not found"}, status=400)
+        
+
 class CreateEmployee(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
@@ -69,12 +81,10 @@ class CreateEmployee(APIView):
         last_name = employee_data.get('last_name')
         password = employee_data.get('password')
         country_id = employee_data.get('country')
+        grant_hr_access = employee_data.get('grant_hr_access', 'false').lower() == 'true'
 
         if not first_name or not last_name or not password or not country_id:
             return Response({"error": "Missing required fields"}, status=400)
-        
-        print("PROFILE PICTURE: ", request.FILES.get('profile_picture', None))
-        print("LEFT DATE: ", employee_data.get('left_date'))
 
         try:
             country = Countries.objects.get(country_id=country_id)
@@ -91,7 +101,6 @@ class CreateEmployee(APIView):
                 work_start=employee_data.get('work_start'),
                 work_end=employee_data.get('work_end'),
                 department_id=employee_data.get('department_id'),
-                manager_id=employee_data.get('manager_id'),
                 position=employee_data.get('position'),
                 hired_date=employee_data.get('hired_date'),
             )
@@ -112,15 +121,16 @@ class CreateEmployee(APIView):
                 file_path = os.path.join('employees/', new_filename)
                 file = ContentFile(profile_picture.read())
                 default_storage.save(file_path, file)
-                print("FILE PATH:", file_path)
 
                 employee.profile_picture = file_path
                 employee.save()
 
+            if grant_hr_access:
+                employee.add_role('HR')
+
+            employee.save()
             createEmployeeAllowancesBalances(employee=employee)
-
             return Response({"message": "Employee created successfully", "employee_id": employee.employee_id}, status=201)
-
         except Countries.DoesNotExist:
             return Response({"error": "Country not found"}, status=404)
         except Exception as e:
@@ -160,5 +170,69 @@ class DeleteEmployee(APIView):
 class EditEmployee(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
-    def put(self, request):
-        pass
+    def put(self, request, employee_id):
+        try:
+            employee = Employee.objects.get(employee_id=employee_id)
+        except Employee.DoesNotExist:
+            return Response({"error": "Employee not found"}, status=404)
+        
+        employee_data = request.data
+        first_name = employee_data.get('first_name', employee.first_name)
+        middle_name = employee_data.get('middle_name', employee.middle_name)
+        last_name = employee_data.get('last_name', employee.last_name)
+        age = employee_data.get('age', employee.age)
+        email = employee_data.get('email', employee.email)
+        phone_number = employee_data.get('phone_number', employee.phone_number)
+        country_id = employee_data.get('country', employee.country_id)
+        city = employee_data.get('city', employee.city)
+        work_start = employee_data.get('work_start', employee.work_start)
+        work_end = employee_data.get('work_end', employee.work_end)
+        department_id = employee_data.get('department_id', employee.department_id)
+        position = employee_data.get('position', employee.position)
+        hired_date = employee_data.get('hired_date', employee.hired_date)
+        left_date = employee_data.get('left_date', employee.left_date)
+        if left_date == "":
+            left_date = None
+        grant_hr_access = employee_data.get('grant_hr_access', 'false').lower() == 'true'
+
+
+        try:
+            country = Countries.objects.get(country_id=country_id)
+        except Countries.DoesNotExist:
+            return Response({"error": "Country not found"}, status=404)
+        
+        
+        employee.first_name = first_name
+        employee.middle_name = middle_name
+        employee.last_name = last_name
+        employee.age = age
+        employee.email = email
+        employee.phone_number = phone_number
+        employee.country = country
+        employee.city = city
+        employee.work_start = work_start
+        employee.work_end = work_end
+        employee.department_id = department_id
+        employee.position = position
+        employee.hired_date = hired_date
+        employee.left_date = left_date
+
+        if request.FILES.get('profile_picture'):
+            profile_picture = request.FILES['profile_picture']
+            new_filename = f"profile_picture_{employee.employee_id}.{profile_picture.name.split('.')[-1]}"
+            file_path = os.path.join('employees/', new_filename)
+            file = ContentFile(profile_picture.read())
+            default_storage.save(file_path, file)
+            employee.profile_picture = file_path
+
+        print(grant_hr_access)
+        if grant_hr_access:
+            print("IN ADD HR")
+            employee.add_role("HR")
+        else:
+            print("IN REMOVE HR")
+            employee.remove_role("HR")
+
+        employee.save()
+        serializer = EmployeeSerializer(employee)
+        return Response({"message": "Employee updated successfully", "employee": serializer.data}, status=200)

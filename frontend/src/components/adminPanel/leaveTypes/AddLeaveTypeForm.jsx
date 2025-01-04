@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../../../api";
 import "../../../styles/adminPanelStyles/leaveStyles/AddLeaveTypeStyles.css";
-import { X } from "lucide-react";
+import { Save, X } from "lucide-react";
 
 function AddLeaveTypeForm({ onSuccess, onCancel }) {
     const [name, setName] = useState("");
@@ -35,71 +35,68 @@ function AddLeaveTypeForm({ onSuccess, onCancel }) {
     }
 
     return (
-        <div className="add-leave-overlay">
-            <div className="add-leave-container">
-                <div className="form-header">
-                    <h1 className="add-leave-title">Add Leave Type</h1>
-                    <button className="close-button" onClick={onCancel}>
-                        <X size={24} />
-                    </button>
+        <div>
+            {/* Dark overlay */}
+            <div className="add-leave-modal-overlay" onClick={onCancel}></div>
+
+            {/* Modal */}
+            <div className="add-leave-modal">
+                <div className="add-leave-header">
+                    <h2 className="add-leave-title">Add Leave Type</h2>
                 </div>
+                <form onSubmit={handleSubmit} className="add-leave-form">
+                    <div className="add-leave-form-group">
+                        <label htmlFor="leave_name" className="add-leave-label">
+                            Leave Type Name
+                        </label>
+                        <input
+                            type="text"
+                            id="leave_name"
+                            className="add-leave-input"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Enter leave type name"
+                            required
+                        />
+                    </div>
 
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="leave_name" className="leave-label">
-                        Leave Type Name:
-                    </label>
-                    <input
-                        name="leave_name"
-                        className="leave-form-input"
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Enter Leave Type Name"
-                        required
-                    />
+                    <div className="add-leave-form-group">
+                        <label htmlFor="days" className="add-leave-label">
+                            Days Per Year
+                        </label>
+                        <input
+                            type="number"
+                            id="days"
+                            className="add-leave-input"
+                            value={days}
+                            onChange={(e) => setDays(e.target.value)}
+                            placeholder="Enter days per year"
+                            required
+                            min="1"
+                        />
+                    </div>
 
-                    <label htmlFor="days" className="leave-label">
-                        Days Per Year:
-                    </label>
-                    <input
-                        name="days"
-                        className="leave-form-input"
-                        type="number"
-                        value={days}
-                        onChange={(e) => setDays(e.target.value)}
-                        placeholder="Enter Days Per Year"
-                        required
-                        min="1"
-                    />
+                    <div className="add-leave-form-group">
+                        <label htmlFor="daysBringForward" className="add-leave-label">
+                            Default Days to Bring Forward
+                        </label>
+                        <input
+                            type="number"
+                            id="daysBringForward"
+                            className="add-leave-input"
+                            value={daysBringForward}
+                            onChange={(e) => setDaysBringForward(e.target.value)}
+                            placeholder="Enter days to bring forward"
+                            min="0"
+                        />
+                    </div>
 
-                    <label htmlFor="daysBringForward" className="leave-label">
-                        Default Days to Bring Forward:
-                    </label>
-                    <input
-                        name="daysBringForward"
-                        className="leave-form-input"
-                        type="number"
-                        value={daysBringForward}
-                        onChange={(e) => setDaysBringForward(e.target.value)}
-                        placeholder="Enter Days to Bring Forward (Optional)"
-                        min="0"
-                    />
-
-                    <div className="form-buttons">
-                        <button
-                            type="submit"
-                            className="submit-leave-btn"
-                            disabled={loading}
-                        >
-                            {loading ? "Submitting..." : "Add Leave Type"}
+                    <div className="add-leave-actions">
+                        <button type="submit" className="add-leave-btn save" disabled={loading}>
+                            <Save /> Save
                         </button>
-                        <button
-                            type="button"
-                            className="cancel-leave-btn"
-                            onClick={onCancel}
-                            disabled={loading}
-                        >
-                            Cancel
+                        <button type="button" className="add-leave-btn cancel" onClick={onCancel}>
+                            <X /> Cancel
                         </button>
                     </div>
                 </form>

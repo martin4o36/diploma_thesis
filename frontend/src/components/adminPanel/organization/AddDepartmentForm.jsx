@@ -3,7 +3,7 @@ import api from "../../../api";
 import "../../../styles/adminPanelStyles/departmentStyles/AddDepartmentStyles.css";
 import { Save, X } from "lucide-react";
 
-function AddDepartmentForm({ department, onClose }) {
+function AddDepartmentForm({ department, onClose, refreshData }) {
     const [departmentName, setDepartmentName] = useState("");
     const [employees, setEmployees] = useState([]);
     const [selectedManager, setSelectedManager] = useState("");
@@ -29,6 +29,8 @@ function AddDepartmentForm({ department, onClose }) {
                 parent_dept_id: department?.key || 0,
                 manager_id: selectedManager,
             });
+
+            refreshData();
             onClose();
         } catch (error) {
             console.error("Error adding department:", error);
@@ -39,7 +41,7 @@ function AddDepartmentForm({ department, onClose }) {
         <div className="add-department-modal">
             <div className="add-department-header">
                 <h2 className="add-department-title">Add Department</h2>
-                <p className="add-department-current-manager">
+                <p className="add-department-parent">
                     <strong>Parent Department:</strong> {department?.title || "None"}
                 </p>
             </div>

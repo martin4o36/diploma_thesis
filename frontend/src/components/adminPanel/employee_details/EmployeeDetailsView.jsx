@@ -11,7 +11,9 @@ import {
     Search,
 } from "lucide-react";
 import debounce from "lodash/debounce";
-import "../../../styles/adminPanelStyles/balances/EmployeeBalanceStyles.css";
+import "../../../styles/adminPanelStyles/balances/EmployeeDetailsStyles.css";
+import EditEmployee from "../organization/EditEmployee";
+import EmployeePersonalDetails from "./EmployeePersonalDetails";
 
 function EmployeeDetailsView() {
     const [employees, setEmployees] = useState([]);
@@ -143,7 +145,10 @@ function EmployeeDetailsView() {
                             {expandedEmployee === employee.employee_id ? <ChevronUp /> : <ChevronDown />}
                         </div>
                         {expandedEmployee === employee.employee_id && (
-                            <div className="balance-employee-details">
+                            <div className="employee-details">
+                                {/* <div className="employee-personal-details">
+                                    <EmployeePersonalDetails employee={employee} />
+                                </div> */}
                                 <div className="allowance-container">
                                     <h3 className="balance-section-title">Allowance Details</h3>
                                     {allowances &&
@@ -165,7 +170,7 @@ function EmployeeDetailsView() {
                                             </div>
                                         ))}
                                 </div>
-                                <div className="balance-container">
+                                <div className="employee-balance-container">
                                     <h3 className="balance-section-title">Current Balance</h3>
                                     {balances &&
                                         balances.map((balance) => (

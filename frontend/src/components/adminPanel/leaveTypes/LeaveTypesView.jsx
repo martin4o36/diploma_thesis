@@ -46,10 +46,14 @@ function LeaveTypesView() {
     return (
         <div className="leave-types-container">
             <div className="leave-types-header">
-                <h2>Leave Types</h2>
+                <h2 className="leave-types-title">
+                    <span className="leave-types-title-icon">
+                        Leave Types
+                    </span>
+                </h2>
                 <button className="add-leave-button" onClick={() => setShowAddForm(true)}>
-                    <Plus size={20} />
-                    <span>Add Leave Type</span>
+                    <Plus className="add-icon" />
+                    Add Leave Type
                 </button>
             </div>
 
@@ -90,18 +94,18 @@ function LeaveTypesView() {
                             <td>{leaveType.days} days</td>
                             <td>{leaveType.default_bring_forward_days} days</td>
                             <td className="actions">
-                                <button
-                                    onClick={() => handleEditLeaveType(leaveType)}
-                                    className="edit-btn"
-                                >
-                                    <Edit2 size={16} />
-                                </button>
-                                <button
+                            <button
+                                onClick={() => handleEditLeaveType(leaveType)}
+                                className="edit-btn"
+                            >
+                                <Edit2 size={16} />
+                            </button>
+                            <button
                                     onClick={() => handleDeleteLeaveType(leaveType.leave_id)}
                                     className="delete-btn"
-                                >
-                                    <Trash2 size={16} />
-                                </button>
+                            >
+                                <Trash2 size={16} />
+                            </button>
                             </td>
                         </tr>
                     ))}

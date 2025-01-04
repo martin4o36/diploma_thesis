@@ -42,7 +42,7 @@ class Employee(models.Model):
     age = models.IntegerField()
     email = models.CharField(max_length=100, null=False)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
-    country = models.ForeignKey(Countries, on_delete=models.SET_NULL, null=True)
+    country = models.ForeignKey(Countries, on_delete=models.SET_NULL, null=True, blank=True)
     city = models.CharField(max_length=169)
     work_start = models.TimeField(null=False)
     work_end = models.TimeField(null=False)
