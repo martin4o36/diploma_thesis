@@ -104,6 +104,7 @@ function CountriesView() {
                 description: newNonWorkingDay.description
             });
             setNewNonWorkingDay({ date: "", description: "" });
+            setShowAddNonWorkingDay(false);
             fetchNonWorkingDays(selectedCountry.country_id);
         } catch (error) {
             console.error("Error adding non-working day:", error);
@@ -245,7 +246,7 @@ function CountriesView() {
                                     <div className="country-actions">
                                         <button
                                             onClick={(e) => {
-                                                e.stopPropagation(); // Prevent triggering the parent click
+                                                e.stopPropagation();
                                                 handleEditCountry(country);
                                             }}
                                             className="country-edit-button"
@@ -255,7 +256,7 @@ function CountriesView() {
                                         </button>
                                         <button
                                             onClick={(e) => {
-                                                e.stopPropagation(); // Prevent triggering the parent click
+                                                e.stopPropagation();
                                                 handleDeleteCountry(country.country_id);
                                             }}
                                             className="country-delete-button"

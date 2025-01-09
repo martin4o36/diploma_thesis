@@ -1,7 +1,3 @@
-from .views_dir.employee_views import *
-from .views_dir.department_views import *
-from .views_dir.leave_views import *
-
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response

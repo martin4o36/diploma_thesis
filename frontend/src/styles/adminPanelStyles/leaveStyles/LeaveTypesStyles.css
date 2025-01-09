@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     padding: 30px;
-    background-color: #f4f7fa;
+    background: #f4f6f9;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
@@ -68,11 +68,6 @@
     transform: translateY(-2px);
 }
 
-.add-icon {
-    width: 20px;
-    height: 20px;
-}
-
 .leave-types-table {
     width: 100%;
     border-collapse: collapse;
@@ -135,4 +130,11 @@
     background-color: #f44336;
     color: white;
     transform: translateY(-2px);
+}
+
+.add-icon,
+.edit-icon,
+.trash-icon {
+    width: 20px;
+    height: 20px;
 }

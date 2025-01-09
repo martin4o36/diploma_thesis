@@ -101,8 +101,21 @@ class EditDepartmentView(APIView):
 class DeleteDepartment(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
-    def delete(self, request):
-        pass
+    def delete(self, request, department_id):
+        try:
+            def delete_department_and_children(dept_id):
+                child_departments = Department.objects.filter(parent_dept_id=dept_id)
+
+                for child in child_departments:
+                    delete_department_and_children(child.department_id)
+
+                Employee.objects.filter(department_id=dept_id).update(department_id=0)
+                Department.objects.filter(department_id=dept_id).delete()
+
+            delete_department_and_children(department_id)
+            return Response({"message": "Department and its child departments deleted successfully."}, status=200)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
 
 
 class AllDepartments(APIView):

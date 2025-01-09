@@ -28,20 +28,34 @@
 
 .prev-month-button,
 .next-month-button {
-    background-color: #eeeeee;
-    color: #333;
-    padding: 10px;
-    border: none;
+    background: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+    padding: 8px 16px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    font-size: 16px;
 }
 
 .prev-month-button:hover,
 .next-month-button:hover {
-    background-color: #d6d6d6;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+}
+
+.right-icon,
+.left-icon {
+    transition: transform 0.3s ease;
+}
+
+.right-icon:hover,
+.left-icon:hover {
+    transform: scale(1.1);
 }
 
 .current-month {

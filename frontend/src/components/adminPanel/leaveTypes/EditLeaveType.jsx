@@ -9,7 +9,6 @@ function EditLeaveTypeForm({ leaveType, onSuccess, onCancel }) {
         days: leaveType.days || 0,
         default_bring_forward_days: leaveType.default_bring_forward_days || 0,
     });
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
     const handleInputChange = (e) => {
@@ -19,12 +18,10 @@ function EditLeaveTypeForm({ leaveType, onSuccess, onCancel }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
         setErrorMessage("");
 
         if (!formData.leave_name || formData.days <= 0) {
             setErrorMessage("Name and days are required, and days must be greater than 0.");
-            setIsSubmitting(false);
             return;
         }
 
@@ -35,17 +32,12 @@ function EditLeaveTypeForm({ leaveType, onSuccess, onCancel }) {
         } catch (error) {
             console.error("Error updating leave type:", error);
             setErrorMessage("Failed to update the leave type. Please try again.");
-        } finally {
-            setIsSubmitting(false);
         }
     };
 
     return (
         <div>
-            {/* Dark overlay */}
             <div className="edit-leave-modal-overlay" onClick={onCancel}></div>
-
-            {/* Modal */}
             <div className="edit-leave-modal">
                 <div className="edit-leave-header">
                     <h2 className="edit-leave-title">Edit Leave Type</h2>
@@ -101,10 +93,10 @@ function EditLeaveTypeForm({ leaveType, onSuccess, onCancel }) {
                     </div>
 
                     <div className="edit-leave-actions">
-                        <button type="submit" className="edit-leave-btn save" disabled={isSubmitting}>
-                            <Save /> {isSubmitting ? "Submitting..." : "Save Changes"}
+                        <button type="submit" className="edit-leave-btn save">
+                            <Save /> Save
                         </button>
-                        <button type="button" className="edit-leave-btn cancel" onClick={onCancel} disabled={isSubmitting}>
+                        <button type="button" className="edit-leave-btn cancel" onClick={onCancel}>
                             <X /> Cancel
                         </button>
                     </div>

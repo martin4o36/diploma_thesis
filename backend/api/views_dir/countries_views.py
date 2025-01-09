@@ -31,9 +31,9 @@ class CreateCountry(APIView):
 class DeleteCountry(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
-    def delete(self, request, pk):
+    def delete(self, request, country_id):
         try:
-            country = Countries.objects.get(pk=pk)
+            country = Countries.objects.get(country_id=country_id)
             print(country)
             country.delete()
             return Response({"message": "Country deleted successfully"}, status=204)
@@ -46,9 +46,9 @@ class DeleteCountry(APIView):
 class EditCountry(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
-    def put(self, request, pk):
+    def put(self, request, country_id):
         try:
-            country = Countries.objects.get(pk=pk)
+            country = Countries.objects.get(country_id=country_id)
         except Countries.DoesNotExist:
             return Response({"error": "Country not found"}, status=404)
         

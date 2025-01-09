@@ -6,6 +6,7 @@ WHERE table_schema = 'public';
 
 SELECT * FROM employees;
 SELECT * FROM departments;
+SELECT * FROM employee_balances;
 
 SELECT * FROM leave_types;
 

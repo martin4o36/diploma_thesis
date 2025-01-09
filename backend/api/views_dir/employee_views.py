@@ -5,9 +5,9 @@ from django.core.files.base import ContentFile
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from ..models_dir.employee_models import Employee, Department
-from ..models_dir.records_models import LeaveType, EmployeeAllowance, EmployeeBalance
-from ..serializers.emp_dep_serializer import EmployeeSerializer, EmployeeHomeMenuSerializer, EmployeeBalanceSerializer
+from ..models_dir.employee_models import Employee, Status
+from ..models_dir.records_models import LeaveType, EmployeeLeaveBalance
+from ..serializers.emp_dep_serializer import EmployeeSerializer, EmployeeHomeMenuSerializer
 from ..models_dir.employee_models import Countries
 from django.contrib.auth.models import User
 from ..permissions import HasRolePermissionWithRoles
@@ -39,21 +39,23 @@ class GetCurrentUserToManageForHomeMenu(APIView):
 class GetEmployeesByDepartmentID(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, departmentId):
+    def get(self, request, department_id):
         try:
-            employees = Employee.objects.filter(department_id=departmentId)
+            employees = Employee.objects.filter(department_id=department_id, status = Status.ACTIVE.name)
             serializer = EmployeeSerializer(employees, many=True)
             return Response(serializer.data, status=200)
-        except:
+        except Employee.DoesNotExist:
             return Response({"error": "Employees for department not found"}, status=404)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
         
 
-class GetAllEmployees(APIView):
+class GetAllActiveEmployees(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         try:
-            employees = Employee.objects.all()
+            employees = Employee.objects.filter(status = Status.ACTIVE.name)
             serializer = EmployeeSerializer(employees, many=True)
             return Response(serializer.data, status=200)
         except Exception as e:
@@ -65,11 +67,18 @@ class GetEmployeesNoDepartment(APIView):
 
     def get(self, request):
         try:
-            employees = Employee.objects.filter(department_id = 0)
+            employees = Employee.objects.filter(department_id = 0, status = Status.ACTIVE.name)
             serializer = EmployeeSerializer(employees, many=True)
             return Response(serializer.data, status=200)
         except Exception as e:
             return Response({"error:" : "Employees without department not found"}, status=400)
+        
+
+class GetEmployeeByStatus(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, status_name):
+        pass
         
 
 class CreateEmployee(APIView):
@@ -144,7 +153,7 @@ def createEmployeeAllowancesBalances(employee):
     period_end_date = date(current_year, 12, 31)
 
     for leave_type in leave_types:
-        EmployeeAllowance.objects.create(
+        EmployeeLeaveBalance.objects.create(
             employee=employee,
             leave_type=leave_type,
             period_start_date=period_start_date,
@@ -153,18 +162,25 @@ def createEmployeeAllowancesBalances(employee):
             bring_forward=leave_type.default_bring_forward_days
         )
 
-        EmployeeBalance.objects.create(
-            employee=employee,
-            leave_type=leave_type,
-            days_left=leave_type.days
-        )
-
 
 class DeleteEmployee(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
-    def delete(self, request):
-        pass
+    def delete(self, request, employee_id):
+        try:
+            employee = Employee.objects.get(employee_id=employee_id)
+            employee.status = Status.INACTIVE.name
+            
+            if employee.user:
+                user = employee.user
+                employee.user = None
+                employee.save()
+                user.delete()
+
+            employee.save()
+            return Response({"message": "Employee deleted successfully"}, status=200)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
 
 
 class EditEmployee(APIView):
@@ -175,6 +191,12 @@ class EditEmployee(APIView):
             employee = Employee.objects.get(employee_id=employee_id)
         except Employee.DoesNotExist:
             return Response({"error": "Employee not found"}, status=404)
+        
+        try:
+            country_id = request.data.get('country')
+            country = Countries.objects.get(country_id=country_id)
+        except Countries.DoesNotExist:
+            return Response({"error": "Country not found"}, status=404)
         
         employee_data = request.data
         first_name = employee_data.get('first_name', employee.first_name)
@@ -194,12 +216,6 @@ class EditEmployee(APIView):
         if left_date == "":
             left_date = None
         grant_hr_access = employee_data.get('grant_hr_access', 'false').lower() == 'true'
-
-
-        try:
-            country = Countries.objects.get(country_id=country_id)
-        except Countries.DoesNotExist:
-            return Response({"error": "Country not found"}, status=404)
         
         
         employee.first_name = first_name
@@ -218,6 +234,8 @@ class EditEmployee(APIView):
         employee.left_date = left_date
 
         if request.FILES.get('profile_picture'):
+            # employee.profile_picture = handle_profile_picture_upload(employee, request.FILES['profile_picture'])
+
             profile_picture = request.FILES['profile_picture']
             new_filename = f"profile_picture_{employee.employee_id}.{profile_picture.name.split('.')[-1]}"
             file_path = os.path.join('employees/', new_filename)
@@ -225,14 +243,14 @@ class EditEmployee(APIView):
             default_storage.save(file_path, file)
             employee.profile_picture = file_path
 
-        print(grant_hr_access)
         if grant_hr_access:
-            print("IN ADD HR")
             employee.add_role("HR")
         else:
-            print("IN REMOVE HR")
             employee.remove_role("HR")
 
         employee.save()
-        serializer = EmployeeSerializer(employee)
-        return Response({"message": "Employee updated successfully", "employee": serializer.data}, status=200)
+        return Response({"message": "Employee updated successfully"}, status=200)
+    
+
+def handle_profile_picture_upload(employee, pofile_picture):
+    pass

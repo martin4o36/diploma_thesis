@@ -25,6 +25,7 @@ class NonWorkingDay(models.Model):
 
 class Status(Enum):
     ACTIVE = "Active"
+    INACTIVE = "Inactive"
     LEFT = "Left"
     FIRED = "Fired"
 
@@ -35,7 +36,7 @@ class Status(Enum):
 
 class Employee(models.Model):
     employee_id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.DO_NOTHING, null=True, blank=True)
     first_name = models.CharField(max_length=200, null=False)
     middle_name = models.CharField(max_length=200, null=False)
     last_name = models.CharField(max_length=200, null=False)
@@ -52,7 +53,7 @@ class Employee(models.Model):
     left_date = models.DateField(null=True, blank=True)
     profile_picture = models.ImageField(upload_to='employees/', null=True, blank=True)
     status = models.CharField(
-        max_length=7,
+        max_length=10,
         choices=Status.choices(),
         null=True,
         blank=True,

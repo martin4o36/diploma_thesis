@@ -1,5 +1,7 @@
 .treeview-container {
     background: #f4f6f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     padding: 20px;
     font-family: 'Roboto', sans-serif;
     position: relative;
@@ -85,6 +87,7 @@
     align-items: center;
     gap: 10px;
     font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .add-department-button, .main-add-department-button {

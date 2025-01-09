@@ -1,16 +1,12 @@
-import './App.css'
-import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
-import Login from './pages/Login'
-import Home from './pages/Home'
-import NotFound from './pages/NotFound'
-import ProtectedRoute from './components/ProtectedRoute'
-import ContactsAndOrganization from './pages/menu_navigate/ContactsAndOrg'
-import Vacations from './pages/menu_navigate/Vacations'
-import AdminPanel from './pages/menu_navigate/AdminPanel'
-import MyRequests from './pages/menu_navigate/MyRequests'
-import Profile from './pages/menu_navigate/Profile'
-import { useState, useEffect } from 'react'
-import api from './api'
+import './App.css';
+import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
+import Login from './pages/Login';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminPanel from './pages/menu_navigate/AdminPanel';
+import { useState, useEffect } from 'react';
+import api from './api';
 
 function Logout() {
   localStorage.clear()
@@ -18,13 +14,16 @@ function Logout() {
 }
 
 function App() {
-  const [hasAdminPermission, setHasAdminPermission] = useState(true);
+  const [hasAdminPermission, setHasAdminPermission] = useState(false);
 
   useEffect(() => {
     const fetchDataForMenu = async () => {
         try {
-            // const permissionsResponse = await api.get("/api/user-permissions/");
+            const roles = (await api.get("/api/user/roles/")).data.roles;
 
+            if(roles.includes("Owner") || roles.includes("HR")) {
+              setHasAdminPermission(true);
+            }
         } catch (error) {
             console.error("Error fetching leave types:", error);
         }
@@ -42,19 +41,13 @@ function App() {
           <Route path="/logout" element={<Logout />}/>
           <Route path="*" element={<NotFound />}/>
 
-          <Route path="/contacts" element={ <ProtectedRoute> <ContactsAndOrganization /> </ProtectedRoute> }/>
-          <Route path="/vacation" element={ <ProtectedRoute> <Vacations /> </ProtectedRoute> }/>
-          <Route path="/my_requests" element={ <ProtectedRoute> <MyRequests /> </ProtectedRoute> }/>
-
           { hasAdminPermission && (
             <Route path="/admin_panel" element={ <ProtectedRoute> <AdminPanel /> </ProtectedRoute> }/>
           )}
-
-          <Route path="/profile" element={ <ProtectedRoute> <Profile /> </ProtectedRoute> }/>
         </Routes>
       </BrowserRouter>
     </>
-  )
+  );
 }
 
 export default App

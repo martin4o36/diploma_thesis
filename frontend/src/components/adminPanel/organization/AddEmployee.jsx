@@ -66,7 +66,7 @@ function AddEmployeeForm({ department, onClose, setSelectedContent, refreshEmplo
     };
 
     const handleConfigure = () => {
-        setSelectedContent("Employee Details");
+        setSelectedContent("Employee Holiday Details");
         onClose();
     };
 

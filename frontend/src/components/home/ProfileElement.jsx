@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import "../../styles/ProfileElement.css";
 import api from "../../api";
-import { useNavigate  } from "react-router-dom";
+import EmployeePersonalDetails from "../adminPanel/organization/EmployeePersonalDetails";
 
 function ProfileElement() {
     const [employee, setEmployee] = useState(null);
-    const navigate = useNavigate();
+    const [showProfile, setShowProfile] = useState(false);
 
     useEffect(() => {
         const fetchProfileInfo = async () => {
             try {
                 const response = await api.get("/api/employee/home");
-                console.log(response.data);
                 setEmployee(response.data);
             } catch (error) {
                 console.error("Error fetching profile data:", error);
@@ -21,8 +20,8 @@ function ProfileElement() {
         fetchProfileInfo();
     }, []);
 
-    const handleClick = () => {
-        navigate("/profile");
+    const handleClick = (employee) => {
+        setShowProfile(true);
     };
 
     return (
@@ -37,6 +36,10 @@ function ProfileElement() {
                         alt="Picture" 
                         className="profile-image"
                     />
+
+                    {showProfile && (
+                        <EmployeePersonalDetails />
+                    )}
                 </>
             ) : (
                 <span>Loading profile...</span>

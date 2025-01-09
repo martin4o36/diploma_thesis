@@ -7,7 +7,6 @@ function AddLeaveTypeForm({ onSuccess, onCancel }) {
     const [name, setName] = useState("");
     const [days, setDays] = useState("");
     const [daysBringForward, setDaysBringForward] = useState("");
-    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,8 +15,6 @@ function AddLeaveTypeForm({ onSuccess, onCancel }) {
             alert("Please fill in the name!");
             return;
         }
-
-        setLoading(true);
 
         try {
             await api.post("/api/leave-types/add/", {
@@ -29,17 +26,12 @@ function AddLeaveTypeForm({ onSuccess, onCancel }) {
         } catch (error) {
             console.error("Error adding leave type:", error);
             alert("Failed to add leave type.");
-        } finally {
-            setLoading(false);
         }
     }
 
     return (
         <div>
-            {/* Dark overlay */}
             <div className="add-leave-modal-overlay" onClick={onCancel}></div>
-
-            {/* Modal */}
             <div className="add-leave-modal">
                 <div className="add-leave-header">
                     <h2 className="add-leave-title">Add Leave Type</h2>
@@ -92,7 +84,7 @@ function AddLeaveTypeForm({ onSuccess, onCancel }) {
                     </div>
 
                     <div className="add-leave-actions">
-                        <button type="submit" className="add-leave-btn save" disabled={loading}>
+                        <button type="submit" className="add-leave-btn save">
                             <Save /> Save
                         </button>
                         <button type="button" className="add-leave-btn cancel" onClick={onCancel}>

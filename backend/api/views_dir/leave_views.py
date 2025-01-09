@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from ..models_dir.records_models import LeaveType
 from ..serializers.records_serializer import LeaveTypeSerializer
-from django.contrib.auth.decorators import permission_required
+from ..permissions import HasRolePermissionWithRoles
 
 class LeaveTypeListView(APIView):
     permission_classes = [IsAuthenticated]
@@ -17,9 +17,8 @@ class LeaveTypeListView(APIView):
             return Response({"error": str(e)}, status=500)
         
 
-# @permission_required(raise_exception=True)
 class LeaveTypeCreateView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
     def post(self, request):
         serializer = LeaveTypeSerializer(data=request.data)
@@ -29,13 +28,12 @@ class LeaveTypeCreateView(APIView):
         return Response({"message": "Failed to create leave type", "errors": serializer.errors}, status=400)
     
 
-# @permission_required(raise_exception=True)
 class LeaveTypeDeleteView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
-    def delete(self, request, pk, format=None):
+    def delete(self, request, leave_id, format=None):
         try:
-            leave_type = LeaveType.objects.get(pk=pk)
+            leave_type = LeaveType.objects.get(leave_id=leave_id)
             leave_type.delete()
             return Response({"message": "Leave type deleted successfully"}, status=204)
         except LeaveType.DoesNotExist:
@@ -45,7 +43,7 @@ class LeaveTypeDeleteView(APIView):
         
 
 class LeaveTypeEditView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
     def put(self, request, leave_id):
         try:

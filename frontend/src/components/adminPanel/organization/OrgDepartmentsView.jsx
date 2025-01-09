@@ -93,21 +93,29 @@ function OrgDepartmentsView({ setSelectedContent }) {
         fetchEmployeesWithNoDepartment();
     }
 
-    const handleDeleteDepartment = async (department) => {
-        try {
-            console.log(department.key);
-            refreshDepartments();
-        } catch (error) {
-            console.error("Error deleting department:", error);
+    const handleDeleteDepartment = async (departmentId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this department and his child departments?");
+
+        if(confirmDelete) {
+            try {
+                await api.delete(`/api/departments/${departmentId}/delete/`)
+                refreshDepartments();
+            } catch (error) {
+                console.error("Error deleting department:", error);
+            }
         }
     };
 
     const handleDeleteEmployee = async (employee) => {
-        try {
-            console.log(employee.employee_id);
-            refreshEmployees(employee.department_id, null);
-        } catch (error) {
-            console.error("Error deleting employee:", error);
+        const confirmDelete = window.confirm("Are you sure you want to remove this employee?");
+
+        if(confirmDelete) {
+            try {
+                await api.delete(`/api/employee/${employee.employee_id}/delete/`)
+                refreshEmployees(employee.department_id);
+            } catch (error) {
+                console.error("Error deleting department:", error);
+            }
         }
     };
 
@@ -138,7 +146,7 @@ function OrgDepartmentsView({ setSelectedContent }) {
                             <Edit2 className="department-edit-icon" />
                         </button>
                         <button
-                            onClick={(e) => e.stopPropagation() || handleDeleteDepartment(node)}
+                            onClick={(e) => e.stopPropagation() || handleDeleteDepartment(node.key)}
                             className="delete-department-button"
                             title="Delete Department"
                         >

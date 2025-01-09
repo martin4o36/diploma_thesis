@@ -10,7 +10,7 @@ function AdminMenu() {
         { title: "Employees and Departments" },
         { title: "Leave Types" },
         { title: "Countries" },
-        { title: "Employee Details" },
+        { title: "Employee Holiday Details" },
     ];
 
     const [selectedContent, setSelectedContent] = useState(menuItems[0].title);
@@ -47,7 +47,7 @@ function AdminMenu() {
                 {selectedContent === "Employees and Departments" && <OrgDepartmentsView setSelectedContent={setSelectedContent} /> }
                 {selectedContent === "Leave Types" && <LeaveTypesView /> }
                 {selectedContent === "Countries" && <CountriesView /> }
-                {selectedContent === "Employee Details" && <EmployeeDetailsView /> }
+                {selectedContent === "Employee Holiday Details" && <EmployeeDetailsView /> }
             </div>
         </div>
     );

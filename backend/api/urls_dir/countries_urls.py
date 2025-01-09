@@ -4,6 +4,6 @@ from ..views_dir.countries_views import GetAllCountries, CreateCountry, DeleteCo
 urlpatterns = [
     path('', GetAllCountries.as_view(), name='get_all_countries'),
     path('add/', CreateCountry.as_view(), name='add_country'),
-    path('<int:pk>/delete/', DeleteCountry.as_view(), name='delete_country'),
-    path('<int:pk>/edit/', EditCountry.as_view(), name='edit_country'),
+    path('<int:country_id>/delete/', DeleteCountry.as_view(), name='delete_country'),
+    path('<int:country_id>/edit/', EditCountry.as_view(), name='edit_country'),
 ]

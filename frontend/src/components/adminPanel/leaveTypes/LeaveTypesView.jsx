@@ -98,13 +98,13 @@ function LeaveTypesView() {
                                 onClick={() => handleEditLeaveType(leaveType)}
                                 className="edit-btn"
                             >
-                                <Edit2 size={16} />
+                                <Edit2 className="edit-icon"/>
                             </button>
                             <button
                                     onClick={() => handleDeleteLeaveType(leaveType.leave_id)}
                                     className="delete-btn"
                             >
-                                <Trash2 size={16} />
+                                <Trash2 className="trash-icon" />
                             </button>
                             </td>
                         </tr>
