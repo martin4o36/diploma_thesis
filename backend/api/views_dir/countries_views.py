@@ -15,6 +15,17 @@ class GetAllCountries(APIView):
             return Response(serializer.data)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+        
+
+class GetAllCountryName(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, country_id):
+        try:
+            country = Countries.objects.get(country_id=country_id)
+            return Response({"country_name": country.country_name})
+        except Countries.DoesNotExist:
+            return Response({"error": "Country not found"}, status=404)
 
 
 class CreateCountry(APIView):

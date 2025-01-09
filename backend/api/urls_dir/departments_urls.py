@@ -7,4 +7,5 @@ urlpatterns = [
     path('<int:department_id>/edit/', EditDepartmentView.as_view(), name='edit_department'),
     path('<int:department_id>/delete/', DeleteDepartment.as_view(), name='delete_department'),
     path('', AllDepartments.as_view(), name='all_department'),
+    path('<int:department_id>/profile/', DepartmentsForProfile.as_view(), name='departments_structured_to_employee_department'),
 ]

@@ -4,8 +4,7 @@ from django.conf import settings
 from ..views_dir.employee_views import *
 
 urlpatterns = [
-    path('', GetCurrentUserToManage.as_view(), name='get_employee'),
-    path('home/', GetCurrentUserToManageForHomeMenu.as_view(), name='get_home_menu_employee'),
+    path('', GetCurrentEmployeeToManage.as_view(), name='get_employee'),
     path('add/', CreateEmployee.as_view(), name='add_employee'),
     path('<int:department_id>/by-department/', GetEmployeesByDepartmentID.as_view(), name='get_employees_by_department'),
     path('all/', GetAllActiveEmployees.as_view(), name='get_all_employees'),

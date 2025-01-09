@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../../styles/ProfileElement.css";
 import api from "../../api";
-import EmployeePersonalDetails from "../adminPanel/organization/EmployeePersonalDetails";
+import EmployeePersonalDetails from "./EmployeePersonalDetails";
 
 function ProfileElement() {
     const [employee, setEmployee] = useState(null);
@@ -10,7 +10,7 @@ function ProfileElement() {
     useEffect(() => {
         const fetchProfileInfo = async () => {
             try {
-                const response = await api.get("/api/employee/home");
+                const response = await api.get("/api/employee/");
                 setEmployee(response.data);
             } catch (error) {
                 console.error("Error fetching profile data:", error);
@@ -20,7 +20,7 @@ function ProfileElement() {
         fetchProfileInfo();
     }, []);
 
-    const handleClick = (employee) => {
+    const handleClick = () => {
         setShowProfile(true);
     };
 
@@ -38,7 +38,10 @@ function ProfileElement() {
                     />
 
                     {showProfile && (
-                        <EmployeePersonalDetails />
+                        <EmployeePersonalDetails 
+                            employee={employee} 
+                            onClose={() => { setShowProfile(false) }}    
+                        />
                     )}
                 </>
             ) : (

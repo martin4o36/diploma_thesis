@@ -7,12 +7,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models_dir.employee_models import Employee, Status
 from ..models_dir.records_models import LeaveType, EmployeeLeaveBalance
-from ..serializers.emp_dep_serializer import EmployeeSerializer, EmployeeHomeMenuSerializer
+from ..serializers.emp_dep_serializer import EmployeeSerializer
 from ..models_dir.employee_models import Countries
 from django.contrib.auth.models import User
 from ..permissions import HasRolePermissionWithRoles
 
-class GetCurrentUserToManage(APIView):
+class GetCurrentEmployeeToManage(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -23,18 +23,6 @@ class GetCurrentUserToManage(APIView):
         except Employee.DoesNotExist:
             return Response({"error": "Employee not found"}, status=404)
 
-
-class GetCurrentUserToManageForHomeMenu(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        try:
-            employee = Employee.objects.get(user=request.user)
-            serializer = EmployeeHomeMenuSerializer(employee)
-            return Response(serializer.data, status=200)
-        except Employee.DoesNotExist:
-            return Response({"error": "Employee not found"}, status=404)
-    
     
 class GetEmployeesByDepartmentID(APIView):
     permission_classes = [IsAuthenticated]

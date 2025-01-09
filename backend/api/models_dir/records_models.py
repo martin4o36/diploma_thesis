@@ -121,7 +121,23 @@ class Substitute(models.Model):
         unique_together = ('request_id', 'employee_id')
 
 
+class RemoteWork(models.Model):
+    remote_id = models.AutoField(primary_key=True)
+    employee = models.ManyToManyField(Employee, related_name='remote_employee')
+    start_date = models.DateField()
+    end_date = models.DateField()
+    approver = models.OneToOneField(Employee, on_delete=models.DO_NOTHING, related_name='remote_approver')
+    status = models.CharField(
+        max_length=10,
+        choices=Type.choices(),
+        default=Type.WAITING.name
+    )
+    status_change = models.DateTimeField(null=False, auto_now=True)
+    comment = models.CharField(max_length=255, null=True, blank=True)
+
+
 admin.site.register(Request)
+admin.site.register(RemoteWork)
 admin.site.register(LeaveType)
 admin.site.register(EmployeeLeaveBalance)
 admin.site.register(WriteOff)

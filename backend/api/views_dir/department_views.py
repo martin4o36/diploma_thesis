@@ -128,3 +128,41 @@ class AllDepartments(APIView):
             return Response(serializer.data, status=200)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+        
+
+class DepartmentsForProfile(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, department_id):
+        try:
+            departments_chain = []
+            current_dept = Department.objects.get(department_id=department_id)
+            manager_info = {}
+
+            if current_dept.manager:
+                manager = current_dept.manager
+                manager_info = {
+                    "first_name": manager.first_name,
+                    "last_name": manager.last_name,
+                    "position": manager.position,
+                    "profile_picture": manager.profile_picture.url if manager.profile_picture else None,
+                    "email": manager.email,
+                    "phone_number": manager.phone_number,
+                }
+
+            while current_dept.parent_dept_id != 0:
+                departments_chain.append(current_dept)
+                current_dept = Department.objects.get(department_id=current_dept.parent_dept_id)
+
+            departments_chain.append(current_dept)
+            departments_data = DepartmentSerializer(departments_chain, many=True).data
+
+            response_data = {
+                "departments_chain": departments_data,
+                "manager_info": manager_info,
+            }
+            return Response(response_data, status=200)
+        except Department.DoesNotExist:
+            return Response({"error": "Department not found"}, status=404)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)

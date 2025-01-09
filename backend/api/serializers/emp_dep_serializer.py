@@ -20,25 +20,6 @@ class EmployeeSerializer(serializers.ModelSerializer):
         return employee
 
 
-class EmployeeHomeMenuSerializer(serializers.ModelSerializer):
-    profile_picture = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Employee
-        fields = ['first_name', 'last_name', 'profile_picture']
-
-    def get_profile_picture(self, obj):
-        if obj.profile_picture:
-            return settings.MEDIA_URL + obj.profile_picture.name
-        return None
-    
-
-class EmployeeBalanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Employee
-        fields = ['employee_id', 'first_name', 'middle_name', 'last_name', 'position']
-
-
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
@@ -48,10 +29,6 @@ class DepartmentSerializer(serializers.ModelSerializer):
         if value != 0 and not Department.objects.filter(department_id=value).exists():
             raise serializers.ValidationError("Parent department does not exist.")
         return value
-
-
-class PermissionsSerializer(serializers.Serializer):
-    can_manage_employees = serializers.BooleanField()
 
 
 class CountrySerializer(serializers.ModelSerializer):

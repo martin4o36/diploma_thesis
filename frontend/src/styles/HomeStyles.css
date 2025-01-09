@@ -1,9 +1,9 @@
-/* Main layout for separated header and left menu */
 .nav-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
     margin: 0;
+    position: absolute;
 }
 
 .header {
@@ -45,10 +45,10 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    height: calc(100% - 60px); /* Adjust for header height */
+    height: calc(100% - 80px);
     width: 250px;
     position: fixed;
-    top: 60px; /* Offset for fixed header */
+    top: 80px;
     left: 0;
     bottom: 0;
     transition: width 0.3s ease-in-out;
@@ -139,4 +139,23 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.body-fixed {
+    overflow: hidden;
+}
+
+.content-scrollable {
+    overflow-y: auto;
+    height: calc(100vh - 80px);
+    padding: 20px 20px 20px 20px;
+    margin-top: 60px;
+}
+
+.content-scrollable.nav-expanded {
+    margin-left: 250px;
+}
+
+.content-scrollable.nav-collapsed {
+    margin-left: 80px;
 }
