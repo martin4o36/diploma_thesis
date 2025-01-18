@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import "../../styles/ProfileElement.css";
-import api from "../../api";
-import EmployeePersonalDetails from "./EmployeePersonalDetails";
+import "../styles/ProfileElement.css";
+import api from "../api";
 
-function ProfileElement() {
+function ProfileElement({ onClick }) {
     const [employee, setEmployee] = useState(null);
-    const [showProfile, setShowProfile] = useState(false);
 
     useEffect(() => {
         const fetchProfileInfo = async () => {
@@ -20,29 +18,18 @@ function ProfileElement() {
         fetchProfileInfo();
     }, []);
 
-    const handleClick = () => {
-        setShowProfile(true);
-    };
-
     return (
-        <div className="profile" onClick={handleClick}>
+        <div className="profile" onClick={onClick}>
             {employee ? (
                 <>
-                    <span className="profile-name">
-                        {employee.first_name} {employee.last_name}
-                    </span>
                     <img 
                         src={`${import.meta.env.VITE_API_URL}${employee.profile_picture}`} 
                         alt="Picture" 
                         className="profile-image"
                     />
-
-                    {showProfile && (
-                        <EmployeePersonalDetails 
-                            employee={employee} 
-                            onClose={() => { setShowProfile(false) }}    
-                        />
-                    )}
+                    <span className="profile-name">
+                        {employee.first_name} {employee.last_name}
+                    </span>
                 </>
             ) : (
                 <span>Loading profile...</span>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models_dir.records_models import LeaveType, EmployeeLeaveBalance
+from ..models_dir.records_models import LeaveType, EmployeeLeaveBalance, HolidayRequest, RemoteWork
 from ..models_dir.employee_models import NonWorkingDay
 
 class LeaveTypeSerializer(serializers.ModelSerializer):
@@ -42,3 +42,51 @@ class EmployeeLeaveBalanceSerializer(serializers.ModelSerializer):
             "bring_forward",
             "comment",
         ]
+
+
+class HolidayRequestsSerializer(serializers.ModelSerializer):
+    approver_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = HolidayRequest
+        fields = [
+            "request_id",
+            "employee",
+            "leave_type",
+            "start_date",
+            "end_date",
+            "approver",
+            "status",
+            "status",
+            "status_change",
+            "comment",
+            "approver_name",
+        ]
+
+    def get_approver_name(self, obj):
+        if obj.approver:
+            return f"{obj.approver.first_name} {obj.approver.last_name}"
+        return None
+
+
+class RemoteWorkSerializer(serializers.ModelSerializer):
+    approver_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = RemoteWork
+        fields = [
+            "remote_id",
+            "employee",
+            "start_date",
+            "end_date",
+            "approver",
+            "status",
+            "status_change",
+            "comment",
+            "approver_name",
+        ]
+
+    def get_approver_name(self, obj):
+        if obj.approver:
+            return f"{obj.approver.first_name} {obj.approver.last_name}"
+        return None

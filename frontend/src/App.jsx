@@ -4,7 +4,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
-import AdminPanel from './pages/menu_navigate/AdminPanel';
+import AdminMenu from './pages/AdminMenu';
 import { useState, useEffect } from 'react';
 import api from './api';
 
@@ -42,7 +42,7 @@ function App() {
           <Route path="*" element={<NotFound />}/>
 
           { hasAdminPermission && (
-            <Route path="/admin_panel" element={ <ProtectedRoute> <AdminPanel /> </ProtectedRoute> }/>
+            <Route path="/admin_panel" element={ <ProtectedRoute> <AdminMenu /> </ProtectedRoute> }/>
           )}
         </Routes>
       </BrowserRouter>

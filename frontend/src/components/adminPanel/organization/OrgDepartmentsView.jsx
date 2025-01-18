@@ -12,6 +12,7 @@ function OrgDepartmentsView({ setSelectedContent }) {
     const [employeesNoDepartment, setEmployeesNoDepartment] = useState([]);
     const [expanded, setExpanded] = useState({});
     const [employeesByDepartment, setEmployeesByDepartment] = useState({});
+    const [managerForDepartment, setManagerForDepartment] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [currentAction, setCurrentAction] = useState(null);
     const [currentEntity, setCurrentEntity] = useState(null);
@@ -29,25 +30,36 @@ function OrgDepartmentsView({ setSelectedContent }) {
         try {
             const response = await api.get("/api/employee/no-department/");
             setEmployeesNoDepartment(response.data);
-            console.log(response.data);
         } catch (error) {
             console.log("Error fetching employees with no department:", error);
+        }
+    };
+
+    const fetchManagerForDepartment = async (departmentId) => {
+        try {
+            const response = await api.get(`/api/employee/${departmentId}/manager/`);
+            setManagerForDepartment((prev) => ({
+                ...prev,
+                [departmentId]: response.data,
+            }));
+        } catch (error) {
+            console.log("Error fetching manager for department:", error);
         }
     };
 
     useEffect(() => {
         fetchDepartments();
         fetchEmployeesWithNoDepartment();
-        console.log(employeesNoDepartment);
     }, []);
 
     const fetchEmployeesByDepartment = async (departmentId) => {
         try {
             const response = await api.get(`/api/employee/${departmentId}/by-department/`);
+
             setEmployeesByDepartment((prev) => ({
                 ...prev,
                 [departmentId]: response.data,
-            }));
+            }));    
         } catch (error) {
             console.log(`Error fetching employees for department ${departmentId}:`, error);
         }
@@ -61,6 +73,7 @@ function OrgDepartmentsView({ setSelectedContent }) {
 
         if (!expanded[nodeId]) {
             fetchEmployeesByDepartment(nodeId);
+            fetchManagerForDepartment(nodeId);
         }
     };
 
@@ -81,10 +94,12 @@ function OrgDepartmentsView({ setSelectedContent }) {
         
         if (oldDepartmentId && oldDepartmentId !== newDepartmentId) {
             fetchEmployeesByDepartment(oldDepartmentId);
+            fetchManagerForDepartment(oldDepartmentId);
         }
 
         if (newDepartmentId) {
             fetchEmployeesByDepartment(newDepartmentId);
+            fetchManagerForDepartment(newDepartmentId);
         }
     };
 
@@ -123,7 +138,8 @@ function OrgDepartmentsView({ setSelectedContent }) {
         const hasChildren = Array.isArray(node.children) && node.children.length > 0;
         const employees = employeesByDepartment[node.key] || [];
         const isExpanded = expanded[node.key];
-
+        const manager = managerForDepartment[node.key];
+    
         return (
             <li key={node.key} className="treeview-item" style={{ marginLeft: `${level * 20}px` }}>
                 <div className="tree-title" onClick={() => toggleExpand(node.key)}>
@@ -162,19 +178,22 @@ function OrgDepartmentsView({ setSelectedContent }) {
                         </button>
                     </div>
                 </div>
-
+    
                 {isExpanded && (
                     <ul className="children">
                         {hasChildren &&
                             node.children.map((child) => renderTree(child, level + 1))}
-
+    
                         {employees.length === 0 && !hasChildren && (
                             <li className="empty-item">No departments or employees found</li>
                         )}
-
+    
                         {employees.length > 0 &&
                             employees.map((employee) => (
-                                <li key={employee.employee_id} className="employee-item">
+                                <li
+                                    key={employee.employee_id}
+                                    className={`employee-item ${employee.employee_id === manager?.employee_id ? 'manager-item' : ''}`}
+                                >
                                     {employee.first_name} {employee.last_name} ({employee.position})
                                     <div className="employee-actions">
                                         <button

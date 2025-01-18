@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "../../styles/adminPanelStyles/AdminMenu.css";
-import OrgDepartmentsView from "./organization/OrgDepartmentsView";
-import LeaveTypesView from "./leaveTypes/LeaveTypesView";
-import CountriesView from "./countries/CountriesView";
-import EmployeeDetailsView from "./employee_details/EmployeeDetailsView";
+import "../styles/adminPanelStyles/AdminMenu.css";
+import OrgDepartmentsView from "../components/adminPanel/organization/OrgDepartmentsView";
+import LeaveTypesView from "../components/adminPanel/leaveTypes/LeaveTypesView";
+import CountriesView from "../components/adminPanel/countries/CountriesView";
+import EmployeeDetailsView from "../components/adminPanel/employee_details/EmployeeDetailsView";
 
 function AdminMenu() {
     const menuItems = [

@@ -1,0 +1,51 @@
+.header-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+    height: 4.5rem;
+    padding: 0 1.5rem;
+    z-index: 10;
+}
+
+.left-side {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.bell-icon {
+    position: relative;
+    padding: 0.5rem;
+    border-radius: 50%;
+    background-color: #f3f4f6;
+    cursor: pointer;
+}
+
+.bell-icon-svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #4b5563;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #9b4dff;
+    border-radius: 50%;
+}
+
+.right-side {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    cursor: pointer;
+}

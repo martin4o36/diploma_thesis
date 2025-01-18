@@ -5,7 +5,7 @@ from django.core.files.base import ContentFile
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from ..models_dir.employee_models import Employee, Status
+from ..models_dir.employee_models import Employee, Status, Department
 from ..models_dir.records_models import LeaveType, EmployeeLeaveBalance
 from ..serializers.emp_dep_serializer import EmployeeSerializer
 from ..models_dir.employee_models import Countries
@@ -36,6 +36,20 @@ class GetEmployeesByDepartmentID(APIView):
             return Response({"error": "Employees for department not found"}, status=404)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+        
+
+class GetManagerForDepartment(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, reques, department_id):
+        try:
+            department = Department.objects.get(department_id=department_id)
+            manager = department.manager
+            serializer = EmployeeSerializer(manager)
+            return Response(serializer.data, status=200)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
+
         
 
 class GetAllActiveEmployees(APIView):
@@ -123,7 +137,7 @@ class CreateEmployee(APIView):
                 employee.save()
 
             if grant_hr_access:
-                employee.add_role('HR')
+                employee.add_role("HR")
 
             employee.save()
             createEmployeeAllowancesBalances(employee=employee)

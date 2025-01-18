@@ -92,13 +92,13 @@ class Type(Enum):
     
 
 
-class Request(models.Model):
+class HolidayRequest(models.Model):
     request_id = models.AutoField(primary_key=True)
     employee = models.ManyToManyField(Employee, related_name='requests_employee')
     leave_type = models.ForeignKey(LeaveType, on_delete=models.DO_NOTHING)
     start_date = models.DateField()
     end_date = models.DateField()
-    approver = models.OneToOneField(Employee, on_delete=models.DO_NOTHING, related_name='requests_approver')
+    approver = models.ForeignKey(Employee, on_delete=models.DO_NOTHING, related_name='requests_approver')
     status = models.CharField(
         max_length=10,
         choices=Type.choices(),
@@ -108,12 +108,12 @@ class Request(models.Model):
     comment = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
-        db_table = 'requests'
+        db_table = 'holiday_requests'
 
 
 class Substitute(models.Model):
     substitute_id = models.AutoField(primary_key=True)
-    request = models.ForeignKey(Request, on_delete=models.DO_NOTHING)
+    request = models.ForeignKey(HolidayRequest, on_delete=models.DO_NOTHING)
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
 
     class Meta:
@@ -126,7 +126,7 @@ class RemoteWork(models.Model):
     employee = models.ManyToManyField(Employee, related_name='remote_employee')
     start_date = models.DateField()
     end_date = models.DateField()
-    approver = models.OneToOneField(Employee, on_delete=models.DO_NOTHING, related_name='remote_approver')
+    approver = models.ForeignKey(Employee, on_delete=models.DO_NOTHING, related_name='remote_approver')
     status = models.CharField(
         max_length=10,
         choices=Type.choices(),
@@ -135,8 +135,11 @@ class RemoteWork(models.Model):
     status_change = models.DateTimeField(null=False, auto_now=True)
     comment = models.CharField(max_length=255, null=True, blank=True)
 
+    class Meta:
+        db_table = 'remote_requests'
 
-admin.site.register(Request)
+
+admin.site.register(HolidayRequest)
 admin.site.register(RemoteWork)
 admin.site.register(LeaveType)
 admin.site.register(EmployeeLeaveBalance)

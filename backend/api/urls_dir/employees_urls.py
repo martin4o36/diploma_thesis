@@ -7,6 +7,7 @@ urlpatterns = [
     path('', GetCurrentEmployeeToManage.as_view(), name='get_employee'),
     path('add/', CreateEmployee.as_view(), name='add_employee'),
     path('<int:department_id>/by-department/', GetEmployeesByDepartmentID.as_view(), name='get_employees_by_department'),
+    path('<int:department_id>/manager/', GetManagerForDepartment.as_view(), name='get_manager_for_department'),
     path('all/', GetAllActiveEmployees.as_view(), name='get_all_employees'),
     path('no-department/', GetEmployeesNoDepartment.as_view(), name='get_employees_with_no_department'),
     path('by-status/', GetEmployeesNoDepartment.as_view(), name='get_employees_with_no_department'),

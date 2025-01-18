@@ -17,4 +17,5 @@ urlpatterns = [
     path('api/country/', include('api.urls_dir.countries_urls')),
     path('api/non-working-days/', include('api.urls_dir.non_working_days_urls')),
     path('api/leave-balance/', include('api.urls_dir.employee_balances_urls')),
+    path('api/request/', include('api.urls_dir.requests_urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

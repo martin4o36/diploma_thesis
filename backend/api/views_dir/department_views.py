@@ -22,11 +22,31 @@ class DepartmentCreateView(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
     
     def post(self, request):
-        serializer = DepartmentSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+        try:
+            dep_name = request.data.get('dep_name')
+            parent_dept_id = request.data.get('parent_dept_id', 0)
+
+            department = Department.objects.create(
+                dep_name = dep_name,
+                parent_dept_id = parent_dept_id,
+            )
+
+            manager_id = request.data.get('manager_id', None)
+            manager = None
+            if manager_id and manager_id != 0:
+                try:
+                    manager = Employee.objects.get(employee_id=manager_id)
+                    manager.add_role("Manager")
+                    manager.department_id = department.department_id
+                    manager.save()
+                    department.manager = manager
+                except Employee.DoesNotExist:
+                    return Response({"error": "Manager not found"}, status=404)
+                
+            department.save()
+            return Response({"message": "Department created successfully"}, status=200)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
     
 
 
@@ -87,7 +107,7 @@ class EditDepartmentView(APIView):
             else:
                 try:
                     manager = Employee.objects.get(employee_id=manager_id)
-                    print(manager)
+                    manager.add_role("Manager")
                     department.manager = manager
                 except Employee.DoesNotExist:
                     return Response({"error": "Manager not found."}, status=400)
@@ -109,8 +129,13 @@ class DeleteDepartment(APIView):
                 for child in child_departments:
                     delete_department_and_children(child.department_id)
 
+                department = Department.objects.get(department_id=dept_id)
+                if department.manager:
+                    department.manager.remove_role("Manager")
+                    department.manager.save()
+
                 Employee.objects.filter(department_id=dept_id).update(department_id=0)
-                Department.objects.filter(department_id=dept_id).delete()
+                department.delete()
 
             delete_department_and_children(department_id)
             return Response({"message": "Department and its child departments deleted successfully."}, status=200)
