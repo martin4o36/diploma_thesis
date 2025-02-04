@@ -1,0 +1,150 @@
+.home-calendar-container {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.home-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.home-event-labels {
+    display: flex;
+    gap: 10px;
+}
+
+.home-event-label {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.home-event-label-skyblue {
+    background: #38bdf8;
+}
+
+.home-event-label-orange {
+    background: #f59e0b;
+}
+
+.home-event-label-green {
+    background: #02b70e;
+}
+
+.home-month-navigation {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.home-nav-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.home-nav-button:hover {
+    background-color: #f3f4f6;
+}
+
+.home-current-month {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.home-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.home-weekday {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #6b7280;
+}
+
+.home-calendar-day {
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    height: 80px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.home-day-number {
+    font-size: 14px;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.home-calendar-day:hover {
+    background-color: #f3f4f6;
+}
+
+/* Always visible event types */
+.home-event {
+    width: 100%;
+    padding: 4px;
+    margin-top: 4px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+/* Colors for different event types */
+.home-event-holiday {
+    background-color: #f59e0b;
+}
+
+.home-event-remote {
+    background-color: #38bdf8;
+}
+
+.home-event-timeoff {
+    background-color: #02b70e;
+}
+
+.calendar-employee-name {
+    font-size: 14px;
+    font-weight: normal;
+    display: none;
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid #e5e7eb;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.home-calendar-day:hover .calendar-employee-name {
+    z-index: 1000;
+    display: block;
+}

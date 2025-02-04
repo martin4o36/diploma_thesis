@@ -97,9 +97,10 @@ function EmployeeDetailsView() {
         });
     };
 
-    const handleEditLeaveBalance = async (leaveBalance) => {
+    const handleEditLeaveBalance = async (leaveBalance, employee) => {
         setShowEditLeaveBalance(true);
         setCurrentLeaveBalance(leaveBalance);
+        setCurrentEmployee(employee);
     }
 
     const handleAddLeaveBalance = async (employee) => {
@@ -278,7 +279,7 @@ function EmployeeDetailsView() {
 
                                                         <div className="leave-balance-buttons">
                                                             <button
-                                                                onClick={(e) => e.stopPropagation() || handleEditLeaveBalance(leaveBalance)}
+                                                                onClick={(e) => e.stopPropagation() || handleEditLeaveBalance(leaveBalance, employee)}
                                                                 className="edit-leave-balance-button"
                                                                 title="Edit Balance"
                                                             >

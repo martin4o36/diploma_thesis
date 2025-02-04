@@ -3,13 +3,13 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from api.views import *
+from api.views import GetUserRoles
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token', TokenObtainPairView.as_view(), name='get_token'),
     path('api/token/refresh', TokenRefreshView.as_view(), name='refresh_token'),
-    path('api/user/roles/', CheckUserRoles.as_view(), name='check_user_roles'),
+    path('api/user/roles/', GetUserRoles.as_view(), name='check_user_roles'),
 
     path('api/employee/', include('api.urls_dir.employees_urls')),
     path('api/departments/', include('api.urls_dir.departments_urls')),

@@ -6,6 +6,46 @@
 .main-content {
     flex-grow: 1;
     padding-top: 4rem;
-    margin-left: 16rem;
+    transition: margin-left 0.5s ease-in-out; /* Smooth transition for margin adjustment */
     overflow-y: auto;
+}
+
+.main-content.expanded {
+    margin-left: 16rem; /* When sidebar is expanded */
+}
+
+.main-content.collapsed {
+    margin-left: 5rem; /* When sidebar is collapsed */
+}
+
+.dashboard-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+}
+
+.home-calendar-container {
+    flex-grow: 1;
+    min-width: 400px;
+    max-width: 80%;
+}
+
+.requests-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 300px;
+    max-width: 35%;
+}
+
+@media (max-width: 1024px) {
+    .dashboard-layout {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .requests-panel {
+        max-width: 100%;
+    }
 }

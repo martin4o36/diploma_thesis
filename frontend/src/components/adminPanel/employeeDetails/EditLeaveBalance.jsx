@@ -3,7 +3,7 @@ import { Save, X } from "lucide-react";
 import api from "../../../api";
 import "../../../styles/adminPanelStyles/balances/EditLeaveBalanceStyles.css"
 
-function EditLeaveBalance({ leaveBalance, employee_name, onSuccess, onCancel }) {
+function EditLeaveBalance({ leaveBalance, onSuccess, onCancel }) {
     const [leaveTypes, setLeaveTypes] = useState([]);
     const [leaveBalanceData, setLeaveBalanceData] = useState({
         leave_type_id: leaveBalance.leave_type,
@@ -64,9 +64,9 @@ function EditLeaveBalance({ leaveBalance, employee_name, onSuccess, onCancel }) 
                                 Leave Type
                             </label>
                             <select
-                                name="leave_balance_type_id"
+                                name="leave_type_id"
                                 className="edit-leave-balance-input"
-                                value={leaveBalanceData.leave_type_id}
+                                value={leaveBalanceData.leave_type_id || ""}
                                 onChange={handleInputChange}
                                 required
                             >

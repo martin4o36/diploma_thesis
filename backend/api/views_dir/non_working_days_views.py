@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models_dir.employee_models import NonWorkingDay, Countries
 from ..serializers.records_serializer import NonWorkingDaySerializer
-from django.contrib.auth.decorators import permission_required
+from ..permissions import HasRolePermissionWithRoles
 
 class GetNonWorkingDaysByCountry(APIView):
     permission_classes = [IsAuthenticated]
@@ -18,9 +18,8 @@ class GetNonWorkingDaysByCountry(APIView):
             return Response({"error": str(e)}, status=500)
 
 
-# @permission_required(raise_exception=True)
 class AddNonWorkingDay(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
     def post(self, request):
         try:
@@ -43,9 +42,8 @@ class AddNonWorkingDay(APIView):
             return Response({"error": str(e)}, status=500)
 
 
-# @permission_required(raise_exception=True)
 class DeleteNonWorkingDay(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
     def delete(self, request, country_id, nwd_id):
         try:
@@ -64,7 +62,7 @@ class DeleteNonWorkingDay(APIView):
         
 
 class EditNonWorkingDay(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
     def put(self, request, nwd_id):
         try:

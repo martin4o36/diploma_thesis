@@ -23,7 +23,6 @@ class GetCurrentEmployeeToManage(APIView):
         except Employee.DoesNotExist:
             return Response({"error": "Employee not found"}, status=404)
 
-    
 class GetEmployeesByDepartmentID(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -37,7 +36,6 @@ class GetEmployeesByDepartmentID(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=500)
         
-
 class GetManagerForDepartment(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -49,9 +47,7 @@ class GetManagerForDepartment(APIView):
             return Response(serializer.data, status=200)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
-
         
-
 class GetAllActiveEmployees(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -63,11 +59,10 @@ class GetAllActiveEmployees(APIView):
         except Exception as e:
             return Response({"error:" : "Employees not found"}, status=400)
         
-
 class GetEmployeesNoDepartment(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def get(self, request, status):
         try:
             employees = Employee.objects.filter(department_id = 0, status = Status.ACTIVE.name)
             serializer = EmployeeSerializer(employees, many=True)
@@ -75,14 +70,12 @@ class GetEmployeesNoDepartment(APIView):
         except Exception as e:
             return Response({"error:" : "Employees without department not found"}, status=400)
         
-
 class GetEmployeeByStatus(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, status_name):
         pass
         
-
 class CreateEmployee(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
 
@@ -147,7 +140,6 @@ class CreateEmployee(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=500)
 
-
 def createEmployeeAllowancesBalances(employee):
     leave_types = LeaveType.objects.all()
     current_year = date.today().year
@@ -163,7 +155,6 @@ def createEmployeeAllowancesBalances(employee):
             days=leave_type.days,
             bring_forward=leave_type.default_bring_forward_days
         )
-
 
 class DeleteEmployee(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
@@ -183,7 +174,6 @@ class DeleteEmployee(APIView):
             return Response({"message": "Employee deleted successfully"}, status=200)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
-
 
 class EditEmployee(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
@@ -253,6 +243,5 @@ class EditEmployee(APIView):
         employee.save()
         return Response({"message": "Employee updated successfully"}, status=200)
     
-
 def handle_profile_picture_upload(employee, pofile_picture):
     pass

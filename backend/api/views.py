@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
 from .models_dir.employee_models import Employee
 
-class CheckUserRoles(APIView):
+class GetUserRoles(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):

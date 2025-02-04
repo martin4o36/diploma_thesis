@@ -1,0 +1,153 @@
+.my-requests {
+    padding: 20px;
+}
+  
+.filter-section {
+    background-color: #f9f9f9;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 24px;
+}
+  
+.filter-section h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+  
+.filter-inputs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+  
+.filter-inputs input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+  
+.filter-actions button {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+.filter-actions button:first-child {
+    background-color: #2563eb;
+    color: white;
+    margin-right: 12px;
+}
+  
+.filter-actions button:last-child {
+    background-color: transparent;
+    color: #2563eb;
+}
+  
+.requests-list {
+    margin-top: 24px;
+}
+  
+.pagination-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    margin-bottom: 16px;
+}
+  
+.pagination-controls button {
+    padding: 6px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+}
+  
+.pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+  
+.requests {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+  
+.request-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: white;
+    padding: 16px;
+}
+  
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+  
+.card-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+  
+.card-actions button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+  
+.card-body div {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+  
+.card-body div svg {
+    margin-right: 8px;
+}
+  
+.card-body h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+  
+.card-body p {
+    font-size: 0.875rem;
+    color: #4b5563;
+    background-color: #f9fafb;
+    padding: 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+}
+  
+.status {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+  
+.status.approved {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+  
+.status.rejected,
+.status.canceled {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+  
+.status.pending {
+    background-color: #fef3c7;
+    color: #b45309;
+}

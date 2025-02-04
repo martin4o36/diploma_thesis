@@ -17,7 +17,7 @@ class GetAllCountries(APIView):
             return Response({"error": str(e)}, status=500)
         
 
-class GetAllCountryName(APIView):
+class GetCountryName(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, country_id):

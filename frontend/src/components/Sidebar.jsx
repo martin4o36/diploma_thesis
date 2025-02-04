@@ -3,9 +3,7 @@ import { Home, Users, Calendar, Monitor, Settings, MenuIcon } from "lucide-react
 import logo from "../assets/logo.jpg";
 import "../styles/SidebarStyles.css";
 
-function Sidebar({ hasAdminPermission, activeTab, setActiveTab }) {
-	const [isExpanded, setIsExpanded] = useState(true);
-
+function Sidebar({ hasAdminPermission, activeTab, setActiveTab, isExpanded, setIsExpanded }) {
 	const menuItems = [
         { icon: Home, label: "Home" },
         { icon: Users, label: "Contacts and Organization" },

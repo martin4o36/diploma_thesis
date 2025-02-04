@@ -1,0 +1,137 @@
+/* Pending Approvals */
+.pending-approvals {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 600px;
+}
+
+/* Navigation Tabs */
+.tab-navigation {
+    display: flex;
+    justify-content: flex-start;
+    background: white;
+    border-bottom: 2px solid #e5e7eb;
+    padding: 10px 0;
+    margin-bottom: 15px;
+}
+
+.tab-item {
+    padding: 10px 20px;
+    font-weight: bold;
+    color: #4b5563;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+    border-radius: 8px 8px 0 0;
+    margin-right: 10px;
+}
+
+.tab-item:hover {
+    background: #f3f4f6;
+}
+
+.tab-item.active {
+    background: linear-gradient(to right, #4d94ff, #3178d6);
+    color: white;
+}
+
+.requests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 10px;
+}
+
+/* Request Card */
+.request-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    gap: 5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.request-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Request Header */
+.request-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* Employee Name */
+.employee-name {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Badge Styles */
+.badge {
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    text-transform: capitalize;
+    display: inline-block;
+}
+
+.remote {
+    background-color: #e0f2fe;
+    color: #0284c7;
+}
+
+.pending {
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.request-dates {
+    color: #4b5563;
+    font-size: 0.9rem;
+    padding: 5px 0;
+}
+
+.request-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.approve-btn, .reject-btn {
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.approve-btn {
+    color: #00c853;
+}
+
+.approve-btn:hover {
+    transform: scale(1.1);
+    color: #009624;
+}
+
+.reject-btn {
+    color: #f44336;
+}
+
+.reject-btn:hover {
+    transform: scale(1.1);
+    color: #d32f2f;
+}

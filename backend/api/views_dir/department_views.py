@@ -16,7 +16,7 @@ class DepartmentsChartView(APIView):
             return Response(org_data)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
-
+        
 
 class DepartmentCreateView(APIView):
     permission_classes = [IsAuthenticated, HasRolePermissionWithRoles(['Owner', 'HR'])]
@@ -48,7 +48,6 @@ class DepartmentCreateView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=500)
     
-
 
 def build_department_tree(departments, parent_id=0):
     tree = []

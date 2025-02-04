@@ -3,7 +3,7 @@ import "../styles/adminPanelStyles/AdminMenu.css";
 import OrgDepartmentsView from "../components/adminPanel/organization/OrgDepartmentsView";
 import LeaveTypesView from "../components/adminPanel/leaveTypes/LeaveTypesView";
 import CountriesView from "../components/adminPanel/countries/CountriesView";
-import EmployeeDetailsView from "../components/adminPanel/employee_details/EmployeeDetailsView";
+import EmployeeDetailsView from "../components/adminPanel/employeeDetails/EmployeeDetailsView";
 
 function AdminMenu() {
     const menuItems = [

@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib import admin
 from enum import Enum
 
 
@@ -98,9 +97,3 @@ class Department(models.Model):
 
     class Meta:
         db_table = 'departments'
-
-
-admin.site.register(Employee)
-admin.site.register(Department)
-admin.site.register(Countries)
-admin.site.register(NonWorkingDay)

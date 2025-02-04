@@ -15,8 +15,10 @@ import { useNavigate } from "react-router-dom";
 function Home() {
     const [employee, setEmployee] = useState(null);
     const [hasAdminPermission, setHasAdminPermission] = useState(false);
+    const [hasManagerPermission, setHasManagerPermission] = useState(false);
     const [activeTab, setActiveTab] = useState("Home");
     const [showProfile, setShowProfile] = useState(false);
+    const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,6 +30,10 @@ function Home() {
                 if(response.data.roles.includes("Owner") || response.data.roles.includes("HR")) {
                     setHasAdminPermission(true);
                 }
+
+                if(response.data.roles.includes("Manager") || response.data.roles.includes("Owner")) {
+                    setHasManagerPermission(true);
+                }
             } catch (error) {
                 console.error("Error fetching user roles:", error);
             }
@@ -37,6 +43,10 @@ function Home() {
     }, []);
 
     const renderActiveView = () => {
+        if (!employee) {
+            return <p>Loading...</p>;
+        }
+
         switch (activeTab) {
             case "Contacts and Organization":
                 return <ContactsAndOrg />;
@@ -49,10 +59,16 @@ function Home() {
             case "Home":
             default:
                 return (
-                    <>
-                        <CalendarView />
-                        <PendingApprovals />
-                    </>
+                    <div className="dashboard-layout">
+                        <CalendarView employee={employee} />
+
+                        <div className="requests-panel">
+                            <PendingApprovals 
+                                employee={employee} 
+                                hasManagerPermission={hasManagerPermission} 
+                            />
+                        </div>
+                    </div>
                 );
         }
     };
@@ -71,6 +87,8 @@ function Home() {
                 hasAdminPermission={hasAdminPermission}
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
+                isExpanded={isSidebarExpanded}
+                setIsExpanded={setIsSidebarExpanded}
             />
 
             <Header onProfileClick={openProfileModal} />
@@ -84,7 +102,11 @@ function Home() {
                 </>
             )}
 
-            <div className="main-content">{renderActiveView()}</div>
+            <div 
+                className={`main-content ${isSidebarExpanded ? "expanded" : "collapsed"}`}
+            >
+                {renderActiveView()}
+            </div>
         </div>
     );
 }
