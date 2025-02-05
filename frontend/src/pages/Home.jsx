@@ -50,7 +50,7 @@ function Home() {
         switch (activeTab) {
             case "Contacts and Organization":
                 return <ContactsAndOrg />;
-            case "Time Off Requests":
+            case "Time Off":
                 return <HolidayRequests employee={employee} />;
             case "Remote Work":
                 return <RemoteWorkRequests employee={employee} />;

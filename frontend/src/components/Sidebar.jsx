@@ -7,7 +7,7 @@ function Sidebar({ hasAdminPermission, activeTab, setActiveTab, isExpanded, setI
 	const menuItems = [
         { icon: Home, label: "Home" },
         { icon: Users, label: "Contacts and Organization" },
-        { icon: Calendar, label: "Time Off Requests" },
+        { icon: Calendar, label: "Time Off" },
         { icon: Monitor, label: "Remote Work" },
         ...(hasAdminPermission ? [{ icon: Settings, label: "Admin" }] : []),
     ];
