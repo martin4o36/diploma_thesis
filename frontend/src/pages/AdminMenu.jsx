@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import "../styles/adminPanelStyles/AdminMenu.css";
+import { Users, Calendar, Flag, User, MenuIcon } from "lucide-react";
+import logo from "../assets/logo.jpg";
+import "../styles/SidebarStyles.css";
 import OrgDepartmentsView from "../components/adminPanel/organization/OrgDepartmentsView";
 import LeaveTypesView from "../components/adminPanel/leaveTypes/LeaveTypesView";
 import CountriesView from "../components/adminPanel/countries/CountriesView";
@@ -7,47 +9,62 @@ import EmployeeDetailsView from "../components/adminPanel/employeeDetails/Employ
 
 function AdminMenu() {
     const menuItems = [
-        { title: "Employees and Departments" },
-        { title: "Leave Types" },
-        { title: "Countries" },
-        { title: "Employee Holiday Details" },
+        { icon: Users, label: "Employees and Departments" },
+        { icon: Calendar, label: "Leave Types" },
+        { icon: Flag, label: "Countries" },
+        { icon: User, label: "Employee Holiday Details" },
     ];
 
-    const [selectedContent, setSelectedContent] = useState(menuItems[0].title);
-    const [collapsed, setCollapsed] = useState(false);
+    const [selectedContent, setSelectedContent] = useState(menuItems[0].label);
+    const [isExpanded, setIsExpanded] = useState(true);
 
-    const handleMenuClick = (itemTitle) => {
-        setSelectedContent(itemTitle);
+    const handleMenuClick = (itemLabel) => {
+        setSelectedContent(itemLabel);
     };
 
     const toggleSidebar = () => {
-        setCollapsed(!collapsed);
+        setIsExpanded(!isExpanded);
     };
 
     return (
         <div className="admin-nav-area">
-            <div className={`admin-nav ${collapsed ? "collapsed" : ""}`}>
-                <button className="toggle-menu-btn" onClick={toggleSidebar}>⇔</button>
-                <nav className="main-nav">
-                    <ul className="menus">
-                        {menuItems.map((item, index) => (
-                            <li
-                                key={index}
-                                className={`menu-items ${selectedContent === item.title ? "active" : ""}`}
-                                onClick={() => handleMenuClick(item.title)}
+            <div className={`custom-sidebar ${isExpanded ? "sidebar-expanded" : "sidebar-collapsed"}`}>
+                <div className="custom-sidebar-header">
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        className="custom-sidebar-logo"
+                    />
+                    <button
+                        onClick={toggleSidebar}
+                        className="custom-toggle-button"
+                    >
+                        <MenuIcon />
+                    </button>
+                </div>
+                <nav className="custom-sidebar-nav">
+                    {menuItems.map((item) => (
+                        <a
+                            key={item.label}
+                            className={`custom-sidebar-item ${selectedContent === item.label ? "item-active" : ""}`}
+                            onClick={() => handleMenuClick(item.label)}
+                        >
+                            <item.icon className="custom-sidebar-icon" />
+                            <span
+                                className={`custom-sidebar-label ${isExpanded ? "label-expanded" : "label-collapsed"}`}
                             >
-                                <span>{item.title}</span>
-                            </li>
-                        ))}
-                    </ul>
+                                {item.label}
+                            </span>
+                        </a>
+                    ))}
                 </nav>
             </div>
 
-            <div className="content-area">
-                {selectedContent === "Employees and Departments" && <OrgDepartmentsView setSelectedContent={setSelectedContent} /> }
-                {selectedContent === "Leave Types" && <LeaveTypesView /> }
-                {selectedContent === "Countries" && <CountriesView /> }
-                {selectedContent === "Employee Holiday Details" && <EmployeeDetailsView /> }
+            <div className={`main-content ${isExpanded ? "expanded" : "collapsed"}`}>
+                {selectedContent === "Employees and Departments" && <OrgDepartmentsView setSelectedContent={setSelectedContent} />}
+                {selectedContent === "Leave Types" && <LeaveTypesView />}
+                {selectedContent === "Countries" && <CountriesView />}
+                {selectedContent === "Employee Holiday Details" && <EmployeeDetailsView />}
             </div>
         </div>
     );

@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import "../styles/LoginForm.css";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -24,34 +25,36 @@ function Login() {
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     return (
-        <form onSubmit={handleSubmit} className="form-container">
-            <h1>Login</h1>
-            <input 
-            className="form-input"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-            required
-            />
-
-            <input 
-            className="form-input"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-            />
-
-            <button className="form-button" type="submit" disabled={loading}>
-                {loading ? "Loading..." : "Login"}
-            </button>
-        </form>
+        <div className="login-page">
+            <div className="login-form-container">
+                <h1>Welcome back</h1>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        className="login-form-input"
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Username"
+                        required
+                    />
+                    <input
+                        className="login-form-input"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                        required
+                    />
+                    <button className="login-form-button" type="submit" disabled={loading}>
+                        {loading ? "Loading..." : "Sign in"}
+                    </button>
+                </form>
+            </div>
+        </div>
     );
 }
 
-export default Login
+export default Login;

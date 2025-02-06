@@ -125,15 +125,17 @@
     visibility: hidden;
 }
 
-.custom-sidebar-content {
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    margin-left: 16rem;
-    padding: 1rem;
+.main-content {
+    flex-grow: 1;
+    padding-top: 4rem;
     transition: margin-left 0.5s ease-in-out;
+    overflow-y: auto;
 }
 
-.custom-sidebar.sidebar-collapsed + .custom-sidebar-content {
+.main-content.expanded {
+    margin-left: 16rem;
+}
+
+.main-content.collapsed {
     margin-left: 5rem;
 }

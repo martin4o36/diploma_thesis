@@ -6,16 +6,16 @@
 .main-content {
     flex-grow: 1;
     padding-top: 4rem;
-    transition: margin-left 0.5s ease-in-out; /* Smooth transition for margin adjustment */
+    transition: margin-left 0.5s ease-in-out;
     overflow-y: auto;
 }
 
 .main-content.expanded {
-    margin-left: 16rem; /* When sidebar is expanded */
+    margin-left: 16rem;
 }
 
 .main-content.collapsed {
-    margin-left: 5rem; /* When sidebar is collapsed */
+    margin-left: 5rem;
 }
 
 .dashboard-layout {
