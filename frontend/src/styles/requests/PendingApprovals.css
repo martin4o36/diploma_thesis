@@ -110,16 +110,13 @@
     margin-top: 5px;
 }
 
-.approve-btn, .reject-btn {
-    border: none;
-    background: transparent;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
 .approve-btn {
-    color: #00c853;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .approve-btn:hover {
@@ -128,7 +125,12 @@
 }
 
 .reject-btn {
-    color: #f44336;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .reject-btn:hover {

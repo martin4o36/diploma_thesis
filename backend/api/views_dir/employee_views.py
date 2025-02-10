@@ -62,7 +62,7 @@ class GetAllActiveEmployees(APIView):
 class GetEmployeesNoDepartment(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, status):
+    def get(self, request):
         try:
             employees = Employee.objects.filter(department_id = 0, status = Status.ACTIVE.name)
             serializer = EmployeeSerializer(employees, many=True)
