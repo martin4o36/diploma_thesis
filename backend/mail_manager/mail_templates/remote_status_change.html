@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Status Update</title>
+    </head>
+
+    <body>
+        <div class="email-header">
+            <h1>Request Status Updated</h1>
+        </div>
+
+        <div class="email-content">
+            <p>Hi {{ user_names }},</p>
+            <p>The status of your request with ID <strong>{{ request_id }}</strong> has been updated.</p>
+            <p><strong>New Status:</strong> {{ new_status }}</p>
+            <p>Request Details:</p>
+            <ul>
+                <li><strong>Approver:</strong>{{ approver }}</li>
+                <li><strong>Requested On:</strong> {{ requested_on }}</li>
+                <li><strong>Description:</strong> {{ request_description }}</li>
+            </ul>
+            <p>Thank you for using our service!</p>
+
+            <div class="email-footer">
+                <p>&copy; {{ year }} Vacation Tracking System</p>
+            </div>        
+        </div>    
+    </body>
+</html>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import api from "../../../../api";
+import api from "../../api";
 import { Calendar, Trash2, Edit2, Plus, Clock, User, MessageSquare, Info, Check, Save, X, } from "lucide-react";
-import "../../../../styles/requests/EditRequest.css"
+import "../../styles/requests/EditRequest.css"
 
 function EditRemoteRequest({ request, onSave, onCancel }) {
     const [requestData, setRequestData] = useState({

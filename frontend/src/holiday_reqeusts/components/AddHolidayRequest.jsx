@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import api from "../../../../api";
+import api from "../../api";
 import { Calendar, Trash2, Edit2, Plus, Clock, User, MessageSquare, Info, Check } from "lucide-react";
-import "../../../../styles/requests/AddRequest.css"
+import "../../styles/requests/AddRequest.css"
 
 function AddHolidayRequest({employee, onSave, onCancel}) {
     const [substitutes, setSubstitutes] = useState([]);

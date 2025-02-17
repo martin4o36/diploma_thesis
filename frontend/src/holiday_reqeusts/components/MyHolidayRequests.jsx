@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
-import api from "../../../../api";
+import api from "../../api";
 import { ChevronLeft, ChevronRight, Edit2, Trash2, Calendar, User, Users, MessageSquare } from "lucide-react";
-import "../../../../styles/requests/MyRequests.css"
+import "../../styles/requests/MyRequests.css"
 import EditHolidayRequest from "./EditHolidayRequest";
 
 function MyHolidayRequests({ employee }) {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import api from "../../../../api";
-import "../../../../styles/requests/AddRequest.css"
+import api from "../../api";
+import "../../styles/requests/AddRequest.css"
 
 function AddRemoteRequest({employee, onSave, onCancel}) {
     const [requestData, setRequestData] = useState({

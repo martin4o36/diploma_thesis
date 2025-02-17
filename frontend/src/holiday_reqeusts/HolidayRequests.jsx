@@ -1,23 +1,21 @@
 import { useState } from "react";
-import MyRemoteRequests from "../components/home/requests/remote/MyRemoteRequests";
-import PendingRemoteRequests from "../components/home/requests/remote/PendingRemoteRequests";
-import AddRemoteRequest from "../components/home/requests/remote/AddRemoteRequest";
-import api from "../api";
-import { ChevronLeft, ChevronRight, Edit2, Trash2 } from "lucide-react";
+import MyHolidayRequests from "./components/MyHolidayRequests";
+import PendingHolidayRequests from "./components/PendingHolidayRequests";
+import AddHolidayRequest from "./components/AddHolidayRequest";
+import "../styles/requests/RequestStyles.css"
 
-function RemoteWorkRequests({ employee }) {
+function HolidayRequests({ employee }) {
     const canApproveRequests = employee.roles.includes("Manager") || employee.roles.includes("Owner");
     const [selectedTab, setSelectedTab] = useState("myRequests");
 
     return (
         <div className="holiday-container">
             <div className="holiday-header">
-                <h1 className="holiday-title">Remote Work Requests</h1>
+                <h1 className="holiday-title">Time Off Requests</h1>
                 <p className="holiday-description">
-                    View and manage your requests for remote work.
+                    View and manage your requests for time off.
                 </p>
             </div>
-
             <div className="holiday-card">
                 <nav className="holiday-tabs">
                     <button
@@ -49,13 +47,13 @@ function RemoteWorkRequests({ employee }) {
                 </nav>
                 <div className="holiday-content">
                     {selectedTab === "myRequests" && (
-                        <MyRemoteRequests employee={employee} />
+                        <MyHolidayRequests employee={employee} />
                     )}
                     {selectedTab === "addRequest" && (
-                        <AddRemoteRequest employee={employee} />
+                        <AddHolidayRequest employee={employee} />
                     )}
                     {selectedTab === "pendingRequests" && canApproveRequests && (
-                        <PendingRemoteRequests employee={employee} />
+                        <PendingHolidayRequests employee={employee} />
                     )}
                 </div>
             </div>
@@ -63,4 +61,4 @@ function RemoteWorkRequests({ employee }) {
     );
 }
 
-export default RemoteWorkRequests;
+export default HolidayRequests;

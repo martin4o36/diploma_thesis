@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Users, Calendar, Flag, User, MenuIcon } from "lucide-react";
 import logo from "../assets/logo.jpg";
 import "../styles/SidebarStyles.css";
-import OrgDepartmentsView from "../components/adminPanel/organization/OrgDepartmentsView";
-import LeaveTypesView from "../components/adminPanel/leaveTypes/LeaveTypesView";
-import CountriesView from "../components/adminPanel/countries/CountriesView";
-import EmployeeDetailsView from "../components/adminPanel/employeeDetails/EmployeeDetailsView";
+import OrgDepartmentsView from "./components/organization/OrgDepartmentsView";
+import LeaveTypesView from "./components/leaveTypes/LeaveTypesView";
+import CountriesView from "./components/countries/CountriesView";
+import EmployeeDetailsView from "./components/employeeDetails/EmployeeDetailsView";
 
 function AdminMenu() {
     const menuItems = [

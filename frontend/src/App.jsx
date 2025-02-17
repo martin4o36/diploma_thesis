@@ -1,10 +1,10 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import Login from './pages/Login';
-import Home from './pages/Home';
+import Home from './home_page/Home';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
-import AdminMenu from './pages/AdminMenu';
+import AdminMenu from './admin_panel/AdminMenu';
 import { useState, useEffect } from 'react';
 import api from './api';
 

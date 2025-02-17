@@ -13,6 +13,8 @@ TASKS_FOR_TOMORROW.txt
 # Env files
 *.env
 
+*.odt
+
 # Compiled Java class files
 *.class
 

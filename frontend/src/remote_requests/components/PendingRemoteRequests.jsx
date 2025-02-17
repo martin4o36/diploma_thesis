@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Calendar, Check, X } from "lucide-react";
-import "../../../../styles/requests/PendingRequests.css";
-import api from "../../../../api";
+import "../../styles/requests/PendingRequests.css";
+import api from "../../api";
 
 function PendingRemoteRequests({ employee }) {
     const [pendingRequests, setPendingRequests] = useState([]);

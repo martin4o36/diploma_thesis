@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import api from "../../../../api";
-import "../../../../styles/requests/PendingRequests.css"
+import api from "../../api";
+import "../../styles/requests/PendingRequests.css"
 import { Calendar, Users, Check, X } from "lucide-react";
 
 function PendingHolidayRequests({ employee }) {

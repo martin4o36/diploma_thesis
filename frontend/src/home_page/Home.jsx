@@ -1,11 +1,11 @@
-import CalendarView from "../components/home/CalendarView";
-import PendingApprovals from "../components/home/PendingApprovals";
-import HolidayRequests from "./HolidayRequests";
-import RemoteWorkRequests from "./RemoteWorkRequests";
-import ContactsAndOrg from "./ContactsAndOrg";
+import CalendarView from "./components/CalendarView";
+import PendingApprovals from "./components/PendingApprovals";
+import HolidayRequests from "../holiday_reqeusts/HolidayRequests";
+import RemoteWorkRequests from "../remote_requests/RemoteWorkRequests";
+import ContactsAndOrg from "../pages/ContactsAndOrg";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import EmployeePersonalDetails from "../components/home/EmployeePersonalDetails";
+import EmployeePersonalDetails from "./components/EmployeePersonalDetails";
 import "../styles/HomeStyles.css"
 import { ChevronLeft, ChevronRight, Check, X, Users, HomeIcon, Calendar, UserCog, MonitorIcon } from "lucide-react";
 import { useState, useEffect } from "react";
