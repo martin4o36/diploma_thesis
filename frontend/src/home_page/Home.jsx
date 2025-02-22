@@ -6,6 +6,7 @@ import ContactsAndOrg from "../pages/ContactsAndOrg";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import EmployeePersonalDetails from "./components/EmployeePersonalDetails";
+import SelfServicePortal from "../self_service/SelfServicePortal";
 import "../styles/HomeStyles.css"
 import { ChevronLeft, ChevronRight, Check, X, Users, HomeIcon, Calendar, UserCog, MonitorIcon } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -55,7 +56,9 @@ function Home() {
             case "Remote Work":
                 return <RemoteWorkRequests employee={employee} />;
             case "Admin":
-                navigate("/admin_panel")
+                navigate("/admin_panel");
+            case "Self Service":
+                return <SelfServicePortal employee={employee}/>
             case "Home":
             default:
                 return (

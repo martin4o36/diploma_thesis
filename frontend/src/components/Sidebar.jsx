@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Home, Users, Calendar, Monitor, Settings, MenuIcon } from "lucide-react";
+import { Home, Users, Calendar, Monitor, Settings, MenuIcon, User } from "lucide-react";
 import logo from "../assets/logo.jpg";
 import "../styles/SidebarStyles.css";
 
@@ -9,6 +9,7 @@ function Sidebar({ hasAdminPermission, activeTab, setActiveTab, isExpanded, setI
         { icon: Users, label: "Contacts and Organization" },
         { icon: Calendar, label: "Time Off" },
         { icon: Monitor, label: "Remote Work" },
+        { icon: User, label: "Self Service" },
         ...(hasAdminPermission ? [{ icon: Settings, label: "Admin" }] : []),
     ];
 
