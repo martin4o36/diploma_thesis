@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function UpcomingRequests({ employee_id }) {
+function UpcomingRequests({ upcoming_requests }) {
     return(
         <div>
             Upcoming Requests

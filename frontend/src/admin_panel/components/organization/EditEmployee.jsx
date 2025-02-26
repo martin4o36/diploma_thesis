@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../../../api";
-import "../../../styles/adminPanelStyles/departmentStyles/EditEmployeeStyles.css";
+import "../../../styles/admin_panel_styles/departmentStyles/EditEmployeeStyles.css";
 import { Save, X, UploadIcon, Check } from "lucide-react";
 
 function EditEmployee({ employee, onClose, refreshEmployees }) {

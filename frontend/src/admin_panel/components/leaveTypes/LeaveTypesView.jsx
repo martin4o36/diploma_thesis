@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../../api";
-import "../../../styles/adminPanelStyles/leaveStyles/LeaveTypesStyles.css"
+import "../../../styles/admin_panel_styles/leaveStyles/LeaveTypesStyles.css"
 import AddLeaveTypeForm from "./AddLeaveTypeForm";
 import EditLeaveTypeForm from "./EditLeaveType";
 import { Trash2, Edit2, Plus } from "lucide-react";

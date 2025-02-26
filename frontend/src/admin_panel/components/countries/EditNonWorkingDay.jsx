@@ -1,6 +1,6 @@
 import { Save, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import "../../../styles/adminPanelStyles/countryStyles/EditNonWorkingDay.css"
+import "../../../styles/admin_panel_styles/countryStyles/EditNonWorkingDay.css"
 
 function EditNonWorkingDay({ editingDay, onSave, onCancel }) {
     const [formData, setFormData] = useState({ date: "", description: "" });

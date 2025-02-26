@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../../styles/adminPanelStyles/departmentStyles/OrgDepartments.css";
+import "../../../styles/admin_panel_styles/departmentStyles/OrgDepartments.css";
 import api from "../../../api";
 import AddDepartmentForm from "./AddDepartmentForm";
 import AddEmployeeForm from "./AddEmployee";

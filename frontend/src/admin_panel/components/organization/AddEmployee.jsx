@@ -1,6 +1,6 @@
 import api from "../../../api"
 import { useState, useEffect } from "react";
-import "../../../styles/adminPanelStyles/departmentStyles/AddEmployeeStyles.css";
+import "../../../styles/admin_panel_styles/departmentStyles/AddEmployeeStyles.css";
 import { Save, X, ThumbsUp, UploadIcon, Check } from "lucide-react";
 
 function AddEmployeeForm({ department, onClose, setSelectedContent, refreshEmployees }) {

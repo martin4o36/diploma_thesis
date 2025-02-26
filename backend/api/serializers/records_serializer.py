@@ -27,6 +27,7 @@ class NonWorkingDaySerializer(serializers.ModelSerializer):
 
 class EmployeeLeaveBalanceSerializer(serializers.ModelSerializer):
     leave_type_name = serializers.CharField(source="leave_type.leave_name", read_only=True)
+    # brought_forward = serializers.CharField() # will add it soon
 
     class Meta:
         model = EmployeeLeaveBalance

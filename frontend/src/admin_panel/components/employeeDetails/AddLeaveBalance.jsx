@@ -1,7 +1,7 @@
 import { Save, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import api from "../../../api";
-import "../../../styles/adminPanelStyles/balances/AddLeaveBalanceStyle.css"
+import "../../../styles/admin_panel_styles/balances/AddLeaveBalanceStyle.css"
 
 function AddLeaveBalance({ employee, onSuccess, onCancel }) {
     console.log(employee);

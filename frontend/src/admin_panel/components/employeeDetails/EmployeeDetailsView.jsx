@@ -14,7 +14,7 @@ import {
     Plus
 } from "lucide-react";
 import debounce from "lodash/debounce";
-import "../../../styles/adminPanelStyles/balances/EmployeeDetailsStyles.css";
+import "../../../styles/admin_panel_styles/balances/EmployeeDetailsStyles.css";
 import EditLeaveBalance from "./EditLeaveBalance";
 import AddLeaveBalance from "./AddLeaveBalance";
 
@@ -73,7 +73,6 @@ function EmployeeDetailsView() {
             ];
 
             setLeaveBalances(sortedAllowances);
-            console.log(periods)
             setUniquePeriods(periods);
             setCurrentPeriodIndex(0);
         } catch (error) {

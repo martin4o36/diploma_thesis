@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import "../../../styles/adminPanelStyles/countryStyles/CalendarStyles.css"
+import "../../../styles/admin_panel_styles/countryStyles/CalendarStyles.css"
 
 function CalendarView({ selectedCountry, nonWorkingDays }) {
     const [currentDate, setCurrentDate] = useState(new Date());

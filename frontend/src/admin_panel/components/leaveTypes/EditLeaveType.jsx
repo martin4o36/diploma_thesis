@@ -1,6 +1,6 @@
 import { useState } from "react";
 import api from "../../../api";
-import "../../../styles/adminPanelStyles/leaveStyles/EditLeaveTypeStyles.css"
+import "../../../styles/admin_panel_styles/leaveStyles/EditLeaveTypeStyles.css"
 import { Save, X } from "lucide-react";
 
 function EditLeaveTypeForm({ leaveType, onSuccess, onCancel }) {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../../../api";
-import "../../../styles/adminPanelStyles/departmentStyles/AddDepartmentStyles.css";
+import "../../../styles/admin_panel_styles/departmentStyles/AddDepartmentStyles.css";
 import { Save, X } from "lucide-react";
 
 function AddDepartmentForm({ department, onClose, refreshData }) {

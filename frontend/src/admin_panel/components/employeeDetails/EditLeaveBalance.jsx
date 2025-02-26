@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Save, X } from "lucide-react";
 import api from "../../../api";
-import "../../../styles/adminPanelStyles/balances/EditLeaveBalanceStyles.css"
+import "../../../styles/admin_panel_styles/balances/EditLeaveBalanceStyles.css"
 
 function EditLeaveBalance({ leaveBalance, onSuccess, onCancel }) {
     const [leaveTypes, setLeaveTypes] = useState([]);

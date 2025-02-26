@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../../api";
-import "../../../styles/adminPanelStyles/countryStyles/CountriesViewStyles.css";
+import "../../../styles/admin_panel_styles/countryStyles/CountriesViewStyles.css";
 import { Calendar, ChevronLeft, ChevronRight, Plus, Trash2, Edit2, Save, X} from "lucide-react";
 import EditNonWorkingDay from "./EditNonWorkingDay";
 import CalendarView from "./CalendarView";
