@@ -56,13 +56,13 @@ class AddHolidayRequest(APIView):
             start_date = request_data.get('start_date')
             end_date = request_data.get('end_date')
 
+            if start_date > end_date:
+                return Response({"error": "Start date cannot be after end date"}, status=400)
+
             employee = Employee.objects.get(employee_id=employee_id)
             approver = Employee.objects.get(employee_id=approver_id)
             leave_type = LeaveType.objects.get(leave_id=leave_type_id)
 
-            if start_date > end_date:
-                return Response({"error": "Start date cannot be after end date"}, status=400)
-            
             employee_balance = EmployeeLeaveBalance.objects.filter(
                     employee=employee,
                     leave_type=leave_type,
@@ -218,13 +218,11 @@ class UpdateHolidayStatus(APIView):
                 if not employee_balance:
                     return Response({"error": "No leave balance found for the given period and leave type"}, status=404)
                 
-                print("BEFORE DAYS USED")
                 days_used = calculate_days_used(
                     holiday_request.start_date,
                     holiday_request.end_date,
                     holiday_request.employee.country,
                 )
-                print("DAYS USED: " + str(days_used))
 
                 if employee_balance.days_left >= days_used:
                     employee_balance.use_days(days_used)
