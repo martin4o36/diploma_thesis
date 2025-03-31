@@ -53,19 +53,6 @@ class WriteOff(models.Model):
         db_table = 'write_offs'
 
 
-# Track how and when the balance changed
-# class EmployeeBalanceChange(models.Model):
-#     ebc_id = models.AutoField(primary_key=True)
-#     date_changed = models.DateTimeField(auto_now_add=True)
-#     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
-#     old_days_left = models.IntegerField(default=0)
-#     days_used = models.IntegerField(default=0)
-#     new_days_left = models.IntegerField(default=0)
-    
-#     class Meta:
-#         db_table = "employee_balance_change"
-
-
 class Type(Enum):
     APPROVED = "Approved"
     PENDING = "Pending"

@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect } from "react";
-import "../../styles/CalendarView.css"
+import { useState, useEffect, useMemo } from "react";
+import "../../styles/CalendarView.css";
 import api from "../../api";
 
 function CalendarView({ employee }) {
@@ -8,28 +8,41 @@ function CalendarView({ employee }) {
     const [employeesEvents, setEmployeesEvents] = useState({});
     const [employeeNames, setEmployeeNames] = useState({});
     const [currentDate, setCurrentDate] = useState(new Date());
-    const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const [events, setEvents] = useState([]);
+    const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
     useEffect(() => {
         const fetchEvents = async () => {
-            const nonWorkingDaysResponse = await api.get(`/api/non-working-days/${employee.country}/`);
-            setNonWorkingDays(nonWorkingDaysResponse.data);
+            try {
+                const [nonWorkingDaysResponse, employeeEventsResponse] = await Promise.all([
+                    api.get(`/api/non-working-days/${employee.country}/`),
+                    api.get(`/api/request/${employee.department_id}/events/`)
+                ]);
 
-            const employeeEventsResponse = await api.get(`/api/request/${employee.department_id}/events/`);
-            console.log(employeeEventsResponse.data.employees);
-            setEmployeesEvents(employeeEventsResponse.data || {});
-            setEmployeeNames(employeeEventsResponse.data.employees.reduce((acc, emp) => {
-                acc[emp.employee_id] = `${emp.first_name} ${emp.middle_name} ${emp.last_name}`;
-                return acc;
-            }, {}));
-        }
+                setNonWorkingDays(nonWorkingDaysResponse.data);
+                setEmployeesEvents(employeeEventsResponse.data || {});
+
+                if (employeeEventsResponse.data?.employees?.length) {
+                    setEmployeeNames((prevNames) => {
+                        const newNames = employeeEventsResponse.data.employees.reduce((acc, emp) => {
+                            acc[emp.employee_id] = `${emp.first_name} ${emp.middle_name} ${emp.last_name}`;
+                            return acc;
+                        }, {});
+                        return JSON.stringify(prevNames) !== JSON.stringify(newNames) ? newNames : prevNames;
+                    });
+                }
+            } catch (error) {
+                console.error("Error fetching events:", error);
+            }
+        };
 
         fetchEvents();
     }, [employee.country, employee.department_id]);
 
     useEffect(() => {
-        if (employeesEvents.approved_holidays || employeesEvents.approved_remote_requests) {
+        if (!employeesEvents?.approved_holidays && !employeesEvents?.approved_remote_requests) return;
+
+        setEvents(() => {
             const expandedEvents = [];
 
             const addEventForPeriod = (event, type) => {
@@ -37,25 +50,20 @@ function CalendarView({ employee }) {
                 const endDate = new Date(event.end_date);
                 const employeeName = employeeNames[event.employee_id] || "Unknown Employee";
 
-                for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+                for (let d = startDate.getTime(); d <= endDate.getTime(); d += 86400000) {
                     expandedEvents.push({
-                        type: type,
+                        type,
                         date: new Date(d),
                         description: type === "Time Off" ? "Time Off" : "Remote Work",
-                        employeeName: employeeName,
-                        isStart: d.getTime() === startDate.getTime(),
-                        isEnd: d.getTime() === endDate.getTime()
+                        employeeName,
+                        isStart: d === startDate.getTime(),
+                        isEnd: d === endDate.getTime(),
                     });
                 }
             };
 
-            (employeesEvents.approved_holidays || []).forEach(holiday => {
-                addEventForPeriod(holiday, "Time Off");
-            });
-
-            (employeesEvents.approved_remote_requests || []).forEach(remote => {
-                addEventForPeriod(remote, "Remote");
-            });
+            employeesEvents.approved_holidays?.forEach(holiday => addEventForPeriod(holiday, "Time Off"));
+            employeesEvents.approved_remote_requests?.forEach(remote => addEventForPeriod(remote, "Remote"));
 
             nonWorkingDays.forEach(nwd => {
                 expandedEvents.push({
@@ -63,36 +71,29 @@ function CalendarView({ employee }) {
                     date: new Date(nwd.date),
                     description: nwd.description,
                     isStart: true,
-                    isEnd: true
+                    isEnd: true,
                 });
             });
 
-            setEvents(expandedEvents);
-        }
+            return expandedEvents;
+        });
     }, [nonWorkingDays, employeesEvents, employeeNames]);
 
-    const getDaysInMonth = (date) => {
-        return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    };
-
-    const getMonthName = (date) => {
-        return date.toLocaleString("default", {
-            month: "long",
-        });
-    };
-
-    const nextMonth = () => {
-        setCurrentDate(
-            new Date(currentDate.getFullYear(), currentDate.getMonth() + 1)
-        );
-    };
-
-    const previousMonth = () => {
-        setCurrentDate(
-            new Date(currentDate.getFullYear(), currentDate.getMonth() - 1)
-        );
-    };
+    const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
     
+    const getMonthName = (date) => date.toLocaleString("default", { month: "long" });
+
+    const changeMonth = (offset) => {
+        setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + offset));
+    };
+
+    const filteredEvents = useMemo(() => {
+        return events.filter(event =>
+            event.date.getFullYear() === currentDate.getFullYear() &&
+            event.date.getMonth() === currentDate.getMonth()
+        );
+    }, [events, currentDate]);
+
     return (
         <div className="home-calendar-container">
             <div className="home-calendar-header">
@@ -109,13 +110,13 @@ function CalendarView({ employee }) {
                 </div>
 
                 <div className="home-month-navigation">
-                    <button onClick={previousMonth} className="home-nav-button">
+                    <button onClick={() => changeMonth(-1)} className="home-nav-button">
                         <ChevronLeft />
                     </button>
                     <span className="home-current-month">
                         {getMonthName(currentDate)} {currentDate.getFullYear()}
                     </span>
-                    <button onClick={nextMonth} className="home-nav-button">
+                    <button onClick={() => changeMonth(1)} className="home-nav-button">
                         <ChevronRight />
                     </button>
                 </div>
@@ -125,12 +126,9 @@ function CalendarView({ employee }) {
                 {weekDays.map((day) => (
                     <div key={day} className="home-weekday">{day}</div>
                 ))}
-                {Array.from({ length: getDaysInMonth(currentDate) }).map((_, i) => {
+                {Array.from({ length: getDaysInMonth(currentDate.getFullYear(), currentDate.getMonth()) }).map((_, i) => {
                     const day = i + 1;
-                    const dayEvents = events.filter(
-                        (event) =>
-                            event.date.getDate() === day && event.date.getMonth() === currentDate.getMonth()
-                    );
+                    const dayEvents = filteredEvents.filter(event => event.date.getDate() === day);
 
                     return (
                         <div key={i} className="home-calendar-day">
@@ -152,9 +150,11 @@ function CalendarView({ employee }) {
                                             <span className="generic-description">
                                                 {event.description}
                                             </span>
-                                            <span className="calendar-employee-name">
-                                                {event.employeeName}
-                                            </span>
+                                            {event.employeeName && (
+                                                <span className="calendar-employee-name">
+                                                    {event.employeeName}
+                                                </span>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
