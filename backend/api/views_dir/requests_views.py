@@ -1,3 +1,4 @@
+from datetime import date
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -5,6 +6,7 @@ from ..serializers.records_serializer import HolidayRequestSerializer, HolidayPe
 from ..models_dir.records_models import HolidayRequest, RemoteWork, Substitute, LeaveType, Type, EmployeeLeaveBalance
 from ..models_dir.employee_models import Employee, NonWorkingDay, Status
 from datetime import datetime, timedelta
+from mail_manager.mail_views.holiday_emails import send_holiday_status_change_email
 from ..permissions import HasRolePermissionWithRoles
 
 # Holiday request handling
@@ -13,8 +15,7 @@ class GetEmployeeHolidayRequests(APIView):
 
     def get(self, request, employee_id):
         try:
-            employee = Employee.objects.get(employee_id=employee_id)
-            requests = HolidayRequest.objects.filter(employee=employee)
+            requests = HolidayRequest.objects.filter(employee_id=employee_id)
             serializer = HolidayRequestSerializer(requests, many=True)
             return Response(serializer.data, status=200)
         except Employee.DoesNotExist:
@@ -30,8 +31,7 @@ class GetHolidayPendingRequests(APIView):
 
     def get(self, request, approver_id):
         try:
-            approver = Employee.objects.get(employee_id=approver_id)
-            requests = HolidayRequest.objects.filter(approver=approver, status=Type.PENDING.name)
+            requests = HolidayRequest.objects.filter(approver_id=approver_id, status=Type.PENDING.name)
             serializer = HolidayPendingSerializer(requests, many=True)
             return Response(serializer.data, status=200)
         except Employee.DoesNotExist:
@@ -91,6 +91,14 @@ class AddHolidayRequest(APIView):
                             request=holiday_request,
                             employee=substitute,
                         )
+
+            send_holiday_status_change_email(
+                employee.email, 
+                employee.first_name + employee.last_name, 
+                holiday_request.request_id, 
+                new_status=holiday_request.status,
+                request_description=holiday_request.comment
+            )
 
             return Response({"message": "Holiday request created successfully"}, status=201)
         except Employee.DoesNotExist:
@@ -269,8 +277,7 @@ class GetEmployeeRemoteRequests(APIView):
 
     def get(self, request, employee_id):
         try:
-            employee = Employee.objects.get(employee_id=employee_id)
-            requests = RemoteWork.objects.filter(employee=employee)
+            requests = RemoteWork.objects.filter(employee_id=employee_id)
             serializer = RemoteWorkSerializer(requests, many=True)
             return Response(serializer.data, status=200)
         except Employee.DoesNotExist:
@@ -286,8 +293,7 @@ class GetRemotePendingRequests(APIView):
 
     def get(self, request, approver_id):
         try:
-            approver = Employee.objects.get(employee_id=approver_id)
-            requests = RemoteWork.objects.filter(approver=approver, status=Type.PENDING.name)
+            requests = RemoteWork.objects.filter(approver_id=approver_id, status=Type.PENDING.name)
             serializer = RemoteWorkSerializer(requests, many=True)
             return Response(serializer.data, status=200)
         except Employee.DoesNotExist:
@@ -397,9 +403,8 @@ class GetEmployeePendingRequests(APIView):
 
     def get(self, request, employee_id):
         try:
-            employee = Employee.objects.get(employee_id=employee_id)
-            holiday_requests = HolidayRequest.objects.filter(employee=employee, status=Type.PENDING.name)
-            remote_requests = RemoteWork.objects.filter(employee=employee, status=Type.PENDING.name)
+            holiday_requests = HolidayRequest.objects.filter(employee_id=employee_id, status=Type.PENDING.name)
+            remote_requests = RemoteWork.objects.filter(employee_id=employee_id, status=Type.PENDING.name)
 
             holiday_requests_serialized = HolidayRequestSerializer(holiday_requests, many=True).data
             remote_requests_serialized = RemoteWorkSerializer(remote_requests, many=True).data
@@ -423,9 +428,8 @@ class GetPendingApprovalRequests(APIView):
 
     def get(self, request, approver_id):
         try:
-            approver = Employee.objects.get(employee_id=approver_id)
-            holiday_requests = HolidayRequest.objects.filter(approver=approver, status=Type.PENDING.name)
-            remote_requests = RemoteWork.objects.filter(approver=approver, status=Type.PENDING.name)
+            holiday_requests = HolidayRequest.objects.filter(approver_id=approver_id, status=Type.PENDING.name)
+            remote_requests = RemoteWork.objects.filter(approver_id=approver_id, status=Type.PENDING.name)
 
             holiday_requests_serialized = HolidayPendingSerializer(holiday_requests, many=True).data
             remote_requests_serialized = RemoteWorkSerializer(remote_requests, many=True).data
@@ -459,10 +463,12 @@ class GetEventsForDepartment(APIView):
             approved_holidays = HolidayRequest.objects.filter(
                 employee_id__in=employee_ids, status=Type.APPROVED.name
             ).values("request_id", "employee_id", "start_date", "end_date", "comment")
+            print(approved_holidays)
 
             approved_remote_requests = RemoteWork.objects.filter(
                 employee_id__in=employee_ids, status=Type.APPROVED.name
             ).values("remote_id", "employee_id", "start_date", "end_date", "comment")
+            print(approved_remote_requests)
 
             employees_with_names = [
                 {"employee_id": emp["employee_id"], "first_name": emp["first_name"], "middle_name": emp["middle_name"],  "last_name": emp["last_name"]}
@@ -484,5 +490,61 @@ class GetEventsForDepartment(APIView):
             return Response({"error": "Remote requests not found"}, status=404)
         except RemoteWork.DoesNotExist:
             return Response({"error": "Remote work request not found"}, status=404)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
+        
+
+class GetUpcomingRequests(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, employee_id):
+        try:
+            upcoming_holidays = HolidayRequest.objects.filter(
+                employee_id=employee_id,
+                start_date__gt=date.today(),
+                status=Type.APPROVED.name
+            ).select_related("leave_type").values(
+                "request_id", 
+                "start_date", 
+                "end_date", 
+                "comment", 
+                "leave_type__leave_name"
+            )
+
+            upcoming_remote_requests = RemoteWork.objects.filter(
+                employee_id=employee_id,
+                start_date__gt=date.today(),
+                status=Type.APPROVED.name
+            ).values("remote_id", "start_date", "end_date", "comment")
+
+            return Response(
+                {
+                    "employee_id": employee_id,
+                    "upcoming_holidays": list(upcoming_holidays),
+                    "upcoming_remote_requests": list(upcoming_remote_requests),
+                },
+                status=200,
+            )
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
+        
+
+class GetRequestsHistory(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, employee_id):
+        try:
+            holiday_requests = HolidayRequest.objects.filter(employee_id=employee_id)
+            remote_requests = RemoteWork.objects.filter(employee_id=employee_id)
+
+            holiday_requests_serialized = HolidayRequestSerializer(holiday_requests, many=True)
+            remote_requests_serialized = RemoteWorkSerializer(remote_requests, many=True)
+
+            data = {
+                'holiday_requests': holiday_requests_serialized.data,
+                'remote_requests': remote_requests_serialized.data
+            }
+
+            return Response(data, status=200)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
