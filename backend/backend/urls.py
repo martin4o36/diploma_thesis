@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
@@ -9,7 +10,16 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token', TokenObtainPairView.as_view(), name='get_token'),
     path('api/token/refresh', TokenRefreshView.as_view(), name='refresh_token'),
-    path('api/user/roles/', GetUserRoles.as_view(), name='check_user_roles'),
+    path('api/user/roles', GetUserRoles.as_view(), name='check_user_roles'),
+
+    path('api/reset_password', auth_views.PasswordResetView.as_view(template_name= ''), 
+         name='reset_password'),
+    path('api/reset_password_sent', auth_views.PasswordResetDoneView.as_view(template_name= ''), 
+         name='password_reset_done'),
+    path('api/reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name= ''), 
+         name='password_reset_confirm'),
+    path('api/reset_password_complete', auth_views.PasswordResetCompleteView.as_view(template_name= ''), 
+         name='password_reset_complete'),
 
     path('api/employee/', include('api.urls_dir.employees_urls')),
     path('api/departments/', include('api.urls_dir.departments_urls')),

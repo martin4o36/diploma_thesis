@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     const fetchDataForMenu = async () => {
         try {
-            const roles = (await api.get("/api/user/roles/")).data.roles;
+            const roles = (await api.get("/api/user/roles")).data.roles;
 
             if(roles.includes("Owner") || roles.includes("HR")) {
               setHasAdminPermission(true);

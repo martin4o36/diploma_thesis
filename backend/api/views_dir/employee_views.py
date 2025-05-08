@@ -113,7 +113,8 @@ class CreateEmployee(APIView):
 
             user = User.objects.create_user(
                 username=f"{first_name.lower()}_{employee.middle_name.lower()}_{last_name.lower()}",
-                password=password
+                password=password,
+                email=employee_data.get('email'),
             )
 
             employee.user=user
