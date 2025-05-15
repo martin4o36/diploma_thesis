@@ -7,9 +7,6 @@
 node_modules/
 dist/
 
-# Writing my tasks for the next day here
-TASKS_FOR_TOMORROW.txt
-
 # Env files
 *.env
 
