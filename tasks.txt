@@ -1,5 +1,0 @@
-- fetch more than one balance if they are needed in add/edit holiday request
-- check if the request is with dates less than today too - frontend
-- in cancel holiday request add check if the request was approved to get the days back to the
-balance/balances
-- better naming in UpdateHolidayStatus to approve/decline
