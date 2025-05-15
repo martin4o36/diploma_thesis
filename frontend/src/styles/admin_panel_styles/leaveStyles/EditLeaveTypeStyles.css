@@ -27,7 +27,6 @@
     font-family: 'Roboto', sans-serif;
 }
 
-/* Modal header */
 .edit-leave-header {
     margin-bottom: 20px;
 }
@@ -40,14 +39,12 @@
     margin-bottom: 8px;
 }
 
-/* Form container */
 .edit-leave-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-/* Form group */
 .edit-leave-form-group {
     display: flex;
     flex-direction: column;
@@ -55,14 +52,12 @@
     width: 100%;
 }
 
-/* Labels */
 .edit-leave-label {
     font-size: 1rem;
     font-weight: 500;
     color: #444;
 }
 
-/* Inputs and selects */
 .edit-leave-input {
     padding: 12px 16px;
     border-radius: 8px;
@@ -85,14 +80,12 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Actions container */
 .edit-leave-actions {
     display: flex;
     justify-content: space-between;
     gap: 16px;
 }
 
-/* Buttons */
 .edit-leave-btn {
     padding: 12px 24px;
     border-radius: 12px;
@@ -125,7 +118,6 @@
     background-color: #d32f2f;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .edit-leave-modal {
         padding: 20px;

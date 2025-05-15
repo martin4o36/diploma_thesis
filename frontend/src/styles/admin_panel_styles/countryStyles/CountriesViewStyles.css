@@ -356,7 +356,6 @@
     z-index: 9998;
 }
 
-/* Modal container */
 .country-modal {
     background-color: #fff;
     position: fixed;
@@ -375,7 +374,6 @@
     box-sizing: border-box;
 }
 
-/* Modal heading */
 .modal-heading {
     font-size: 1.6rem;
     font-weight: bold;
@@ -384,14 +382,12 @@
     color: #333;
 }
 
-/* Form container */
 .country-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-/* Group for form field and label */
 .country-form-group {
     display: flex;
     flex-direction: column;
@@ -399,7 +395,6 @@
     width: 100%;
 }
 
-/* Label styling */
 .country-form-label {
     font-size: 1rem;
     color: #444;
@@ -407,7 +402,6 @@
     margin-bottom: 4px;
 }
 
-/* Input styling */
 .country-input {
     padding: 12px 16px;
     border-radius: 8px;
@@ -420,7 +414,6 @@
     transition: all 0.3s ease;
 }
 
-/* Input hover and focus states */
 .country-input:hover {
     border-color: #64b5f6;
     background-color: #ffffff;
@@ -432,14 +425,12 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Buttons container */
 .country-actions {
     display: flex;
     justify-content: space-between;
     gap: 16px;
 }
 
-/* Buttons */
 .country-button {
     padding: 12px 24px;
     border-radius: 12px;
@@ -471,7 +462,6 @@
     background-color: #d32f2f;
 }
 
-/* Button icons */
 .country-button-icon {
     width: 20px;
     height: 20px;

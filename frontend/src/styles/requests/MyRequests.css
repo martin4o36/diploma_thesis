@@ -1,152 +1,152 @@
 .my-requests {
-    padding: 20px;
+    padding: 1.25rem;
 }
-  
+
 .filter-section {
     background-color: #f9f9f9;
-    padding: 16px;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    margin-bottom: 24px;
+    padding: 1rem;
+    border: 0.0625rem solid #e5e7eb;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
 }
-  
+
 .filter-section h3 {
     font-size: 1rem;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 0.75rem;
 }
-  
+
 .filter-inputs {
     display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
 }
-  
+
 .filter-inputs input {
     flex: 1;
-    padding: 8px;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
+    padding: 0.5rem;
+    border: 0.0625rem solid #d1d5db;
+    border-radius: 0.25rem;
 }
-  
+
 .filter-actions button {
-    padding: 8px 16px;
+    padding: 0.5rem 1rem;
     font-size: 0.875rem;
     border: none;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     cursor: pointer;
 }
-  
+
 .filter-actions button:first-child {
     background-color: #2563eb;
     color: white;
-    margin-right: 12px;
+    margin-right: 0.75rem;
 }
-  
+
 .filter-actions button:last-child {
     background-color: transparent;
     color: #2563eb;
 }
-  
+
 .requests-list {
-    margin-top: 24px;
+    margin-top: 1.5rem;
 }
-  
+
 .pagination-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 0.875rem;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
 }
-  
+
 .pagination-controls button {
-    padding: 6px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
+    padding: 0.375rem 0.75rem;
+    border: 0.0625rem solid #d1d5db;
+    border-radius: 0.25rem;
     background-color: white;
     cursor: pointer;
 }
-  
+
 .pagination-controls button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
-  
+
 .requests {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 1rem;
 }
-  
+
 .request-card {
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
+    border: 0.0625rem solid #e5e7eb;
+    border-radius: 0.5rem;
     background-color: white;
-    padding: 16px;
+    padding: 1rem;
 }
-  
+
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
 }
-  
+
 .card-header h3 {
     font-size: 1rem;
     font-weight: 600;
 }
-  
+
 .card-actions button {
     border: none;
     background: transparent;
     cursor: pointer;
 }
-  
+
 .card-body div {
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
 }
-  
+
 .card-body div svg {
-    margin-right: 8px;
+    margin-right: 0.5rem;
 }
-  
+
 .card-body h4 {
     font-size: 0.875rem;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 0.25rem;
 }
-  
+
 .card-body p {
     font-size: 0.875rem;
     color: #4b5563;
     background-color: #f9fafb;
-    padding: 8px;
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
+    padding: 0.5rem;
+    border: 0.0625rem solid #e5e7eb;
+    border-radius: 0.25rem;
 }
-  
+
 .status {
-    padding: 4px 8px;
-    border-radius: 12px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.75rem;
     font-size: 0.75rem;
     font-weight: 600;
 }
-  
+
 .status.approved {
     background-color: #d1fae5;
     color: #065f46;
 }
-  
+
 .status.rejected,
 .status.canceled {
     background-color: #fee2e2;
     color: #b91c1c;
 }
-  
+
 .status.pending {
     background-color: #fef3c7;
     color: #b45309;

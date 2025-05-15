@@ -27,6 +27,11 @@ function Login() {
         }
     };
 
+    const handlePasswordReset = () => {
+        const backendUrl = import.meta.env.VITE_API_URL;
+        window.location.href = `${backendUrl}/api/reset_password`;
+    };
+
     return (
         <div className="login-page">
             <div className="login-form-container">
@@ -52,6 +57,9 @@ function Login() {
                         {loading ? "Loading..." : "Sign in"}
                     </button>
                 </form>
+                <div className="forgot-password-link">
+                    <button onClick={handlePasswordReset}>Forgot password?</button>
+                </div>
             </div>
         </div>
     );

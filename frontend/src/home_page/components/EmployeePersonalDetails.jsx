@@ -1,12 +1,15 @@
-import { X, Mail, Phone, MapPin, Clock, Building2, ChevronRight } from "lucide-react";
+import { X, Mail, Phone, MapPin, Clock, Building2, ChevronRight, LogOut } from "lucide-react";
 import "../../styles/PersonalDetailStyles.css"
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../api";
 
 function EmployeePersonalDetails({ employee, onClose }) {
     const [departments, setDepartments] = useState([]);
     const [managerInfo, setManagerInfo] = useState([]);
     const [countryName, setCountryName] = useState("");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCountryAndDepartments = async () => {
@@ -27,6 +30,10 @@ function EmployeePersonalDetails({ employee, onClose }) {
             fetchCountryAndDepartments();
         }
     }, [employee]);
+
+    const handleLogout = () => {
+        navigate("/logout");
+    };
 
     return (
         <div>
@@ -93,8 +100,15 @@ function EmployeePersonalDetails({ employee, onClose }) {
                             </div>
                         </div>
                     ) : (
-                        <p className="no-manager-info">No manager information available.</p>
+                        <p>No manager information available.</p>
                     )}
+                </div>
+
+                <div className="logout-section">
+                    <button className="logout-button" onClick={handleLogout}>
+                        <LogOut className="logout-icon" />
+                        Logout
+                    </button>
                 </div>
             </div>
         </div>

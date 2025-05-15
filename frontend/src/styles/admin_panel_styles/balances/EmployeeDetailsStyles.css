@@ -1,356 +1,339 @@
 .balance-container {
-  padding: 20px;
-  background: #f4f6f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  font-family: 'Roboto', sans-serif;
+	padding: 1.25rem;
+	background: #f4f6f9;
+	border-radius: 0.75rem;
+	box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.1);
+	font-family: 'Roboto', sans-serif;
 }
 
 .balance-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1.25rem;
 }
 
 .balance-header h1 {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: #333;
 }
 
 .balance-controls {
-  display: flex;
-  gap: 12px;
-  align-items: center;
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
 }
 
 .balance-search-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background-color: #eef3f8;
-  padding: 10px 14px;
-  border: 1px solid #d1d9e6;
-  border-radius: 4px;
-  width: 280px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	background-color: #eef3f8;
+	padding: 0.625rem 0.875rem;
+	border: 0.0625rem solid #d1d9e6;
+	border-radius: 0.25rem;
+	width: 17.5rem;
 }
 
 .balance-search-container input {
-  border: none;
-  background: transparent;
-  flex: 1;
-  padding: 4px;
-  font-size: 16px;
+	border: none;
+	background: transparent;
+	flex: 1;
+	padding: 0.25rem;
+	font-size: 1rem;
 }
 
 .balance-search-container input::placeholder {
-  color: #777;
+	color: #777;
 }
 
 .balance-sort-container {
-  position: relative;
+	position: relative;
 }
 
 .balance-sort-header {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  background-color: #e0e0e0;
-  padding: 8px 12px;
-  border-radius: 4px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	background-color: #e0e0e0;
+	padding: 0.5rem 0.75rem;
+	border-radius: 0.25rem;
 }
 
 .balance-sort-options {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  z-index: 10;
-  padding: 8px 0;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background: #fff;
+	border: 0.0625rem solid #ccc;
+	border-radius: 0.25rem;
+	z-index: 10;
+	padding: 0.5rem 0;
 }
 
 .balance-sort-options button {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  background: none;
-  border: none;
-  text-align: left;
-  cursor: pointer;
+	display: block;
+	width: 100%;
+	padding: 0.5rem;
+	background: none;
+	border: none;
+	text-align: left;
+	cursor: pointer;
 }
 
 .period-navigation-button {
-  background: #007bff;
-  color: #fff;
-  border: 1px solid #007bff;
-  padding: 8px 16px;
-  border-radius: 50px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-  font-size: 16px;
-  width: 140px;
-  text-align: center;
+	background: #007bff;
+	color: #fff;
+	border: 0.0625rem solid #007bff;
+	padding: 0.5rem 1rem;
+	border-radius: 50rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+	font-size: 1rem;
+	width: 8.75rem;
+	text-align: center;
 }
 
 .period-navigation-button:hover {
-  background-color: #0056b3;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transform: scale(1.05);
+	background-color: #0056b3;
+	box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+	transform: scale(1.05);
 }
 
 .period-navigation-button:disabled {
-  background: #e0e0e0;
-  color: #999;
-  cursor: not-allowed;
+	background: #e0e0e0;
+	color: #999;
+	cursor: not-allowed;
 }
 
 .period-navigation-button .left-icon,
 .period-navigation-button .right-icon {
-  width: 18px;
-  height: 18px;
-  transition: transform 0.3s ease;
+	width: 1.125rem;
+	height: 1.125rem;
+	transition: transform 0.3s ease;
 }
 
 .period-navigation-button:hover .left-icon,
 .period-navigation-button:hover .right-icon {
-  transform: scale(1.1);
+	transform: scale(1.1);
 }
 
 .period-indicator {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-  margin: 0 16px;
+	font-size: 1rem;
+	font-weight: bold;
+	color: #333;
+	margin: 0 1rem;
 }
 
 .add-leave-balance-container {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
-  justify-content: center;
+	display: flex;
+	gap: 1rem;
+	margin-bottom: 1.25rem;
+	justify-content: center;
 }
 
 .add-leave-balance-button {
-  background-color: white;
-  padding: 8px;
-  border: 1px solid #4CAF50;
-  color: #4CAF50;
-  cursor: pointer;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 16px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+	background-color: white;
+	padding: 0.5rem;
+	border: 0.0625rem solid #4CAF50;
+	color: #4CAF50;
+	cursor: pointer;
+	border-radius: 0.3125rem;
+	display: flex;
+	align-items: center;
+	gap: 0.625rem;
+	font-size: 1rem;
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .add-leave-balance-button:hover {
-  background-color: #4CAF50;
-  color: white;
+	background-color: #4CAF50;
+	color: white;
 }
 
 .balance-employee-list {
-  display: grid;
-  gap: 16px;
+	display: grid;
+	gap: 1rem;
 }
 
 .balance-employee-card {
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  transition: box-shadow 0.3s ease;
-  overflow: hidden;
+	background: #ffffff;
+	border: 0.0625rem solid #ddd;
+	border-radius: 0.5rem;
+	padding: 1rem;
+	transition: box-shadow 0.3s ease;
+	overflow: hidden;
 }
 
 .balance-employee-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 
 .balance-employee-header {
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-  align-items: center;
+	display: flex;
+	justify-content: space-between;
+	cursor: pointer;
+	align-items: center;
 }
 
 .employee-name-position {
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  align-items: center;
+	display: flex;
+	flex-direction: row;
+	gap: 0.75rem;
+	align-items: center;
 }
 
 .employee-name {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  margin: 0;
+	font-size: 1.125rem;
+	font-weight: bold;
+	color: #333;
+	margin: 0;
 }
 
 .employee-position {
-  font-size: 14px;
-  font-weight: 400;
-  color: #888;
+	font-size: 0.875rem;
+	font-weight: 400;
+	color: #888;
 }
 
 .employee-leave-balance-container {
-  padding: 16px;
+	padding: 1rem;
 }
 
 .leave-balance-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: flex-start;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	justify-content: flex-start;
 }
 
 .leave-balance-item {
-  flex: 1 1 calc(50% - 16px);
-  box-sizing: border-box;
-  padding: 16px;
-  background: #f5f5f5;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  justify-content: space-between;
-  margin-bottom: 16px;
+	flex: 1 1 calc(50% - 1rem);
+	box-sizing: border-box;
+	padding: 1rem;
+	background: #f5f5f5;
+	border-radius: 0.5rem;
+	border: 0.0625rem solid #ddd;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	justify-content: space-between;
+	margin-bottom: 1rem;
 }
 
 .leave-balance-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
 }
 
 .leave-balance-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	width: 100%;
 }
 
-.leave-balance-allowance {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-align: left;
-}
-
-.leave-balance-comment {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
+.leave-balance-allowance,
+.leave-balance-comment,
 .leave-balance-days-used {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.leave-balance-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	text-align: left;
 }
 
 .leave-balance-header strong {
-  font-size: 1.1rem;
+	font-size: 1.1rem;
 }
 
 .leave-balance-buttons {
-  position: absolute;
-  top: 50%;
-  right: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  transform: translateY(-50%);
+	position: absolute;
+	top: 50%;
+	right: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+	transform: translateY(-50%);
 }
 
 .edit-leave-balance-button,
 .delete-leave-balance-button {
-  background: white;
-  border: 1px solid;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+	background: white;
+	border: 0.0625rem solid;
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .edit-leave-balance-button {
-  color: #2196F3;
-  border-color: #2196F3;
+	color: #2196F3;
+	border-color: #2196F3;
 }
 
 .edit-leave-balance-button:hover {
-  background-color: #2196F3;
-  color: white;
+	background-color: #2196F3;
+	color: white;
 }
 
 .delete-leave-balance-button {
-  color: #f44336;
-  border-color: #f44336;
+	color: #f44336;
+	border-color: #f44336;
 }
 
 .delete-leave-balance-button:hover {
-  background-color: #f44336;
-  color: white;
+	background-color: #f44336;
+	color: white;
 }
 
 .leave-balance-trash-icon,
 .leave-balance-edit-icon {
-  width: 20px;
-  height: 20px;
+	width: 1.25rem;
+	height: 1.25rem;
 }
 
 .balance-pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  margin-top: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	margin-top: 1.25rem;
 }
 
 .balance-pagination button {
-  background: #007bff;
-  color: #fff;
-  border: 1px solid #007bff;
-  padding: 8px 16px;
-  border-radius: 50px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-  font-size: 16px;
+	background: #007bff;
+	color: #fff;
+	border: 0.0625rem solid #007bff;
+	padding: 0.5rem 1rem;
+	border-radius: 50rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+	font-size: 1rem;
 }
 
 .balance-pagination button:hover {
-  background-color: #0056b3;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transform: scale(1.05);
+	background-color: #0056b3;
+	box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+	transform: scale(1.05);
 }
 
 .balance-pagination button:disabled {
-  background: #e0e0e0;
-  color: #999;
-  cursor: not-allowed;
+	background: #e0e0e0;
+	color: #999;
+	cursor: not-allowed;
 }
 
 .balance-pagination button:hover .left-icon,
 .balance-pagination button:hover .right-icon {
-  transform: scale(1.1);
+	transform: scale(1.1);
 }

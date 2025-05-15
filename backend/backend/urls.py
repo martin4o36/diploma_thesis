@@ -12,13 +12,13 @@ urlpatterns = [
     path('api/token/refresh', TokenRefreshView.as_view(), name='refresh_token'),
     path('api/user/roles', GetUserRoles.as_view(), name='check_user_roles'),
 
-    path('api/reset_password', auth_views.PasswordResetView.as_view(template_name= ''), 
+    path('api/reset_password', auth_views.PasswordResetView.as_view(template_name='reset_password.html'), 
          name='reset_password'),
-    path('api/reset_password_sent', auth_views.PasswordResetDoneView.as_view(template_name= ''), 
+    path('api/reset_password_sent', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), 
          name='password_reset_done'),
-    path('api/reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name= ''), 
+    path('api/reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), 
          name='password_reset_confirm'),
-    path('api/reset_password_complete', auth_views.PasswordResetCompleteView.as_view(template_name= ''), 
+    path('api/reset_password_complete', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), 
          name='password_reset_complete'),
 
     path('api/employee/', include('api.urls_dir.employees_urls')),

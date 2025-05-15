@@ -7,8 +7,13 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import EmployeePersonalDetails from "./components/EmployeePersonalDetails";
 import SelfServicePortal from "../self_service/SelfServicePortal";
+import OrgDepartmentsView from "../admin_panel/components/organization/OrgDepartmentsView";
+import LeaveTypesView from "../admin_panel/components/leaveTypes/LeaveTypesView";
+import CountriesView from "../admin_panel/components/countries/CountriesView";
+import EmployeeDetailsView from "../admin_panel/components/employeeDetails/EmployeeDetailsView";
+import NotFound from "../pages/NotFound";
+import Unauthorised from "../pages/Unauthorised";
 import "../styles/HomeStyles.css"
-import { ChevronLeft, ChevronRight, Check, X, Users, HomeIcon, Calendar, UserCog, MonitorIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
@@ -59,12 +64,18 @@ function Home() {
                 navigate("/admin_panel");
             case "Self Service":
                 return <SelfServicePortal employee={employee}/>
+            case "Employees and Departments":
+                return <OrgDepartmentsView />;
+            case "Leave Types":
+                return <LeaveTypesView />;
+            case "Countries":
+                return <CountriesView />;
+            case "Employee Holiday Details":
+                return <EmployeeDetailsView />;
             case "Home":
-            default:
                 return (
                     <div className="dashboard-layout">
                         <CalendarView employee={employee} />
-
                         <div className="requests-panel">
                             <PendingApprovals 
                                 employee={employee} 
@@ -73,6 +84,30 @@ function Home() {
                         </div>
                     </div>
                 );
+                case "Employees and Departments":
+                case "Leave Types":
+                case "Countries":
+                case "Employee Holiday Details":
+                    return renderAdminView(activeTab);
+                default:
+                    return <NotFound />;
+        }
+    };
+
+    const renderAdminView = (tab) => {
+        if (!hasAdminPermission) return <Unauthorised />;
+    
+        switch (tab) {
+            case "Employees and Departments":
+                return <OrgDepartmentsView />;
+            case "Leave Types":
+                return <LeaveTypesView />;
+            case "Countries":
+                return <CountriesView />;
+            case "Employee Holiday Details":
+                return <EmployeeDetailsView />;
+            default:
+                return <NotFound />;
         }
     };
 

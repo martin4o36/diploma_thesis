@@ -21,21 +21,21 @@
 .dashboard-layout {
     display: flex;
     align-items: flex-start;
-    gap: 20px;
-    padding: 20px;
+    gap: 1.25rem;
+    padding: 1.25rem;
 }
 
 .home-calendar-container {
     flex-grow: 1;
-    min-width: 400px;
+    min-width: 25rem;
     max-width: 80%;
 }
 
 .requests-panel {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    min-width: 300px;
+    gap: 1.25rem;
+    min-width: 18.75rem;
     max-width: 35%;
 }
 

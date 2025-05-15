@@ -139,3 +139,21 @@
 .main-content.collapsed {
     margin-left: 5rem;
 }
+
+.admin-submenu {
+    margin-top: 0.25rem;
+    padding-left: 1rem;
+    border-left: 2px solid #e5e7eb;
+    margin-left: 0.5rem;
+}
+
+.admin-item {
+    padding-left: 0.5rem !important;
+    margin-bottom: 0.25rem;
+}
+
+.custom-sidebar-admin {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #f3f4f6;
+}
