@@ -6,7 +6,8 @@ from ..serializers.records_serializer import HolidayRequestSerializer, HolidayPe
 from ..models_dir.records_models import HolidayRequest, RemoteWork, Substitute, LeaveType, Type, EmployeeLeaveBalance
 from ..models_dir.employee_models import Employee, NonWorkingDay, Status
 from datetime import datetime, timedelta
-from mail_manager.mail_views.holiday_emails import send_holiday_status_change_email
+from mail_manager.mail_views.holiday_emails import *
+from mail_manager.mail_views.remote_emails import *
 from ..permissions import HasRolePermissionWithRoles
 
 # Holiday request handling
@@ -92,12 +93,13 @@ class AddHolidayRequest(APIView):
                             employee=substitute,
                         )
 
-            send_holiday_status_change_email(
-                employee.email, 
-                employee.first_name + employee.last_name, 
-                holiday_request.request_id, 
-                new_status=holiday_request.status,
-                request_description=holiday_request.comment
+            send_new_holiday_email_to_manager(
+                manager_email=holiday_request.approver.user.email,
+                employee_names=f"{holiday_request.approver.first_name} {holiday_request.approver.last_name}",
+                request_id=holiday_request.request_id,
+                start_date=holiday_request.start_date,
+                end_date=holiday_request.end_date,
+                request_description=holiday_request.comment,
             )
 
             return Response({"message": "Holiday request created successfully"}, status=201)
@@ -240,6 +242,15 @@ class UpdateHolidayStatus(APIView):
                 holiday_request.status = Type.REJECTED.name
 
             holiday_request.save()
+
+            send_holiday_status_change_email(
+                user_email=holiday_request.employee.user.email,
+                user_names=f"{holiday_request.employee.first_name} {holiday_request.employee.last_name}",
+                request_id=holiday_request.request_id,
+                new_status=holiday_request.status,
+                request_description=holiday_request.comment
+            )
+
             return Response({"message": "Holiday request status updated successfully"}, status=200)
         except HolidayRequest.DoesNotExist:
             return Response({"error": "Remote requests not found"}, status=404)
@@ -325,6 +336,15 @@ class AddRemoteRequest(APIView):
                 comment=request_data.get('comment', ""),
             )
 
+            send_new_remote_email_to_manager(
+                manager_email=remote_request.approver.user.email,
+                employee_names=f"{remote_request.approver.first_name} {remote_request.approver.last_name}",
+                request_id=remote_request.remote_id,
+                start_date=remote_request.start_date,
+                end_date=remote_request.end_date,
+                request_description=remote_request.comment,
+            )
+
             return Response({"message": "Remote request created successfully"}, status=201)
         except Employee.DoesNotExist:
             return Response({"error": "Employee not found"}, status=404)
@@ -390,6 +410,15 @@ class UpdateRemoteStatus(APIView):
                 remote_request.status = Type.REJECTED.name
 
             remote_request.save()
+
+            send_remote_status_change_email(
+                user_email=remote_request.employee.user.email,
+                user_names=f"{remote_request.employee.first_name} {remote_request.employee.last_name}",
+                request_id=remote_request.remote_id,
+                new_status=remote_request.status,
+                request_description=remote_request.comment
+            )
+
             return Response({"message": "Holiday request status updated successfully"}, status=200)
         except HolidayRequest.DoesNotExist:
             return Response({"error": "Remote requests not found"}, status=404)
