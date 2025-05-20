@@ -31,7 +31,7 @@ class EmployeeLeaveBalance(models.Model):
 
     @property
     def days_left(self):
-        return self.days + self.bring_forward - self.days_used
+        return self.days + (self.bring_forward if self.bring_forward is not None else 0) - self.days_used
     
     def use_days(self, days: float):
         if days > self.days_left:

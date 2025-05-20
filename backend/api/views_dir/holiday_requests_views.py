@@ -59,7 +59,7 @@ class AddHolidayRequest(APIView):
                 return Response({"error": "Start date is required"}, status=400)
             
             start_date = datetime.strptime(raw_start, "%Y-%m-%d").date()
-            end_date = datetime.strptime(request_data.get('end_date'), "%Y-%m-%d").date()
+            end_date = datetime.strptime(raw_end, "%Y-%m-%d").date()
 
             if start_date > end_date:
                 return Response({"error": "Start date cannot be after end date"}, status=400)
@@ -91,13 +91,14 @@ class AddHolidayRequest(APIView):
                 comment=request_data.get('comment', ""),
             )
 
-            sub_ids = set(int(sub_id) for sub_id in substitutes if int(sub_id) != employee_id)
-            substitute_employees = Employee.objects.filter(employee_id__in=sub_ids)
-            substitute_objects = [
-                Substitute(request=holiday_request, employee=sub)
-                for sub in substitute_employees
-            ]
-            Substitute.objects.bulk_create(substitute_objects)
+            if substitutes and isinstance(substitutes, list) and all(sub_id for sub_id in substitutes):
+                sub_ids = set(int(sub_id) for sub_id in substitutes if int(sub_id) != employee_id)
+                substitute_employees = Employee.objects.filter(employee_id__in=sub_ids)
+                substitute_objects = [
+                    Substitute(request=holiday_request, employee=sub)
+                    for sub in substitute_employees
+                ]
+                Substitute.objects.bulk_create(substitute_objects)
 
             send_new_holiday_email_to_manager(
                 manager_email=holiday_request.approver.user.email,
