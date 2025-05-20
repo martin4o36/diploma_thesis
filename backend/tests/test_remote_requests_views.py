@@ -2,10 +2,10 @@ from datetime import time, date, timedelta
 from django.urls import reverse
 from rest_framework.test import APITestCase, APIClient
 from django.contrib.auth.models import User
-from api.models_dir.records_models import HolidayRequest, LeaveType, Type, EmployeeLeaveBalance
+from api.models_dir.records_models import RemoteWork, Type
 from api.models_dir.employee_models import Employee, Status, Countries
 
-class HolidayRequestTests(APITestCase):
+class RemoteRequestTests(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpass')
         self.client = APIClient()
@@ -33,10 +33,8 @@ class HolidayRequestTests(APITestCase):
             roles=[Employee.RoleChoices.MANAGER]
         )
 
-        self.leave_type = LeaveType.objects.create(leave_name='Vacation', leave_id=1, days=25)
-        self.request = HolidayRequest.objects.create(
+        self.request = RemoteWork.objects.create(
             employee=self.employee,
-            leave_type=self.leave_type,
             start_date=date.today(),
             end_date=date.today() + timedelta(days=5),
             approver=self.employee,
@@ -44,15 +42,16 @@ class HolidayRequestTests(APITestCase):
             status=Type.PENDING.name
         )
 
-    def test_get_employee_holiday_requests(self):
-        url = reverse('get_employee_holiday_requests', kwargs={'employee_id': self.employee.employee_id})
+
+    def test_get_employee_remote_requests(self):
+        url = reverse('get_employee_remote_requests', kwargs={'employee_id': self.employee.employee_id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
 
 
-    def test_get_holiday_pending_requests(self):
-        url = reverse('get_pending_holiday_requests', kwargs={'approver_id': self.employee.employee_id})
+    def test_get_remote_pending_requests(self):
+        url = reverse('get_pending_remote_requests', kwargs={'approver_id': self.employee.employee_id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -63,84 +62,47 @@ class HolidayRequestTests(APITestCase):
         self.employee.roles=[Employee.RoleChoices.MANAGER]
         self.employee.save()
 
-    
-    def test_add_holiday_request(self):
+
+    def test_add_remote_request(self):
         data = {
             'employee_id': self.employee.employee_id,
             'approver_id': self.employee.employee_id,
-            'leave_type_id': self.leave_type.leave_id,
             'start_date': str(date.today()),
             'end_date': str(date.today() + timedelta(days=2)),
-            'substitutes': [],
             'comment': 'Need break'
         }
 
-        EmployeeLeaveBalance.objects.create(
-            employee=self.employee,
-            leave_type=self.leave_type,
-            days=20,
-            period_start_date=date.today() - timedelta(days=100),
-            period_end_date=date.today() + timedelta(days=100)
-        )
-
-        url = reverse('add_employee_holiday_request')
+        url = reverse('add_employee_remote_request')
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, 201)
 
 
-    def test_edit_holiday_request(self):
+    def test_edit_remote_request(self):
         self.request.status = Type.APPROVED.name
         self.request.save()
 
-        EmployeeLeaveBalance.objects.create(
-            employee=self.employee,
-            leave_type=self.leave_type,
-            days=20,
-            period_start_date=date.today(),
-            period_end_date=date.today() + timedelta(days=100)
-        )
-
-        url = reverse('edit_employee_holiday_request', kwargs={'request_id': self.request.request_id})
+        url = reverse('edit_employee_remote_request', kwargs={'request_id': self.request.request_id})
         data = {
             'start_date': str(date.today() + timedelta(days=1)),
             'end_date': str(date.today() + timedelta(days=9)),
             'comment': 'Updated request',
-            'leave_type': self.leave_type.leave_id,
-            'substitutes': []
         }
 
         response = self.client.put(url, data, format='json')
         self.assertEqual(response.status_code, 200)
 
 
-    def test_cancel_holiday_request(self):
+    def test_cancel_remote_request(self):
         self.request.status = Type.APPROVED.name
         self.request.save()
 
-        EmployeeLeaveBalance.objects.create(
-            employee=self.employee,
-            leave_type=self.leave_type,
-            days=20,
-            days_used=3,
-            period_start_date=date.today(),
-            period_end_date=date.today() + timedelta(days=10)
-        )
-
-        url = reverse('cancel_employee_holiday_request', kwargs={'request_id': self.request.request_id})
+        url = reverse('cancel_employee_remote_request', kwargs={'request_id': self.request.request_id})
         response = self.client.put(url)
         self.assertEqual(response.status_code, 200)
 
 
-    def test_approve_holiday_request(self):
-        EmployeeLeaveBalance.objects.create(
-            employee=self.employee,
-            leave_type=self.leave_type,
-            days=20,
-            period_start_date=date.today(),
-            period_end_date=date.today() + timedelta(days=14)
-        )
-
-        url = reverse('update_holiday_request_status')
+    def test_approve_remote_request(self):
+        url = reverse('update_remote_request_status')
         data = {
             'request_id': self.request.request_id,
             'status': 'Approved'
@@ -152,11 +114,15 @@ class HolidayRequestTests(APITestCase):
         self.request.refresh_from_db()
         self.assertEqual(self.request.status, Type.APPROVED.name)
 
-        balance = EmployeeLeaveBalance.objects.get(employee=self.employee, leave_type=self.leave_type)
-        self.assertGreater(balance.days_used, 0)
+        self.employee.roles = []
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 403) # ?????
+        self.employee.roles=[Employee.RoleChoices.MANAGER]
+        self.employee.save()
 
-    def test_decline_holiday_request(self):
-        url = reverse('update_holiday_request_status')
+
+    def test_decline_remote_request(self):
+        url = reverse('update_remote_request_status')
         data = {
             'request_id': self.request.request_id,
             'status': 'Rejected'
@@ -167,3 +133,7 @@ class HolidayRequestTests(APITestCase):
 
         self.request.refresh_from_db()
         self.assertEqual(self.request.status, Type.REJECTED.name)
+
+        self.employee.roles = []
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, 403) # ?????

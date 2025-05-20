@@ -15,7 +15,7 @@ urlpatterns = [
     path('<int:approver_id>/remote/pending/', GetRemotePendingRequests.as_view(), name='get_pending_remote_requests'),
     path('add-remote/', AddRemoteRequest.as_view(), name='add_employee_remote_request'),
     path('<int:request_id>/edit-remote/', EditRemoteRequest.as_view(), name='edit_employee_remote_request'),
-    path('<int:request_id>/cancel-remote/', CancelRemoteRequest.as_view(), name='cancel_remote_request'),
+    path('<int:request_id>/cancel-remote/', CancelRemoteRequest.as_view(), name='cancel_employee_remote_request'),
     path('remote/status/', UpdateRemoteStatus.as_view(), name='update_remote_request_status'),
 
     
