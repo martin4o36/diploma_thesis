@@ -138,23 +138,3 @@ class GetUpcomingRequests(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=500)
         
-
-class GetRequestsHistory(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, employee_id):
-        try:
-            holiday_requests = HolidayRequest.objects.filter(employee_id=employee_id)
-            remote_requests = RemoteWork.objects.filter(employee_id=employee_id)
-
-            holiday_requests_serialized = HolidayRequestSerializer(holiday_requests, many=True)
-            remote_requests_serialized = RemoteWorkSerializer(remote_requests, many=True)
-
-            data = {
-                'holiday_requests': holiday_requests_serialized.data,
-                'remote_requests': remote_requests_serialized.data
-            }
-
-            return Response(data, status=200)
-        except Exception as e:
-            return Response({"error": str(e)}, status=500)

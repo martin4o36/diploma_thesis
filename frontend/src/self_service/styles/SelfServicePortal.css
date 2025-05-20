@@ -3,28 +3,3 @@
     flex-direction: column;
     gap: 24px;
 }
-
-/* Layout for Upcoming Requests (2/5) and Requests History (3/5) */
-.requests-container {
-    display: flex;
-    gap: 16px;
-}
-
-.upcoming-requests {
-    flex: 2;
-}
-
-.requests-history {
-    flex: 3;
-}
-
-@media (max-width: 1024px) {
-    .requests-container {
-        flex-direction: column;
-    }
-
-    .upcoming-requests,
-    .requests-history {
-        flex: 1;
-    }
-}

@@ -23,5 +23,4 @@ urlpatterns = [
     path('<int:approver_id>/pending-approval/', GetPendingApprovalRequests.as_view(), name='get_pending_approval_requests'),
     path('<int:department_id>/events/', GetEventsForDepartment.as_view(), name='get_department_events'),
     path('<int:employee_id>/upcoming/', GetUpcomingRequests.as_view(), name='get_upcoming_requests'),
-    path('<int:employee_id>/history/', GetRequestsHistory.as_view(), name='get_requests_history'),
 ]

@@ -18,6 +18,7 @@ function UpcomingRequests({ employee_id }) {
                     start_date: req.start_date,
                     end_date: req.end_date,
                     comment: req.comment,
+                    category: "holiday",
                 }));
 
                 const remoteRequests = upcoming_remote_requests.map(req => ({
@@ -26,6 +27,7 @@ function UpcomingRequests({ employee_id }) {
                     start_date: req.start_date,
                     end_date: req.end_date,
                     comment: req.comment,
+                    category: "remote",
                 }));
 
                 const allRequests = [...holidayRequests, ...remoteRequests].sort(
@@ -47,7 +49,7 @@ function UpcomingRequests({ employee_id }) {
             <ul>
                 {requests.length > 0 ? (
                     requests.map((req) => (
-                        <li key={req.id} className={`request-item ${req.type.toLowerCase().replace(" ", "-")}`}>
+                        <li key={req.id} className={`request-item ${req.category}`}>
                             <strong>{req.type}</strong>: {dayjs(req.start_date).format('MMM D, YYYY')} → {dayjs(req.end_date).format('MMM D, YYYY')}
                             {req.comment && <p className="comment">"{req.comment}"</p>}
                         </li>
