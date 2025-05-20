@@ -1,5 +1,7 @@
 from django.urls import path
-from ..views_dir.requests_views import *
+from ..views_dir.holiday_requests_views import *
+from ..views_dir.remote_requests_views import *
+from ..views_dir.other_requests_views import *
 
 urlpatterns = [
     path('<int:employee_id>/holiday/', GetEmployeeHolidayRequests.as_view(), name='get_employee_holiday_requests'),
